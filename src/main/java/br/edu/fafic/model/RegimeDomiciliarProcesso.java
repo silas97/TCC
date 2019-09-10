@@ -1,0 +1,73 @@
+package br.edu.fafic.model;
+
+import java.util.Date;
+
+public class RegimeDomiciliarProcesso {
+
+    private Integer idRegimeDomiciliarProcesso;
+    private Date dataProcesso;
+    private Date dataEncerramento;
+    private String status;
+    private String visibilidade;
+    private Processos processos;
+    private RegimeDomiciliar domiciliar;
+
+    public RegimeDomiciliarProcesso() {
+    }
+
+    public Integer getIdRegimeDomiciliarProcesso() {
+        return idRegimeDomiciliarProcesso;
+    }
+
+    public RegimeDomiciliar getDomiciliar() {
+        return domiciliar;
+    }
+
+    public void setDomiciliar(RegimeDomiciliar domiciliar) {
+        this.domiciliar = domiciliar;
+    }
+
+    public Processos getProcessos() {
+        return processos;
+    }
+
+    public void setProcessos(Processos processos) {
+        this.processos = processos;
+    }
+
+    public String getVisibilidade() {
+        return visibilidade;
+    }
+
+    public void setVisibilidade(String visibilidade) {
+        this.visibilidade = visibilidade;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getDataEncerramento() {
+        return dataEncerramento;
+    }
+
+    public void setDataEncerramento(Date dataEncerramento) {
+        this.dataEncerramento = dataEncerramento;
+    }
+
+    public Date getDataProcesso() {
+        return dataProcesso;
+    }
+
+    public void setDataProcesso(Date dataProcesso) {
+        this.dataProcesso = dataProcesso;
+    }
+
+    public void setIdRegimeDomiciliarProcesso(Integer idRegimeDomiciliarProcesso) {
+        this.idRegimeDomiciliarProcesso = idRegimeDomiciliarProcesso;
+    }
+}
