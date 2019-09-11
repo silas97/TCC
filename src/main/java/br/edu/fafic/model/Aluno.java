@@ -15,19 +15,11 @@ public class Aluno {
     private String matricula;
     private Curso curso;
     private Usuario usuario;
-    private String teste;
+   
 
     public Aluno() {
     }
-
-    public String getTeste() {
-        return teste;
-    }
-
-    public void setTeste(String teste) {
-        this.teste = teste;
-    }
-
+    
     public Integer getIdAluno() {
         return idAluno;
     }
