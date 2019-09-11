@@ -40,7 +40,7 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean update(Usuario usuario) {// Definir o tipo de usuário.
+    public boolean update(Usuario usuario) {
         String sql = "UPDATE usuario SET nome=?, cpf=?, cep=?, endereco=?, bairro=?, cidade=?, estado=?, perfil=? WHERE idusuario=?;";
         PreparedStatement stmt = null;
         try {
