@@ -30,7 +30,7 @@ public class ConnectionFactory {
             throw new RuntimeException("Erro na conexão", ex);
         }
     }
-    
+
     public static void closeConnection(Connection con) {
         try {
             if (con != null) {

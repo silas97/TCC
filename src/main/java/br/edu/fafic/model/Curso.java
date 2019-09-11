@@ -9,20 +9,12 @@ package br.edu.fafic.model;
  *
  * @author Silas
  */
-class Curso {
+public class Curso {
 
     private Integer idCurso;
     private String nome;
 
     public Curso() {
-    }
-
-    public Integer getIdCurso() {
-        return idCurso;
-    }
-
-    public void setIdCurso(Integer idCurso) {
-        this.idCurso = idCurso;
     }
 
     public String getNome() {
@@ -33,4 +25,11 @@ class Curso {
         this.nome = nome;
     }
 
+    public Integer getIdCurso() {
+        return idCurso;
+    }
+
+    public void setIdCurso(Integer idCurso) {
+        this.idCurso = idCurso;
+    }
 }
