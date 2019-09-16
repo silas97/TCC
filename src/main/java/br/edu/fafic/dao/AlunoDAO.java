@@ -23,6 +23,11 @@ public class AlunoDAO {
         String sql = "INSERT INTO aluno(matricula, idcurso_fk, idusuario_fk) VALUES (?, ?, ?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, aluno.getMatricula());
+            stmt.setLong(2, aluno.getCurso().getIdCurso());
+            stmt.setLong(3, aluno.getUsuario().getIdUsuario());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,6 +41,12 @@ public class AlunoDAO {
         String sql = "UPDATE aluno SET matricula=?, idcurso_fk=?, idusuario_fk=? WHERE idaluno=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, aluno.getMatricula());
+            stmt.setLong(2, aluno.getCurso().getIdCurso());
+            stmt.setLong(3, aluno.getUsuario().getIdUsuario());
+            stmt.setLong(4, aluno.getIdAluno());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);

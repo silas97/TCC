@@ -23,6 +23,9 @@ public class CursoDAO {
         String sql = "INSERT INTO curso(nome) VALUES (?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, curso.getNome());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(CursoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,6 +39,10 @@ public class CursoDAO {
         String sql = "UPDATE Curso SET nome=? WHERE idcurso=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, curso.getNome());
+            stmt.setLong(2, curso.getIdCurso());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(CursoDAO.class.getName()).log(Level.SEVERE, null, ex);
