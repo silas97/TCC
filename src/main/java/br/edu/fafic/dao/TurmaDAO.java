@@ -23,6 +23,11 @@ public class TurmaDAO {
         String sql = "INSERT INTO turma(periodo, sigla, idcurso_fk) VALUES (?, ?, ?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, turma.getPeriodo());
+            stmt.setString(2, turma.getSigla());
+            stmt.setLong(3, turma.getCurso().getIdCurso());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(TurmaDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,6 +41,12 @@ public class TurmaDAO {
         String sql = "UPDATE turma SET periodo=?, sigla=?, idcurso_fk=? WHERE idturma=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, turma.getPeriodo());
+            stmt.setString(2, turma.getSigla());
+            stmt.setLong(3, turma.getCurso().getIdCurso());
+            stmt.setLong(4, turma.getIdTurma());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(TurmaDAO.class.getName()).log(Level.SEVERE, null, ex);

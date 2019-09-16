@@ -10,7 +10,7 @@ public class RegimeDomiciliarProcesso {
     private String status;
     private String visibilidade;
     private Processos processos;
-    private RegimeDomiciliar domiciliar;
+    private RegimeDomiciliar regimedomiciliar;
 
     public RegimeDomiciliarProcesso() {
     }
@@ -19,12 +19,12 @@ public class RegimeDomiciliarProcesso {
         return idRegimeDomiciliarProcesso;
     }
 
-    public RegimeDomiciliar getDomiciliar() {
-        return domiciliar;
+    public RegimeDomiciliar getRegimedomiciliar() {
+        return regimedomiciliar;
     }
 
-    public void setDomiciliar(RegimeDomiciliar domiciliar) {
-        this.domiciliar = domiciliar;
+    public void setRegimedomiciliar(RegimeDomiciliar regimedomiciliar) {
+        this.regimedomiciliar = regimedomiciliar;
     }
 
     public Processos getProcessos() {

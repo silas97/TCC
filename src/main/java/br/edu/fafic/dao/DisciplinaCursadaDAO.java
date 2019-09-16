@@ -23,6 +23,13 @@ public class DisciplinaCursadaDAO {
         String sql = "INSERT INTO disciplinacursada(instituicaoorigem, curso, disciplina, creditos, horascursadas) VALUES (?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, disciplinaCursada.getInstituicaoOrigem());
+            stmt.setString(2, disciplinaCursada.getCurso());
+            stmt.setString(3, disciplinaCursada.getDisciplina());
+            stmt.setString(4, disciplinaCursada.getCreditos());
+            stmt.setString(5, disciplinaCursada.getHorasCursadas());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DisciplinaCursadaDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,6 +43,14 @@ public class DisciplinaCursadaDAO {
         String sql = "UPDATE disciplinacursada SET instituicaoorigem=?, curso=?, disciplina=?, creditos=?, horascursadas=? WHERE iddisciplinacursada=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, disciplinaCursada.getInstituicaoOrigem());
+            stmt.setString(2, disciplinaCursada.getCurso());
+            stmt.setString(3, disciplinaCursada.getDisciplina());
+            stmt.setString(4, disciplinaCursada.getCreditos());
+            stmt.setString(5, disciplinaCursada.getHorasCursadas());
+            stmt.setLong(6, disciplinaCursada.getIdDisciplinaCursada());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DisciplinaCursadaDAO.class.getName()).log(Level.SEVERE, null, ex);

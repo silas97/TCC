@@ -4,6 +4,7 @@ import br.edu.fafic.connection.ConnectionFactory;
 import br.edu.fafic.model.CancelamentoMatriculaProcesso;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,14 @@ public class CancelamentoMatriculaProcessoDAO {
         String sql = "INSERT INTO Cancelamentomatricula_processo(dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idcancelamentomatricula_fk) VALUES (?, ?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setDate(1, (Date) cancelamentoMatriculaProcesso.getDataProcesso());
+            stmt.setDate(2, (Date) cancelamentoMatriculaProcesso.getDataEncerramento());
+            stmt.setString(3, cancelamentoMatriculaProcesso.getStatus());
+            stmt.setString(4, cancelamentoMatriculaProcesso.getVisibilidade());
+            stmt.setLong(5, cancelamentoMatriculaProcesso.getProcessos().getIdProcessos());
+            stmt.setLong(6, cancelamentoMatriculaProcesso.getCancelamentoMatricula().getIdCancelamentoMatricula());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(CancelamentoMatriculaProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,6 +45,15 @@ public class CancelamentoMatriculaProcessoDAO {
         String sql = "UPDATE Cancelamentomatricula_processo SET dataprocesso=?, dataencerramento=?, status=?, visibilidade=?, idprocessos_fk=?, idcancelamentomatricula_fk=? WHERE idcancelamentomatriculaprocesso=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setDate(1, (Date) cancelamentoMatriculaProcesso.getDataProcesso());
+            stmt.setDate(2, (Date) cancelamentoMatriculaProcesso.getDataEncerramento());
+            stmt.setString(3, cancelamentoMatriculaProcesso.getStatus());
+            stmt.setString(4, cancelamentoMatriculaProcesso.getVisibilidade());
+            stmt.setLong(5, cancelamentoMatriculaProcesso.getProcessos().getIdProcessos());
+            stmt.setLong(6, cancelamentoMatriculaProcesso.getCancelamentoMatricula().getIdCancelamentoMatricula());
+            stmt.setLong(7, cancelamentoMatriculaProcesso.getIdCancelamentoMatriculaProcesso());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(CancelamentoMatriculaProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);

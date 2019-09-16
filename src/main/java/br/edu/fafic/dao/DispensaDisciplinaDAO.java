@@ -23,6 +23,11 @@ public class DispensaDisciplinaDAO {
         String sql = "INSERT INTO dispensadisciplina(idaluno_fk, iddisciplinacursada_fk, iddisciplina_fk) VALUES (?, ?, ?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, dispensaDisciplina.getAluno().getIdAluno());
+            stmt.setLong(2, dispensaDisciplina.getDisciplinaCursada().getIdDisciplinaCursada());
+            stmt.setLong(3, dispensaDisciplina.getDisciplina().getIdDisciplina());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DispensaDisciplinaDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,6 +41,12 @@ public class DispensaDisciplinaDAO {
         String sql = "UPDATE dispensadisciplina SET idaluno_fk=?, iddisciplinacursada_fk=?, iddisciplina_fk=? WHERE iddispensadisciplina=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, dispensaDisciplina.getAluno().getIdAluno());
+            stmt.setLong(2, dispensaDisciplina.getDisciplinaCursada().getIdDisciplinaCursada());
+            stmt.setLong(3, dispensaDisciplina.getDisciplina().getIdDisciplina());
+            stmt.setLong(4, dispensaDisciplina.getIdDispensaDisciplina());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DispensaDisciplinaDAO.class.getName()).log(Level.SEVERE, null, ex);

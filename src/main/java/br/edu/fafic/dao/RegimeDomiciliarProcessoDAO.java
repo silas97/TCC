@@ -4,6 +4,7 @@ import br.edu.fafic.connection.ConnectionFactory;
 import br.edu.fafic.model.RegimeDomiciliarProcesso;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,10 +20,18 @@ public class RegimeDomiciliarProcessoDAO {
         con = ConnectionFactory.getConnection();
     }
 
-    public boolean insert(RegimeDomiciliarProcesso regimedomiciliarprocesso) {
+    public boolean insert(RegimeDomiciliarProcesso regimeDomiciliarProcesso) {
         String sql = "INSERT INTO regimedomiciliar_processo(dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idregimedomiciliar_fk) VALUES (?, ?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setDate(1, (Date) regimeDomiciliarProcesso.getDataProcesso());
+            stmt.setDate(2, (Date) regimeDomiciliarProcesso.getDataEncerramento());
+            stmt.setString(3, regimeDomiciliarProcesso.getStatus());
+            stmt.setString(4, regimeDomiciliarProcesso.getVisibilidade());
+            stmt.setLong(5, regimeDomiciliarProcesso.getProcessos().getIdProcessos());
+            stmt.setLong(6, regimeDomiciliarProcesso.getRegimedomiciliar().getIdRegimeDomiciliar());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(RegimeDomiciliarProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -32,10 +41,19 @@ public class RegimeDomiciliarProcessoDAO {
         }
     }
 
-    public boolean update(RegimeDomiciliarProcesso regimedomiciliarprocesso) {
+    public boolean update(RegimeDomiciliarProcesso regimeDomiciliarProcesso) {
         String sql = "UPDATE regimedomiciliar_processo SET dataprocesso=?, dataencerramento=?, status=?, visibilidade=?, idprocessos_fk=?, idregimedomiciliar_fk=? WHERE idregimedomiciliarprocesso=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setDate(1, (Date) regimeDomiciliarProcesso.getDataProcesso());
+            stmt.setDate(2, (Date) regimeDomiciliarProcesso.getDataEncerramento());
+            stmt.setString(3, regimeDomiciliarProcesso.getStatus());
+            stmt.setString(4, regimeDomiciliarProcesso.getVisibilidade());
+            stmt.setLong(5, regimeDomiciliarProcesso.getProcessos().getIdProcessos());
+            stmt.setLong(6, regimeDomiciliarProcesso.getRegimedomiciliar().getIdRegimeDomiciliar());
+            stmt.setLong(7, regimeDomiciliarProcesso.getIdRegimeDomiciliarProcesso());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(RegimeDomiciliarProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);

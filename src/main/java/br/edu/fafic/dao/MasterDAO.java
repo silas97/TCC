@@ -23,6 +23,9 @@ public class MasterDAO {
         String sql = "INSERT INTO master(idusuario_fk) VALUES (?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, master.getUsuario().getIdUsuario());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(MasterDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,6 +39,10 @@ public class MasterDAO {
         String sql = "UPDATE master SET idusuario_fk=? WHERE idmaster=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, master.getUsuario().getIdUsuario());
+            stmt.setLong(2, master.getIdMaster());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(MasterDAO.class.getName()).log(Level.SEVERE, null, ex);

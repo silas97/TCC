@@ -23,6 +23,9 @@ public class ProcessosDAO {
         String sql = "INSERT INTO processos(idaluno_fk) VALUES (?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, processos.getAluno().getIdAluno());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(ProcessosDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,6 +39,10 @@ public class ProcessosDAO {
         String sql = "UPDATE processos SET idaluno_fk=? WHERE idprocessos=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, processos.getAluno().getIdAluno());
+            stmt.setLong(1, processos.getIdProcessos());
+            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(ProcessosDAO.class.getName()).log(Level.SEVERE, null, ex);
