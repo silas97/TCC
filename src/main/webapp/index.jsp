@@ -21,6 +21,7 @@
         <input type="hidden" value="insert" name="param" />
         <input type="submit" value="Cadastrar" class="primary" />
     </form>
+    <a href="upload.jsp"> upload </a>
 </body>
 
 </html>
