@@ -41,7 +41,7 @@ public class ServletUpload extends HttpServlet {
                 List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
                 for (FileItem item : multiparts) {
                     if (!item.isFormField()) {
-                        item.write(new File(request.getServletContext().getRealPath("img") + File.separator + "uploadfile"));
+                        item.write(new File(request.getServletContext().getRealPath("img") + File.separator + item.getName()));
                     }
                 }
                 request.setAttribute("message", "Arquivo carregado com sucesso!");
