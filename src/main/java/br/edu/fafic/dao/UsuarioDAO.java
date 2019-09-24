@@ -2,7 +2,10 @@ package br.edu.fafic.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,5 +81,61 @@ public class UsuarioDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+
+    public Usuario selectID(Usuario usuario) {
+        String sql = "SELECT nome, cpf, cep, endereco, bairro, cidade, estado, perfil FROM usuario WHERE idusuario = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, usuario.getIdUsuario());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                usuario.setNome(rs.getString("nome"));
+                usuario.setCpf(rs.getString("cpf"));
+                usuario.setCep(rs.getString("cep"));
+                usuario.setEndereco(rs.getString("endereco"));
+                usuario.setBairro(rs.getString("bairro"));
+                usuario.setCidade(rs.getString("cidade"));
+                usuario.setEstado(rs.getString("estado"));
+                usuario.setPerfil(rs.getString("perfil"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+        return usuario;
+    }
+
+    public List<Usuario> selectAll() {
+        String sql = "SELECT idusuario, nome, cpf, cep, endereco, bairro, cidade, estado, perfil FROM usuario;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Usuario> usuarios = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setIdUsuario(rs.getLong("idusuario"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setCpf(rs.getString("cpf"));
+                usuario.setCep(rs.getString("cep"));
+                usuario.setEndereco(rs.getString("endereco"));
+                usuario.setBairro(rs.getString("bairro"));
+                usuario.setCidade(rs.getString("cidade"));
+                usuario.setEstado(rs.getString("estado"));
+                usuario.setPerfil(rs.getString("perfil"));
+                usuarios.add(usuario);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return usuarios;
     }
 }

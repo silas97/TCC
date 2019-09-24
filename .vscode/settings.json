@@ -24,5 +24,6 @@
         "pom.xml": false
     },
     "explorerExclude.backup": null,
-    "maven.view": "flat"
+    "maven.view": "flat",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

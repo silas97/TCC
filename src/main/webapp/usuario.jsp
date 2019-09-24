@@ -17,7 +17,7 @@
     <h1>CRUD USUARIO</h1>
     <ul>
         <li><a href="${pageContext.request.contextPath}/cadastrar.jsp">INSERT</a></li>
-        <li><a href="${pageContext.request.contextPath}/mostrar.jsp">SELECT</a></li>
+        <li><a href="${pageContext.request.contextPath}/listar.jsp">SELECT</a></li>
         <li><a href="${pageContext.request.contextPath}/alterar.jsp">UPDATE</a></li>
     </ul>
 </body>
