@@ -27,8 +27,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class ServletUpload extends HttpServlet {
 
     private static final long serialVersionUID = 1;
+    private File uploads = new File("C:\\Users\\uploads");
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         String path = request.getServletContext().getRealPath("img") + File.separator;
 
         File files = new File(path);
@@ -36,12 +38,18 @@ public class ServletUpload extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
                 List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
                 for (FileItem item : multiparts) {
                     if (!item.isFormField()) {
-                        item.write(new File(request.getServletContext().getRealPath("img") + File.separator + item.getName()));
+                        // item.write(new File(request.getServletContext().getRealPath("img") +
+                        // File.separator + item.getName()));
+                        if (!uploads.exists()) {
+                            uploads = new File("C:\\Users\\uploads");
+                        }
+                        item.write(new File(uploads + File.separator + System.currentTimeMillis()));
                     }
                 }
                 request.setAttribute("message", "Arquivo carregado com sucesso!");
