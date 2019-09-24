@@ -4,7 +4,7 @@
     Author     : Silas
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 
@@ -15,6 +15,10 @@
 
 <body>
     <h1>CRUD CURSO</h1>
+    <ul>
+        <li><a href="${pageContext.request.contextPath}/funcionario/cadastrar-curso.jsp">INSERT</a></li>
+        <li><a href="${pageContext.request.contextPath}/funcionario/listar-curso.jsp">SELECT</a></li>
+    </ul>
 </body>
 
 </html>

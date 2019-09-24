@@ -15,6 +15,9 @@
 
 <body>
     <h1>INDEX FUNCIONÁRIO</h1>
+    <ul>
+        <li><a href="${pageContext.request.contextPath}/funcionario/curso.jsp">CURSO</a></li>
+    </ul>
 </body>
 
 </html>
