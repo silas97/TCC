@@ -21,7 +21,12 @@
         <input type="hidden" value="insert" name="param" />
         <input type="submit" value="Cadastrar" class="primary" />
     </form>
-    <a href="upload.jsp"> upload </a>
+    <ul>
+        <li><a href="${pageContext.request.contextPath}/upload.jsp">Upload</a></li>
+        <li><a href="${pageContext.request.contextPath}/aluno/index.jsp">Aluno</a></li>
+        <li><a href="${pageContext.request.contextPath}/funcionario/index.jsp">Funcionario</a></li>
+        <li><a href="${pageContext.request.contextPath}/usuario.jsp">Usuário</a></li>
+    </ul>
 </body>
 
 </html>
