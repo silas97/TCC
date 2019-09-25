@@ -11,7 +11,7 @@ package br.edu.fafic.model;
  */
 public class Aluno {
 
-    private Integer idAluno;
+    private Long idAluno;
     private String matricula;
     private Curso curso;
     private Usuario usuario;
@@ -20,11 +20,11 @@ public class Aluno {
     public Aluno() {
     }
     
-    public Integer getIdAluno() {
+    public Long getIdAluno() {
         return idAluno;
     }
 
-    public void setIdAluno(Integer idAluno) {
+    public void setIdAluno(Long idAluno) {
         this.idAluno = idAluno;
     }
 

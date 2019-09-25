@@ -2,7 +2,7 @@ package br.edu.fafic.model;
 
 public class Master {
 
-    private Integer idMaster;
+    private Long idMaster;
     private String matricula;
     private Curso curso;
     private Usuario usuario;
@@ -10,7 +10,7 @@ public class Master {
     public Master() {
     }
 
-    public Integer getIdMaster() {
+    public Long getIdMaster() {
         return idMaster;
     }
 
@@ -38,7 +38,7 @@ public class Master {
         this.matricula = matricula;
     }
 
-    public void setIdMaster(Integer idMaster) {
+    public void setIdMaster(Long idMaster) {
         this.idMaster = idMaster;
     }
 }

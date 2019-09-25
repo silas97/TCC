@@ -2,7 +2,7 @@ package br.edu.fafic.model;
 
 public class Turma {
 
-    private Integer idTurma;
+    private Long idTurma;
     private String periodo;
     private String sigla;
     private Curso curso;
@@ -34,11 +34,11 @@ public class Turma {
         this.periodo = periodo;
     }
 
-    public Integer getIdTurma() {
+    public Long getIdTurma() {
         return idTurma;
     }
 
-    public void setIdTurma(Integer idTurma) {
+    public void setIdTurma(Long idTurma) {
         this.idTurma = idTurma;
     }
 }

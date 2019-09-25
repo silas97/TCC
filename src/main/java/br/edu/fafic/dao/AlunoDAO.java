@@ -2,9 +2,15 @@ package br.edu.fafic.dao;
 
 import br.edu.fafic.connection.ConnectionFactory;
 import br.edu.fafic.model.Aluno;
+import br.edu.fafic.model.Curso;
+import br.edu.fafic.model.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,5 +76,68 @@ public class AlunoDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+
+    public Aluno selectID(Aluno aluno) {
+        String sql = "SELECT matricula, idcurso_fk, idusuario_fk FROM aluno WHERE idaluno = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        UsuarioDAO daoUser = new UsuarioDAO();
+        CursoDAO daoCourse = new CursoDAO();
+        Usuario usuario = null;
+        Curso curso = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, aluno.getIdAluno());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                aluno.setMatricula(rs.getString("matricula"));
+                aluno.getUsuario().setIdUsuario(rs.getLong("idusuario_fk"));
+                aluno.getCurso().setIdCurso(rs.getLong("idcurso_fk"));
+                usuario = daoUser.selectID(aluno.getUsuario());
+                curso = daoCourse.selectID(aluno.getCurso());
+                aluno.setUsuario(usuario);
+                aluno.setCurso(curso);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return aluno;
+    }
+
+    public List<Aluno> selectAll() {
+        UsuarioDAO daoUser = new UsuarioDAO();
+        Usuario usuario = null;
+        
+        CursoDAO daoCourse = new CursoDAO();
+        Curso curso = null;
+        
+        String sql = "SELECT idaluno, matricula, idcurso_fk, idusuario_fk FROM aluno;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Aluno> alunos = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Aluno aluno = new Aluno();
+                aluno.setIdAluno(rs.getLong("idaluno"));
+                aluno.setMatricula(rs.getString("matricula"));
+                aluno.getUsuario().setIdUsuario(rs.getLong("idusuario_fk"));
+                aluno.getCurso().setIdCurso(rs.getLong("idcurso_fk"));
+                usuario = daoUser.selectID(aluno.getUsuario());
+                curso = daoCourse.selectID(aluno.getCurso());
+                aluno.setUsuario(usuario);
+                aluno.setCurso(curso);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return alunos;
     }
 }

@@ -1,10 +1,15 @@
 package br.edu.fafic.dao;
 
 import br.edu.fafic.connection.ConnectionFactory;
+import br.edu.fafic.model.Curso;
 import br.edu.fafic.model.Disciplina;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,5 +77,61 @@ public class DisciplinaDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+
+    public Disciplina selectID(Disciplina disciplina) {
+        String sql = "SELECT nome, creditos, cargahoraria, idcurso_fk FROM disciplina WHERE iddisciplina = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        CursoDAO dao = new CursoDAO();
+        Curso curso = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, disciplina.getIdDisciplina());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                disciplina.setNome(rs.getString("nome"));
+                disciplina.setCreditos(rs.getString("creditos"));
+                disciplina.setCargaHoraria(rs.getString("cargahoraria"));
+                disciplina.getCurso().setIdCurso(rs.getLong("idcurso_fk"));
+                curso = dao.selectID(disciplina.getCurso());
+                disciplina.setCurso(curso);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return disciplina;
+    }
+
+    public List<Disciplina> selectAll() {
+        CursoDAO dao = new CursoDAO();
+        Curso curso = null;
+        String sql = "SELECT iddisciplina, nome, creditos, cargahoraria, idcurso_fk FROM disciplina;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Disciplina> disciplinas = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Disciplina disciplina = new Disciplina();
+                disciplina.setIdDisciplina(rs.getLong("iddisciplina"));
+                disciplina.setNome(rs.getString("nome"));
+                disciplina.setCreditos(rs.getString("creditos"));
+                disciplina.setCargaHoraria(rs.getString("cargahoraria"));
+                disciplina.getCurso().setIdCurso(rs.getLong("idcurso_fk"));
+                curso = dao.selectID(disciplina.getCurso());
+                disciplina.setCurso(curso);
+                disciplinas.add(disciplina);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return disciplinas;
     }
 }
