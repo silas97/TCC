@@ -2,7 +2,7 @@ package br.edu.fafic.model;
 
 public class DisciplinaCursada {
 
-    private Integer idDisciplinaCursada;
+    private Long idDisciplinaCursada;
     private String instituicaoOrigem;
     private String curso;
     private String disciplina;
@@ -12,7 +12,7 @@ public class DisciplinaCursada {
     public DisciplinaCursada() {
     }
 
-    public Integer getIdDisciplinaCursada() {
+    public Long getIdDisciplinaCursada() {
         return idDisciplinaCursada;
     }
 
@@ -56,7 +56,7 @@ public class DisciplinaCursada {
         this.instituicaoOrigem = instituicaoOrigem;
     }
 
-    public void setIdDisciplinaCursada(Integer idDisciplinaCursada) {
+    public void setIdDisciplinaCursada(Long idDisciplinaCursada) {
         this.idDisciplinaCursada = idDisciplinaCursada;
     }
 }

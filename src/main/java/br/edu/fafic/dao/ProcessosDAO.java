@@ -1,10 +1,15 @@
 package br.edu.fafic.dao;
 
 import br.edu.fafic.connection.ConnectionFactory;
+import br.edu.fafic.model.Aluno;
 import br.edu.fafic.model.Processos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +46,7 @@ public class ProcessosDAO {
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, processos.getAluno().getIdAluno());
-            stmt.setLong(1, processos.getIdProcessos());
+            stmt.setLong(2, processos.getIdProcessos());
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -66,5 +71,58 @@ public class ProcessosDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+
+    public Processos selectID(Processos processos) {
+        String sql = "SELECT idaluno_fk FROM processos WHERE idprocessos = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        AlunoDAO dao = new AlunoDAO();
+        Aluno aluno = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, processos.getIdProcessos());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                processos.getAluno().setIdAluno(rs.getLong("idaluno_fk"));
+                aluno = dao.selectID(processos.getAluno());
+                processos.setAluno(aluno);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcessosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return processos;
+    }
+
+    public List<Processos> selectAll() {
+        AlunoDAO dao = new AlunoDAO();
+        Aluno aluno = null;
+        
+        String sql = "SELECT idprocessos, idaluno_fk FROM processos;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Processos> listaProcessos = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Processos processos = new Processos();
+                processos.setIdProcessos(rs.getLong("idprocessos"));
+                processos.getAluno().setIdAluno(rs.getLong("idaluno_fk"));
+                aluno = dao.selectID(processos.getAluno());
+
+                processos.setAluno(aluno);
+                listaProcessos.add(processos);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcessosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return listaProcessos;
     }
 }

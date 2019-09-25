@@ -2,7 +2,7 @@ package br.edu.fafic.model;
 
 public class Processos{
     
-    private Integer idProcessos;
+    private Long idProcessos;
     private Aluno aluno;
 
     public Processos() {
@@ -16,11 +16,11 @@ public class Processos{
         this.aluno = aluno;
     }
 
-    public Integer getIdProcessos() {
+    public Long getIdProcessos() {
         return idProcessos;
     }
 
-    public void setIdProcessos(Integer idProcessos) {
+    public void setIdProcessos(Long idProcessos) {
         this.idProcessos = idProcessos;
     }
 }

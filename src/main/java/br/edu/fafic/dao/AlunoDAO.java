@@ -132,6 +132,7 @@ public class AlunoDAO {
                 curso = daoCourse.selectID(aluno.getCurso());
                 aluno.setUsuario(usuario);
                 aluno.setCurso(curso);
+                alunos.add(aluno);
             }
         } catch (SQLException ex) {
             Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);

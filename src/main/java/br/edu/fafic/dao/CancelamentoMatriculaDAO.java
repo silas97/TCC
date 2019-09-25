@@ -3,6 +3,10 @@ package br.edu.fafic.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -69,5 +73,49 @@ public class CancelamentoMatriculaDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+
+    public CancelamentoMatricula selectID(CancelamentoMatricula cancelamentoMatricula) {
+        String sql = "SELECT justificativa, datacadastro FROM cancelamentomatricula WHERE idcancelamentomatricula = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, cancelamentoMatricula.getIdCancelamentoMatricula());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                cancelamentoMatricula.setJustificativa(rs.getString("justificativa"));
+                cancelamentoMatricula.setDataCadastro(rs.getDate("datacadastro"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CancelamentoMatriculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return cancelamentoMatricula;
+    }
+
+    public List<CancelamentoMatricula> selectAll() {
+        String sql = "SELECT idcancelamentomatricula, justificativa, datacadastro FROM cancelamentomatricula;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<CancelamentoMatricula> cancelamentoMatriculas = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                CancelamentoMatricula cancelamentoMatricula = new CancelamentoMatricula();
+                cancelamentoMatricula.setIdCancelamentoMatricula(rs.getLong("idcancelamentoMatricula"));
+                cancelamentoMatricula.setJustificativa(rs.getString("justificativa"));
+                cancelamentoMatricula.setDataCadastro(rs.getDate("datacadastro"));
+                cancelamentoMatriculas.add(cancelamentoMatricula);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CancelamentoMatriculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return cancelamentoMatriculas;
     }
 }
