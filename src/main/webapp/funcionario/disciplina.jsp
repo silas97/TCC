@@ -15,6 +15,10 @@
 
 <body>
     <h1>CRUD DISCIPLINA</h1>
+    <ul>
+        <li><a href="${pageContext.request.contextPath}/funcionario/cadastrar-disciplina.jsp">INSERT</a></li>
+        <li><a href="${pageContext.request.contextPath}/funcionario/listar-disciplina.jsp">SELECT</a></li>
+    </ul>
 </body>
 
 </html>

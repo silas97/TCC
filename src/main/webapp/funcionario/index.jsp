@@ -17,6 +17,7 @@
     <h1>INDEX FUNCIONÁRIO</h1>
     <ul>
         <li><a href="${pageContext.request.contextPath}/funcionario/curso.jsp">CURSO</a></li>
+        <li><a href="${pageContext.request.contextPath}/funcionario/disciplina.jsp">DISCIPLINA</a></li>
     </ul>
 </body>
 
