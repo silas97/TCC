@@ -17,12 +17,12 @@
 
 <body>
     <h1>TELA DE CADASTRO DISCIPLINA</h1>
-    <form name="curso" method="post" action="${pageContext.request.contextPath}/curso">
+    <form name="disciplina" method="post" action="${pageContext.request.contextPath}/disciplina">
         <h5>Nome</h5><input type="text" name="nome" placeholder="Nome" required="" />
         <h5>Créditos</h5><input type="text" name="creditos" placeholder="Creditos" required="" />
         <h5>Carga Horaria</h5><input type="text" name="cargaHoraria" placeholder="Carga Horaria" required="" />
         <h5>Curso</h5>
-        <select name="curso" id="curso">
+        <select name="idCurso_FK">
             <c:forEach var="curso" items="${dao.selectAll()}">
                 <option value="${curso.idCurso}">${curso.nome}</option>
             </c:forEach>

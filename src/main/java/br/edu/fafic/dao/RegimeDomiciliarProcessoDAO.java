@@ -86,13 +86,17 @@ public class RegimeDomiciliarProcessoDAO {
     }
 
     public RegimeDomiciliarProcesso selectID(RegimeDomiciliarProcesso regimeDomiciliarProcesso) {
+        ProcessosDAO processosDao = new ProcessosDAO();
+        Processos processos = new Processos();
+        Processos buscaProcessos = null;
+        
+        RegimeDomiciliarDAO daoCourse = new RegimeDomiciliarDAO();
+        RegimeDomiciliar regimeDomiciliar = new RegimeDomiciliar();
+        RegimeDomiciliar buscaRegimeDomiciliar = null;
+        
         String sql = "SELECT dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idregimedomiciliar_fk FROM regimedomiciliar_processo WHERE idregimedomiciliarprocesso = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        ProcessosDAO daoUser = new ProcessosDAO();
-        RegimeDomiciliarDAO daoCourse = new RegimeDomiciliarDAO();
-        Processos processos = null;
-        RegimeDomiciliar regimeDomiciliar = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, regimeDomiciliarProcesso.getIdRegimeDomiciliarProcesso());
@@ -103,12 +107,14 @@ public class RegimeDomiciliarProcessoDAO {
                 regimeDomiciliarProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
                 regimeDomiciliarProcesso.setStatus(rs.getString("status"));
                 regimeDomiciliarProcesso.setVisibilidade(rs.getString("visibilidade"));
-                regimeDomiciliarProcesso.getProcessos().setIdProcessos(rs.getLong("idprocessos_fk"));
-                regimeDomiciliarProcesso.getRegimedomiciliar().setIdRegimeDomiciliar(rs.getLong("idregimedomiciliar_fk"));
-                processos = daoUser.selectID(regimeDomiciliarProcesso.getProcessos());
-                regimeDomiciliar = daoCourse.selectID(regimeDomiciliarProcesso.getRegimedomiciliar());
-                regimeDomiciliarProcesso.setProcessos(processos);
-                regimeDomiciliarProcesso.setRegimedomiciliar(regimeDomiciliar);
+
+                processos.setIdProcessos(rs.getLong("idprocessos_fk"));  
+                buscaProcessos = processosDao.selectID(processos);
+                regimeDomiciliarProcesso.setProcessos(buscaProcessos);
+                
+                regimeDomiciliar.setIdRegimeDomiciliar(rs.getLong("idregimedomiciliar_fk"));
+                regimeDomiciliar = daoCourse.selectID(regimeDomiciliar);
+                regimeDomiciliarProcesso.setRegimedomiciliar(buscaRegimeDomiciliar);
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegimeDomiciliarProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,11 +125,13 @@ public class RegimeDomiciliarProcessoDAO {
     }
 
     public List<RegimeDomiciliarProcesso> selectAll() {
-        ProcessosDAO daoUser = new ProcessosDAO();
-        Processos processos = null;
-
+        ProcessosDAO processosDao = new ProcessosDAO();
+        Processos processos = new Processos();
+        Processos buscaProcessos = null;
+        
         RegimeDomiciliarDAO daoCourse = new RegimeDomiciliarDAO();
-        RegimeDomiciliar regimeDomiciliar = null;
+        RegimeDomiciliar regimeDomiciliar = new RegimeDomiciliar();
+        RegimeDomiciliar buscaRegimeDomiciliar = null;
 
         String sql = "SELECT idregimedomiciliarprocesso, dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idregimedomiciliar_fk FROM regimedomiciliar_processo;";
         PreparedStatement stmt = null;
@@ -139,12 +147,16 @@ public class RegimeDomiciliarProcessoDAO {
                 regimeDomiciliarProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
                 regimeDomiciliarProcesso.setStatus(rs.getString("status"));
                 regimeDomiciliarProcesso.setVisibilidade(rs.getString("visibilidade"));
-                regimeDomiciliarProcesso.getProcessos().setIdProcessos(rs.getLong("idprocessos_fk"));
-                regimeDomiciliarProcesso.getRegimedomiciliar().setIdRegimeDomiciliar(rs.getLong("idregimedomiciliar_fk"));
-                processos = daoUser.selectID(regimeDomiciliarProcesso.getProcessos());
-                regimeDomiciliar = daoCourse.selectID(regimeDomiciliarProcesso.getRegimedomiciliar());
-                regimeDomiciliarProcesso.setProcessos(processos);
-                regimeDomiciliarProcesso.setRegimedomiciliar(regimeDomiciliar);
+
+                processos.setIdProcessos(rs.getLong("idprocessos_fk"));  
+                buscaProcessos = processosDao.selectID(processos);
+                regimeDomiciliarProcesso.setProcessos(buscaProcessos);
+                
+                regimeDomiciliar.setIdRegimeDomiciliar(rs.getLong("idregimedomiciliar_fk"));
+                regimeDomiciliar = daoCourse.selectID(regimeDomiciliar);
+                regimeDomiciliarProcesso.setRegimedomiciliar(buscaRegimeDomiciliar);
+
+                regimeDomiciliarProcessos.add(regimeDomiciliarProcesso);
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegimeDomiciliarProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -85,11 +85,13 @@ public class RegimeDomiciliarDAO {
     }
 
     public RegimeDomiciliar selectID(RegimeDomiciliar regimeDomiciliar) {
+        DisciplinaDAO dao = new DisciplinaDAO();
+        Disciplina disciplina = new Disciplina();
+        Disciplina buscaDisciplina = null;
+        
         String sql = "SELECT datainicio, datafim, datacadastro, situacao, tipo, iddisciplina_fk FROM regimedomiciliar WHERE idregimedomiciliar = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        DisciplinaDAO dao = new DisciplinaDAO();
-        Disciplina disciplina = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, regimeDomiciliar.getIdRegimeDomiciliar());
@@ -101,9 +103,10 @@ public class RegimeDomiciliarDAO {
                 regimeDomiciliar.setDataCadastro(rs.getDate("datacadastro"));
                 regimeDomiciliar.setSituacao(rs.getString("situacao"));
                 regimeDomiciliar.setTipo(rs.getString("tipo"));
-                regimeDomiciliar.getDisciplina().setIdDisciplina(rs.getLong("iddisciplina_fk"));
-                disciplina = dao.selectID(regimeDomiciliar.getDisciplina());
-                regimeDomiciliar.setDisciplina(disciplina);
+                
+                disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
+                buscaDisciplina = dao.selectID(disciplina);
+                regimeDomiciliar.setDisciplina(buscaDisciplina);
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegimeDomiciliarDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,12 +117,14 @@ public class RegimeDomiciliarDAO {
     }
 
     public List<RegimeDomiciliar> selectAll() {
+        DisciplinaDAO dao = new DisciplinaDAO();
+        Disciplina disciplina = new Disciplina();
+        Disciplina buscaDisciplina = null;
+        
         String sql = "SELECT idregimedomiciliar, datainicio, datafim, datacadastro, situacao, tipo, iddisciplina_fk FROM regimedomiciliar;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<RegimeDomiciliar> regimeDomiciliars = new ArrayList<>();
-        DisciplinaDAO dao = new DisciplinaDAO();
-        Disciplina disciplina = null;
         try {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -131,9 +136,11 @@ public class RegimeDomiciliarDAO {
                 regimeDomiciliar.setDataCadastro(rs.getDate("datacadastro"));
                 regimeDomiciliar.setSituacao(rs.getString("situacao"));
                 regimeDomiciliar.setTipo(rs.getString("tipo"));
-                regimeDomiciliar.getDisciplina().setIdDisciplina(rs.getLong("iddisciplina_fk"));
-                disciplina = dao.selectID(regimeDomiciliar.getDisciplina());
-                regimeDomiciliar.setDisciplina(disciplina);
+                
+                disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
+                buscaDisciplina = dao.selectID(disciplina);
+                regimeDomiciliar.setDisciplina(buscaDisciplina);
+                
                 regimeDomiciliars.add(regimeDomiciliar);
 
             }

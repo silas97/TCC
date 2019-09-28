@@ -80,11 +80,12 @@ public class DisciplinaDAO {
     }
 
     public Disciplina selectID(Disciplina disciplina) {
+        CursoDAO dao = new CursoDAO();
+        Curso curso = new Curso();
+        Curso buscarCurso = null;
         String sql = "SELECT nome, creditos, cargahoraria, idcurso_fk FROM disciplina WHERE iddisciplina = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        CursoDAO dao = new CursoDAO();
-        Curso curso = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, disciplina.getIdDisciplina());
@@ -94,9 +95,9 @@ public class DisciplinaDAO {
                 disciplina.setNome(rs.getString("nome"));
                 disciplina.setCreditos(rs.getString("creditos"));
                 disciplina.setCargaHoraria(rs.getString("cargahoraria"));
-                disciplina.getCurso().setIdCurso(rs.getLong("idcurso_fk"));
-                curso = dao.selectID(disciplina.getCurso());
-                disciplina.setCurso(curso);
+                curso.setIdCurso(rs.getLong("idcurso_fk"));
+                buscarCurso = dao.selectID(curso);
+                disciplina.setCurso(buscarCurso);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DisciplinaDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,7 +109,8 @@ public class DisciplinaDAO {
 
     public List<Disciplina> selectAll() {
         CursoDAO dao = new CursoDAO();
-        Curso curso = null;
+        Curso curso = new Curso();
+        Curso buscarCurso = null;
         String sql = "SELECT iddisciplina, nome, creditos, cargahoraria, idcurso_fk FROM disciplina;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -122,9 +124,10 @@ public class DisciplinaDAO {
                 disciplina.setNome(rs.getString("nome"));
                 disciplina.setCreditos(rs.getString("creditos"));
                 disciplina.setCargaHoraria(rs.getString("cargahoraria"));
-                disciplina.getCurso().setIdCurso(rs.getLong("idcurso_fk"));
-                curso = dao.selectID(disciplina.getCurso());
-                disciplina.setCurso(curso);
+                curso.setIdCurso(rs.getLong("idcurso_fk"));
+                buscarCurso = dao.selectID(curso);
+                disciplina.setCurso(buscarCurso);
+                
                 disciplinas.add(disciplina);
             }
         } catch (SQLException ex) {

@@ -10,30 +10,30 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Listar Disciplinas</title>
+    <head>
+        <title>Listar Disciplinas</title>
 
-</head>
+    </head>
 
-<body>
-    <h1>LISTAR CURSOS</h1>
-    <table border="1">
-        <tr>
-            <td>ID</td>
-            <td>nome</td>
-            <td>creditos</td>
-            <td>cargaHoraria</td>
-            <td>idCurso_FK</td>
-            <td colspan="2" style="text-align: center;">Execute</td>
-        </tr>
-        <c:forEach var="disciplina" items="${dao.selectAll()}">
+    <body>
+        <h1>LISTAR CURSOS</h1>
+        <table border="1">
             <tr>
-                <td>${disciplina.idDisciplina}</td>
-                <td>${disciplina.nome}</td>
-                <td>${disciplina.creditos}</td>
-                <td>${disciplina.cargaHoraria}</td>
-                <td>${disciplina.idCurso_FK}</td>
-                <form name="disciplina" action="${pageContext.request.contextPath}/disciplina" method="post">
+                <td>ID</td>
+                <td>nome</td>
+                <td>creditos</td>
+                <td>carga horaria</td>
+                <td>idcurso_fk</td>
+                <td colspan="2" style="text-align: center;">Execute</td>
+            </tr>
+            <c:forEach var="disciplina" items="${dao.selectAll()}">
+                <tr>
+                    <td>${disciplina.idDisciplina}</td>
+                    <td>${disciplina.nome}</td>
+                    <td>${disciplina.creditos}</td>
+                    <td>${disciplina.cargaHoraria}</td>
+                    <td>${disciplina.getCurso().getIdCurso()}</td>
+                <form name="curso" action="${pageContext.request.contextPath}/disciplina" method="post">
                     <input type="hidden" value="${disciplina.idDisciplina}" name="id" />
                     <td><input type="submit" value="alterar" name="param"></td>
                     <td><input type="submit" value="apagar" name="param"></td>

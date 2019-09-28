@@ -74,20 +74,22 @@ public class ProcessosDAO {
     }
 
     public Processos selectID(Processos processos) {
+        AlunoDAO dao = new AlunoDAO();
+        Aluno aluno = new Aluno();
+        Aluno buscaAluno = null;
+        
         String sql = "SELECT idaluno_fk FROM processos WHERE idprocessos = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        AlunoDAO dao = new AlunoDAO();
-        Aluno aluno = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, processos.getIdProcessos());
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
-                processos.getAluno().setIdAluno(rs.getLong("idaluno_fk"));
-                aluno = dao.selectID(processos.getAluno());
-                processos.setAluno(aluno);
+                aluno.setIdAluno(rs.getLong("idaluno_fk"));
+                buscaAluno = dao.selectID(aluno);
+                processos.setAluno(buscaAluno);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProcessosDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,7 +101,8 @@ public class ProcessosDAO {
 
     public List<Processos> selectAll() {
         AlunoDAO dao = new AlunoDAO();
-        Aluno aluno = null;
+        Aluno aluno = new Aluno();
+        Aluno buscaAluno = null;
         
         String sql = "SELECT idprocessos, idaluno_fk FROM processos;";
         PreparedStatement stmt = null;
@@ -111,10 +114,11 @@ public class ProcessosDAO {
             while (rs.next()) {
                 Processos processos = new Processos();
                 processos.setIdProcessos(rs.getLong("idprocessos"));
-                processos.getAluno().setIdAluno(rs.getLong("idaluno_fk"));
-                aluno = dao.selectID(processos.getAluno());
+                
+                aluno.setIdAluno(rs.getLong("idaluno_fk"));
+                buscaAluno = dao.selectID(aluno);
+                processos.setAluno(buscaAluno);
 
-                processos.setAluno(aluno);
                 listaProcessos.add(processos);
 
             }

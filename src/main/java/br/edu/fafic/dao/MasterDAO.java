@@ -74,20 +74,23 @@ public class MasterDAO {
     }
 
     public Master selectID(Master master) {
+        UsuarioDAO dao = new UsuarioDAO();
+        Usuario usuario = new Usuario();
+        Usuario buscaUsuario = null;
+
         String sql = "SELECT idusuario_fk FROM master WHERE idmaster = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, master.getIdMaster());
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
-                master.getUsuario().setIdUsuario(rs.getLong("idusuario_fk"));
-                usuario = dao.selectID(master.getUsuario());
-                master.setUsuario(usuario);
+                usuario.setIdUsuario(rs.getLong("idusuario_fk"));
+                buscaUsuario = dao.selectID(usuario);
+                master.setUsuario(buscaUsuario);
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(MasterDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,7 +102,9 @@ public class MasterDAO {
 
     public List<Master> selectAll() {
         UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = null;
+        Usuario usuario = new Usuario();
+        Usuario buscaUsuario = null;
+
         String sql = "SELECT idmaster, idusuario_fk FROM master;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -110,9 +115,11 @@ public class MasterDAO {
             while (rs.next()) {
                 Master master = new Master();
                 master.setIdMaster(rs.getLong("idmaster"));
-                master.getUsuario().setIdUsuario(rs.getLong("idusuario_fk"));
-                usuario = dao.selectID(master.getUsuario());
-                master.setUsuario(usuario);
+
+                usuario.setIdUsuario(rs.getLong("idusuario_fk"));
+                buscaUsuario = dao.selectID(usuario);
+                master.setUsuario(buscaUsuario);
+
                 masters.add(master);
             }
         } catch (SQLException ex) {

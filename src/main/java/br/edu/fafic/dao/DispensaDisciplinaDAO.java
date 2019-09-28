@@ -80,34 +80,40 @@ public class DispensaDisciplinaDAO {
     }
 
     public DispensaDisciplina selectID(DispensaDisciplina dispensaDisciplina) {
+        AlunoDAO alunoDao = new AlunoDAO();
+        Aluno aluno = new Aluno();
+        Aluno buscaAluno = null;
+        
+        DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+        Disciplina disciplina = new Disciplina();
+        Disciplina buscaDisciplina = null;
+        
+        DisciplinaCursadaDAO disciplinaCursadaDao = new DisciplinaCursadaDAO();
+        DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
+        DisciplinaCursada buscaDisciplinaCursada = null;
+        
         String sql = "SELECT idaluno_fk, iddisciplinacursada_fk, iddisciplina_fk FROM dispensadisciplina WHERE iddispensadisciplina = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        AlunoDAO daoAluno = new AlunoDAO();
-        DisciplinaCursadaDAO daoDC = new DisciplinaCursadaDAO();
-        DisciplinaDAO daoDisciplina = new DisciplinaDAO();
 
-        Aluno aluno = null;
-        DisciplinaCursada disciplinaCursada = null;
-        Disciplina disciplina = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, dispensaDisciplina.getIdDispensaDisciplina());
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
-                dispensaDisciplina.getAluno().setIdAluno(rs.getLong("idaluno_fk"));
-                dispensaDisciplina.getDisciplinaCursada().setIdDisciplinaCursada(rs.getLong("iddisciplinacursada_fk"));
-                dispensaDisciplina.getDisciplina().setIdDisciplina(rs.getLong("iddisciplina_fk"));
+                aluno.setIdAluno(rs.getLong("idaluno_fk"));
+                disciplinaCursada.setIdDisciplinaCursada(rs.getLong("iddisciplinacursada_fk"));
+                disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
 
-                aluno = daoAluno.selectID(dispensaDisciplina.getAluno());
-                disciplinaCursada = daoDC.selectID(dispensaDisciplina.getDisciplinaCursada());
-                disciplina = daoDisciplina.selectID(dispensaDisciplina.getDisciplina());
+                buscaAluno = alunoDao.selectID(aluno);
+                buscaDisciplinaCursada = disciplinaCursadaDao.selectID(disciplinaCursada);
+                buscaDisciplina = disciplinaDao.selectID(disciplina);
 
-                dispensaDisciplina.setAluno(aluno);
-                dispensaDisciplina.setDisciplinaCursada(disciplinaCursada);
-                dispensaDisciplina.setDisciplina(disciplina);
+                dispensaDisciplina.setAluno(buscaAluno);
+                dispensaDisciplina.setDisciplinaCursada(buscaDisciplinaCursada);
+                dispensaDisciplina.setDisciplina(buscaDisciplina);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DispensaDisciplinaDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,13 +124,17 @@ public class DispensaDisciplinaDAO {
     }
 
     public List<DispensaDisciplina> selectAll() {
-        AlunoDAO daoAluno = new AlunoDAO();
-        DisciplinaCursadaDAO daoDC = new DisciplinaCursadaDAO();
-        DisciplinaDAO daoDisciplina = new DisciplinaDAO();
-
-        Aluno aluno = null;
-        DisciplinaCursada disciplinaCursada = null;
-        Disciplina disciplina = null;
+        AlunoDAO alunoDao = new AlunoDAO();
+        Aluno aluno = new Aluno();
+        Aluno buscaAluno = null;
+        
+        DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+        Disciplina disciplina = new Disciplina();
+        Disciplina buscaDisciplina = null;
+        
+        DisciplinaCursadaDAO disciplinaCursadaDao = new DisciplinaCursadaDAO();
+        DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
+        DisciplinaCursada buscaDisciplinaCursada = null;
 
         String sql = "SELECT iddispensadisciplina, idaluno_fk, iddisciplinacursada_fk, iddisciplina_fk FROM dispensadisciplina;";
         PreparedStatement stmt = null;
@@ -136,17 +146,17 @@ public class DispensaDisciplinaDAO {
             while (rs.next()) {
                 DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensaDisciplina"));
-                dispensaDisciplina.getAluno().setIdAluno(rs.getLong("idaluno_fk"));
-                dispensaDisciplina.getDisciplinaCursada().setIdDisciplinaCursada(rs.getLong("iddisciplinacursada_fk"));
-                dispensaDisciplina.getDisciplina().setIdDisciplina(rs.getLong("iddisciplina_fk"));
+                aluno.setIdAluno(rs.getLong("idaluno_fk"));
+                disciplinaCursada.setIdDisciplinaCursada(rs.getLong("iddisciplinacursada_fk"));
+                disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
 
-                aluno = daoAluno.selectID(dispensaDisciplina.getAluno());
-                disciplinaCursada = daoDC.selectID(dispensaDisciplina.getDisciplinaCursada());
-                disciplina = daoDisciplina.selectID(dispensaDisciplina.getDisciplina());
+                buscaAluno = alunoDao.selectID(aluno);
+                buscaDisciplinaCursada = disciplinaCursadaDao.selectID(disciplinaCursada);
+                buscaDisciplina = disciplinaDao.selectID(disciplina);
 
-                dispensaDisciplina.setAluno(aluno);
-                dispensaDisciplina.setDisciplinaCursada(disciplinaCursada);
-                dispensaDisciplina.setDisciplina(disciplina);
+                dispensaDisciplina.setAluno(buscaAluno);
+                dispensaDisciplina.setDisciplinaCursada(buscaDisciplinaCursada);
+                dispensaDisciplina.setDisciplina(buscaDisciplina);
                 dispensaDisciplinas.add(dispensaDisciplina);
             }
         } catch (SQLException ex) {
