@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class DispensaDisciplinaProcesso{
 
-    private Integer idDispensaDisciplinaProcesso;
+    private Long idDispensaDisciplinaProcesso;
     private Date dataProcesso;
     private Date dataEncerramento;
     private String status;
@@ -12,7 +12,7 @@ public class DispensaDisciplinaProcesso{
     private Processos processos;
     private DispensaDisciplina dispensaDisciplina;
 
-    public Integer getIdDispensaDisciplinaProcesso() {
+    public Long getIdDispensaDisciplinaProcesso() {
         return idDispensaDisciplinaProcesso;
     }
 
@@ -64,7 +64,7 @@ public class DispensaDisciplinaProcesso{
         this.dataProcesso = dataProcesso;
     }
 
-    public void setIdDispensaDisciplinaProcesso(Integer idDispensaDisciplinaProcesso) {
+    public void setIdDispensaDisciplinaProcesso(Long idDispensaDisciplinaProcesso) {
         this.idDispensaDisciplinaProcesso = idDispensaDisciplinaProcesso;
     }
 }

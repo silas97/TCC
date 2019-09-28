@@ -1,11 +1,17 @@
 package br.edu.fafic.dao;
 
 import br.edu.fafic.connection.ConnectionFactory;
+import br.edu.fafic.model.CancelamentoMatricula;
 import br.edu.fafic.model.CancelamentoMatriculaProcesso;
+import br.edu.fafic.model.Processos;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -77,5 +83,73 @@ public class CancelamentoMatriculaProcessoDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    public CancelamentoMatriculaProcesso selectID(CancelamentoMatriculaProcesso cancelamentoMatriculaProcesso) {
+        String sql = "SELECT dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idcancelamentomatricula_fk FROM cancelamentomatricula_processo WHERE idcancelamentomatriculaprocesso = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ProcessosDAO daoUser = new ProcessosDAO();
+        CancelamentoMatriculaDAO daoCourse = new CancelamentoMatriculaDAO();
+        Processos processos = null;
+        CancelamentoMatricula cancelamentoMatricula = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, cancelamentoMatriculaProcesso.getIdCancelamentoMatriculaProcesso());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                cancelamentoMatriculaProcesso.setDataProcesso(rs.getDate("dataprocesso"));
+                cancelamentoMatriculaProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
+                cancelamentoMatriculaProcesso.setStatus(rs.getString("status"));
+                cancelamentoMatriculaProcesso.setVisibilidade(rs.getString("visibilidade"));
+                cancelamentoMatriculaProcesso.getProcessos().setIdProcessos(rs.getLong("idprocessos_fk"));
+                cancelamentoMatriculaProcesso.getCancelamentoMatricula().setIdCancelamentoMatricula(rs.getLong("idcancelamentomatricula_fk"));
+                processos = daoUser.selectID(cancelamentoMatriculaProcesso.getProcessos());
+                cancelamentoMatricula = daoCourse.selectID(cancelamentoMatriculaProcesso.getCancelamentoMatricula());
+                cancelamentoMatriculaProcesso.setProcessos(processos);
+                cancelamentoMatriculaProcesso.setCancelamentoMatricula(cancelamentoMatricula);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CancelamentoMatriculaProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return cancelamentoMatriculaProcesso;
+    }
+
+    public List<CancelamentoMatriculaProcesso> selectAll() {
+        ProcessosDAO daoUser = new ProcessosDAO();
+        Processos processos = null;
+        
+        CancelamentoMatriculaDAO daoCourse = new CancelamentoMatriculaDAO();
+        CancelamentoMatricula cancelamentoMatricula = null;
+        
+        String sql = "SELECT idcancelamentomatriculaprocesso, dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idcancelamentomatricula_fk FROM cancelamentomatricula_processo;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<CancelamentoMatriculaProcesso> cancelamentoMatriculaProcessos = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                CancelamentoMatriculaProcesso cancelamentoMatriculaProcesso = new CancelamentoMatriculaProcesso();
+                cancelamentoMatriculaProcesso.setIdCancelamentoMatriculaProcesso(rs.getLong("idcancelamentoMatriculaProcesso"));
+                cancelamentoMatriculaProcesso.setDataProcesso(rs.getDate("dataprocesso"));
+                cancelamentoMatriculaProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
+                cancelamentoMatriculaProcesso.setStatus(rs.getString("status"));
+                cancelamentoMatriculaProcesso.setVisibilidade(rs.getString("visibilidade"));
+                cancelamentoMatriculaProcesso.getProcessos().setIdProcessos(rs.getLong("idprocessos_fk"));
+                cancelamentoMatriculaProcesso.getCancelamentoMatricula().setIdCancelamentoMatricula(rs.getLong("idcancelamentomatricula_fk"));
+                processos = daoUser.selectID(cancelamentoMatriculaProcesso.getProcessos());
+                cancelamentoMatricula = daoCourse.selectID(cancelamentoMatriculaProcesso.getCancelamentoMatricula());
+                cancelamentoMatriculaProcesso.setProcessos(processos);
+                cancelamentoMatriculaProcesso.setCancelamentoMatricula(cancelamentoMatricula);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CancelamentoMatriculaProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return cancelamentoMatriculaProcessos;
     }
 }
