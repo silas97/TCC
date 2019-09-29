@@ -15,6 +15,9 @@
 
 <body>
     <h1>INDEX ALUNO</h1>
+    <ul>
+        <li><a href="${pageContext.request.contextPath}/aluno/cancelamento-matricula.jsp">CANCELAMENTO MATRICULA</a></li>
+    </ul>
 </body>
 
 </html>
