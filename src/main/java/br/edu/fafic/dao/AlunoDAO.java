@@ -79,12 +79,7 @@ public class AlunoDAO {
     }
 
     public Aluno selectID(Aluno aluno) {
-        UsuarioDAO usuarioDao = new UsuarioDAO();
-        Usuario usuario = new Usuario();
-        Usuario buscaUsuario = null;
-        CursoDAO cursoDao = new CursoDAO();
-        Curso curso = new Curso();
-        Curso buscaCurso = null;
+
         String sql = "SELECT matricula, idcurso_fk, idusuario_fk FROM aluno WHERE idaluno = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -94,6 +89,12 @@ public class AlunoDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
+                UsuarioDAO usuarioDao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                Usuario buscaUsuario = null;
+                CursoDAO cursoDao = new CursoDAO();
+                Curso curso = new Curso();
+                Curso buscaCurso = null;
                 aluno.setMatricula(rs.getString("matricula"));
                 usuario.setIdUsuario(rs.getLong("idusuario_fk"));
                 buscaUsuario = usuarioDao.selectID(usuario);
@@ -111,12 +112,6 @@ public class AlunoDAO {
     }
 
     public List<Aluno> selectAll() {
-        UsuarioDAO usuarioDao = new UsuarioDAO();
-        Usuario usuario = new Usuario();
-        Usuario buscaUsuario = null;
-        CursoDAO cursoDao = new CursoDAO();
-        Curso curso = new Curso();
-        Curso buscaCurso = null;
 
         String sql = "SELECT idaluno, matricula, idcurso_fk, idusuario_fk FROM aluno;";
         PreparedStatement stmt = null;
@@ -126,6 +121,12 @@ public class AlunoDAO {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                UsuarioDAO usuarioDao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                Usuario buscaUsuario = null;
+                CursoDAO cursoDao = new CursoDAO();
+                Curso curso = new Curso();
+                Curso buscaCurso = null;
                 Aluno aluno = new Aluno();
                 aluno.setIdAluno(rs.getLong("idaluno"));
                 aluno.setMatricula(rs.getString("matricula"));

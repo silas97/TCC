@@ -17,20 +17,17 @@
 
 <body>
     <h1>ALTERAR DISCIPLINA</h1>
-    <form name="disciplina" method="post" action="${pageContext.request.contextPath}/disciplina">
-        <h5>Nome</h5><input type="text" name="nome" placeholder="Nome" value="${discipline.nome}" required="" />
-        <h5>Créditos</h5><input type="text" name="creditos" placeholder="Creditos" value="${discipline.creditos}"
-            required="" />
-        <h5>Carga Horaria</h5><input type="text" name="cargaHoraria" placeholder="Carga Horaria"
-            value="${discipline.cargaHoraria}" required="" />
+    <form name="turma" method="post" action="${pageContext.request.contextPath}/turma">
+        <h5>Periodo</h5><input type="text" name="periodo" placeholder="Periodo" value="${sTurma.periodo}" required="" />
+        <h5>Sigla</h5><input type="text" name="sigla" placeholder="Sigla" value="${sTurma.sigla}" required="" />
         <h5>Curso</h5>
-        <select name="idCurso_FK" id="curso">
+        <select name="idCurso_FK">
             <c:forEach var="curso" items="${dao.selectAll()}">
                 <option value="${curso.idCurso}">${curso.nome}</option>
             </c:forEach>
         </select>
         <label>${message}</label>
-        <input type="hidden" value="${discipline.idDisciplina}" name="id" />
+        <input type="hidden" value="${sTurma.idTurma}" name="id" />
         <input type="hidden" value="update" name="param" />
         <input type="submit" value="Alterar" class="primary" />
     </form>

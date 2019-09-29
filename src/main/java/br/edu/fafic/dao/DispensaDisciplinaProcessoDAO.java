@@ -85,13 +85,6 @@ public class DispensaDisciplinaProcessoDAO {
     }
 
     public DispensaDisciplinaProcesso selectID(DispensaDisciplinaProcesso dispensaDisciplinaProcesso) {
-        ProcessosDAO processosDao = new ProcessosDAO();
-        Processos processos = new Processos();
-        Processos buscaProcessos = null;
-
-        DispensaDisciplinaDAO dispensaDisciplinaDao = new DispensaDisciplinaDAO();
-        DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
-        DispensaDisciplina buscaDispensaDisciplina = null;
 
         String sql = "SELECT dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, iddispensadisciplina_fk FROM dispensadisciplina_processo WHERE iddispensadisciplinaprocesso = ?;";
         PreparedStatement stmt = null;
@@ -102,19 +95,26 @@ public class DispensaDisciplinaProcessoDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
+                ProcessosDAO processosDao = new ProcessosDAO();
+                Processos processos = new Processos();
+                Processos buscaProcessos = null;
+
+                DispensaDisciplinaDAO dispensaDisciplinaDao = new DispensaDisciplinaDAO();
+                DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
+                DispensaDisciplina buscaDispensaDisciplina = null;
                 dispensaDisciplinaProcesso.setDataProcesso(rs.getDate("dataprocesso"));
                 dispensaDisciplinaProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
                 dispensaDisciplinaProcesso.setStatus(rs.getString("status"));
                 dispensaDisciplinaProcesso.setVisibilidade(rs.getString("visibilidade"));
-                
+
                 processos.setIdProcessos(rs.getLong("idprocessos_fk"));
                 buscaProcessos = processosDao.selectID(processos);
                 dispensaDisciplinaProcesso.setProcessos(buscaProcessos);
-                
+
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscaDispensaDisciplina = dispensaDisciplinaDao.selectID(dispensaDisciplina);
                 dispensaDisciplinaProcesso.setDispensaDisciplina(buscaDispensaDisciplina);
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(DispensaDisciplinaProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,13 +125,6 @@ public class DispensaDisciplinaProcessoDAO {
     }
 
     public List<DispensaDisciplinaProcesso> selectAll() {
-        ProcessosDAO processosDao = new ProcessosDAO();
-        Processos processos = new Processos();
-        Processos buscaProcessos = null;
-
-        DispensaDisciplinaDAO dispensaDisciplinaDao = new DispensaDisciplinaDAO();
-        DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
-        DispensaDisciplina buscaDispensaDisciplina = null;
 
         String sql = "SELECT iddispensadisciplinaprocesso, dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, iddispensadisciplina_fk FROM dispensadisciplina_processo;";
         PreparedStatement stmt = null;
@@ -141,17 +134,24 @@ public class DispensaDisciplinaProcessoDAO {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                ProcessosDAO processosDao = new ProcessosDAO();
+                Processos processos = new Processos();
+                Processos buscaProcessos = null;
+
+                DispensaDisciplinaDAO dispensaDisciplinaDao = new DispensaDisciplinaDAO();
+                DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
+                DispensaDisciplina buscaDispensaDisciplina = null;
                 DispensaDisciplinaProcesso dispensaDisciplinaProcesso = new DispensaDisciplinaProcesso();
                 dispensaDisciplinaProcesso.setIdDispensaDisciplinaProcesso(rs.getLong("iddispensaDisciplinaProcesso"));
                 dispensaDisciplinaProcesso.setDataProcesso(rs.getDate("dataprocesso"));
                 dispensaDisciplinaProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
                 dispensaDisciplinaProcesso.setStatus(rs.getString("status"));
                 dispensaDisciplinaProcesso.setVisibilidade(rs.getString("visibilidade"));
-                
+
                 processos.setIdProcessos(rs.getLong("idprocessos_fk"));
                 buscaProcessos = processosDao.selectID(processos);
                 dispensaDisciplinaProcesso.setProcessos(buscaProcessos);
-                
+
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscaDispensaDisciplina = dispensaDisciplinaDao.selectID(dispensaDisciplina);
                 dispensaDisciplinaProcesso.setDispensaDisciplina(buscaDispensaDisciplina);

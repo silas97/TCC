@@ -78,10 +78,6 @@ public class TurmaDAO {
     }
 
     public Turma selectID(Turma turma) {
-        CursoDAO dao = new CursoDAO();
-        Curso curso = new Curso();
-        Curso buscaCurso = null;
-
         String sql = "SELECT periodo, sigla, idcurso_fk FROM turma WHERE idturma = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -91,12 +87,15 @@ public class TurmaDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
+                CursoDAO dao = new CursoDAO();
+                Curso curso = new Curso();
+                Curso buscarCurso = null;
                 turma.setPeriodo(rs.getString("periodo"));
                 turma.setSigla(rs.getString("sigla"));
 
                 curso.setIdCurso(rs.getLong("idcurso_fk"));
-                buscaCurso = dao.selectID(curso);
-                turma.setCurso(buscaCurso);
+                buscarCurso = dao.selectID(curso);
+                turma.setCurso(buscarCurso);
             }
         } catch (SQLException ex) {
             Logger.getLogger(TurmaDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,9 +106,6 @@ public class TurmaDAO {
     }
 
     public List<Turma> selectAll() {
-        CursoDAO dao = new CursoDAO();
-        Curso curso = new Curso();
-        Curso buscaCurso = null;
 
         String sql = "SELECT idturma, periodo, sigla, idcurso_fk FROM turma;";
         PreparedStatement stmt = null;
@@ -119,15 +115,18 @@ public class TurmaDAO {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                CursoDAO dao = new CursoDAO();
+                Curso curso = new Curso();
+                Curso buscarCurso = null;
                 Turma turma = new Turma();
                 turma.setIdTurma(rs.getLong("idturma"));
                 turma.setPeriodo(rs.getString("periodo"));
                 turma.setSigla(rs.getString("sigla"));
 
                 curso.setIdCurso(rs.getLong("idcurso_fk"));
-                buscaCurso = dao.selectID(curso);
-                turma.setCurso(buscaCurso);
-                
+                buscarCurso = dao.selectID(curso);
+                turma.setCurso(buscarCurso);
+
                 turmas.add(turma);
             }
         } catch (SQLException ex) {

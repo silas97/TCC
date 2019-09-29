@@ -19,7 +19,7 @@
         <h1>LISTAR CURSOS</h1>
         <table border="1">
             <tr>
-                <td>ID</td>
+                <td>Id</td>
                 <td>nome</td>
                 <td>creditos</td>
                 <td>carga horaria</td>

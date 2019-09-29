@@ -74,9 +74,6 @@ public class MasterDAO {
     }
 
     public Master selectID(Master master) {
-        UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = new Usuario();
-        Usuario buscaUsuario = null;
 
         String sql = "SELECT idusuario_fk FROM master WHERE idmaster = ?;";
         PreparedStatement stmt = null;
@@ -87,6 +84,9 @@ public class MasterDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
+                UsuarioDAO dao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                Usuario buscaUsuario = null;
                 usuario.setIdUsuario(rs.getLong("idusuario_fk"));
                 buscaUsuario = dao.selectID(usuario);
                 master.setUsuario(buscaUsuario);
@@ -101,9 +101,6 @@ public class MasterDAO {
     }
 
     public List<Master> selectAll() {
-        UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = new Usuario();
-        Usuario buscaUsuario = null;
 
         String sql = "SELECT idmaster, idusuario_fk FROM master;";
         PreparedStatement stmt = null;
@@ -113,6 +110,9 @@ public class MasterDAO {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                UsuarioDAO dao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                Usuario buscaUsuario = null;
                 Master master = new Master();
                 master.setIdMaster(rs.getLong("idmaster"));
 

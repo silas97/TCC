@@ -86,14 +86,6 @@ public class CancelamentoMatriculaProcessoDAO {
     }
 
     public CancelamentoMatriculaProcesso selectID(CancelamentoMatriculaProcesso cancelamentoMatriculaProcesso) {
-        
-        CancelamentoMatriculaDAO cancelamentoMatriculaDao = new CancelamentoMatriculaDAO();
-        CancelamentoMatricula cancelamentoMatricula = new CancelamentoMatricula();
-        CancelamentoMatricula buscaCancelamentoMatricula = null;
-
-        ProcessosDAO processoDao = new ProcessosDAO();
-        Processos processos = new Processos();
-        Processos buscaProcessos = null;
 
         String sql = "SELECT dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idcancelamentomatricula_fk FROM cancelamentomatricula_processo WHERE idcancelamentomatriculaprocesso = ?;";
         PreparedStatement stmt = null;
@@ -104,6 +96,13 @@ public class CancelamentoMatriculaProcessoDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
+                CancelamentoMatriculaDAO cancelamentoMatriculaDao = new CancelamentoMatriculaDAO();
+                CancelamentoMatricula cancelamentoMatricula = new CancelamentoMatricula();
+                CancelamentoMatricula buscaCancelamentoMatricula = null;
+
+                ProcessosDAO processoDao = new ProcessosDAO();
+                Processos processos = new Processos();
+                Processos buscaProcessos = null;
                 cancelamentoMatriculaProcesso.setDataProcesso(rs.getDate("dataprocesso"));
                 cancelamentoMatriculaProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
                 cancelamentoMatriculaProcesso.setStatus(rs.getString("status"));
@@ -141,7 +140,8 @@ public class CancelamentoMatriculaProcessoDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 CancelamentoMatriculaProcesso cancelamentoMatriculaProcesso = new CancelamentoMatriculaProcesso();
-                cancelamentoMatriculaProcesso.setIdCancelamentoMatriculaProcesso(rs.getLong("idcancelamentoMatriculaProcesso"));
+                cancelamentoMatriculaProcesso
+                        .setIdCancelamentoMatriculaProcesso(rs.getLong("idcancelamentoMatriculaProcesso"));
                 cancelamentoMatriculaProcesso.setDataProcesso(rs.getDate("dataprocesso"));
                 cancelamentoMatriculaProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
                 cancelamentoMatriculaProcesso.setStatus(rs.getString("status"));

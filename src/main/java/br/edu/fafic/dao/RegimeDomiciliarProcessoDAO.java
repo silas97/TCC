@@ -86,14 +86,6 @@ public class RegimeDomiciliarProcessoDAO {
     }
 
     public RegimeDomiciliarProcesso selectID(RegimeDomiciliarProcesso regimeDomiciliarProcesso) {
-        ProcessosDAO processosDao = new ProcessosDAO();
-        Processos processos = new Processos();
-        Processos buscaProcessos = null;
-        
-        RegimeDomiciliarDAO daoCourse = new RegimeDomiciliarDAO();
-        RegimeDomiciliar regimeDomiciliar = new RegimeDomiciliar();
-        RegimeDomiciliar buscaRegimeDomiciliar = null;
-        
         String sql = "SELECT dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idregimedomiciliar_fk FROM regimedomiciliar_processo WHERE idregimedomiciliarprocesso = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -103,15 +95,23 @@ public class RegimeDomiciliarProcessoDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
+                ProcessosDAO processosDao = new ProcessosDAO();
+                Processos processos = new Processos();
+                Processos buscaProcessos = null;
+
+                RegimeDomiciliarDAO daoCourse = new RegimeDomiciliarDAO();
+                RegimeDomiciliar regimeDomiciliar = new RegimeDomiciliar();
+                RegimeDomiciliar buscaRegimeDomiciliar = null;
+
                 regimeDomiciliarProcesso.setDataProcesso(rs.getDate("dataprocesso"));
                 regimeDomiciliarProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
                 regimeDomiciliarProcesso.setStatus(rs.getString("status"));
                 regimeDomiciliarProcesso.setVisibilidade(rs.getString("visibilidade"));
 
-                processos.setIdProcessos(rs.getLong("idprocessos_fk"));  
+                processos.setIdProcessos(rs.getLong("idprocessos_fk"));
                 buscaProcessos = processosDao.selectID(processos);
                 regimeDomiciliarProcesso.setProcessos(buscaProcessos);
-                
+
                 regimeDomiciliar.setIdRegimeDomiciliar(rs.getLong("idregimedomiciliar_fk"));
                 regimeDomiciliar = daoCourse.selectID(regimeDomiciliar);
                 regimeDomiciliarProcesso.setRegimedomiciliar(buscaRegimeDomiciliar);
@@ -125,13 +125,6 @@ public class RegimeDomiciliarProcessoDAO {
     }
 
     public List<RegimeDomiciliarProcesso> selectAll() {
-        ProcessosDAO processosDao = new ProcessosDAO();
-        Processos processos = new Processos();
-        Processos buscaProcessos = null;
-        
-        RegimeDomiciliarDAO daoCourse = new RegimeDomiciliarDAO();
-        RegimeDomiciliar regimeDomiciliar = new RegimeDomiciliar();
-        RegimeDomiciliar buscaRegimeDomiciliar = null;
 
         String sql = "SELECT idregimedomiciliarprocesso, dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idregimedomiciliar_fk FROM regimedomiciliar_processo;";
         PreparedStatement stmt = null;
@@ -141,6 +134,13 @@ public class RegimeDomiciliarProcessoDAO {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                ProcessosDAO processosDao = new ProcessosDAO();
+                Processos processos = new Processos();
+                Processos buscaProcessos = null;
+
+                RegimeDomiciliarDAO daoCourse = new RegimeDomiciliarDAO();
+                RegimeDomiciliar regimeDomiciliar = new RegimeDomiciliar();
+                RegimeDomiciliar buscaRegimeDomiciliar = null;
                 RegimeDomiciliarProcesso regimeDomiciliarProcesso = new RegimeDomiciliarProcesso();
                 regimeDomiciliarProcesso.setIdRegimeDomiciliarProcesso(rs.getLong("idregimeDomiciliarProcesso"));
                 regimeDomiciliarProcesso.setDataProcesso(rs.getDate("dataprocesso"));
@@ -148,10 +148,10 @@ public class RegimeDomiciliarProcessoDAO {
                 regimeDomiciliarProcesso.setStatus(rs.getString("status"));
                 regimeDomiciliarProcesso.setVisibilidade(rs.getString("visibilidade"));
 
-                processos.setIdProcessos(rs.getLong("idprocessos_fk"));  
+                processos.setIdProcessos(rs.getLong("idprocessos_fk"));
                 buscaProcessos = processosDao.selectID(processos);
                 regimeDomiciliarProcesso.setProcessos(buscaProcessos);
-                
+
                 regimeDomiciliar.setIdRegimeDomiciliar(rs.getLong("idregimedomiciliar_fk"));
                 regimeDomiciliar = daoCourse.selectID(regimeDomiciliar);
                 regimeDomiciliarProcesso.setRegimedomiciliar(buscaRegimeDomiciliar);

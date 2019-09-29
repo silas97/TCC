@@ -18,6 +18,7 @@
     <ul>
         <li><a href="${pageContext.request.contextPath}/funcionario/curso.jsp">CURSO</a></li>
         <li><a href="${pageContext.request.contextPath}/funcionario/disciplina.jsp">DISCIPLINA</a></li>
+        <li><a href="${pageContext.request.contextPath}/funcionario/turma.jsp">TURMA</a></li>
     </ul>
 </body>
 

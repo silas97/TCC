@@ -80,22 +80,10 @@ public class DispensaDisciplinaDAO {
     }
 
     public DispensaDisciplina selectID(DispensaDisciplina dispensaDisciplina) {
-        AlunoDAO alunoDao = new AlunoDAO();
-        Aluno aluno = new Aluno();
-        Aluno buscaAluno = null;
-        
-        DisciplinaDAO disciplinaDao = new DisciplinaDAO();
-        Disciplina disciplina = new Disciplina();
-        Disciplina buscaDisciplina = null;
-        
-        DisciplinaCursadaDAO disciplinaCursadaDao = new DisciplinaCursadaDAO();
-        DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
-        DisciplinaCursada buscaDisciplinaCursada = null;
-        
+
         String sql = "SELECT idaluno_fk, iddisciplinacursada_fk, iddisciplina_fk FROM dispensadisciplina WHERE iddispensadisciplina = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
 
         try {
             stmt = con.prepareStatement(sql);
@@ -103,6 +91,18 @@ public class DispensaDisciplinaDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
+                AlunoDAO alunoDao = new AlunoDAO();
+                Aluno aluno = new Aluno();
+                Aluno buscaAluno = null;
+
+                DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+                Disciplina disciplina = new Disciplina();
+                Disciplina buscaDisciplina = null;
+
+                DisciplinaCursadaDAO disciplinaCursadaDao = new DisciplinaCursadaDAO();
+                DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
+                DisciplinaCursada buscaDisciplinaCursada = null;
+
                 aluno.setIdAluno(rs.getLong("idaluno_fk"));
                 disciplinaCursada.setIdDisciplinaCursada(rs.getLong("iddisciplinacursada_fk"));
                 disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
@@ -124,17 +124,6 @@ public class DispensaDisciplinaDAO {
     }
 
     public List<DispensaDisciplina> selectAll() {
-        AlunoDAO alunoDao = new AlunoDAO();
-        Aluno aluno = new Aluno();
-        Aluno buscaAluno = null;
-        
-        DisciplinaDAO disciplinaDao = new DisciplinaDAO();
-        Disciplina disciplina = new Disciplina();
-        Disciplina buscaDisciplina = null;
-        
-        DisciplinaCursadaDAO disciplinaCursadaDao = new DisciplinaCursadaDAO();
-        DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
-        DisciplinaCursada buscaDisciplinaCursada = null;
 
         String sql = "SELECT iddispensadisciplina, idaluno_fk, iddisciplinacursada_fk, iddisciplina_fk FROM dispensadisciplina;";
         PreparedStatement stmt = null;
@@ -144,6 +133,18 @@ public class DispensaDisciplinaDAO {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                AlunoDAO alunoDao = new AlunoDAO();
+                Aluno aluno = new Aluno();
+                Aluno buscaAluno = null;
+
+                DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+                Disciplina disciplina = new Disciplina();
+                Disciplina buscaDisciplina = null;
+
+                DisciplinaCursadaDAO disciplinaCursadaDao = new DisciplinaCursadaDAO();
+                DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
+                DisciplinaCursada buscaDisciplinaCursada = null;
+                
                 DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensaDisciplina"));
                 aluno.setIdAluno(rs.getLong("idaluno_fk"));

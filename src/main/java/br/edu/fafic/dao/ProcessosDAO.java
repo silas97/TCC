@@ -74,10 +74,7 @@ public class ProcessosDAO {
     }
 
     public Processos selectID(Processos processos) {
-        AlunoDAO dao = new AlunoDAO();
-        Aluno aluno = new Aluno();
-        Aluno buscaAluno = null;
-        
+
         String sql = "SELECT idaluno_fk FROM processos WHERE idprocessos = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -87,6 +84,9 @@ public class ProcessosDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
+                AlunoDAO dao = new AlunoDAO();
+                Aluno aluno = new Aluno();
+                Aluno buscaAluno = null;
                 aluno.setIdAluno(rs.getLong("idaluno_fk"));
                 buscaAluno = dao.selectID(aluno);
                 processos.setAluno(buscaAluno);
@@ -100,10 +100,6 @@ public class ProcessosDAO {
     }
 
     public List<Processos> selectAll() {
-        AlunoDAO dao = new AlunoDAO();
-        Aluno aluno = new Aluno();
-        Aluno buscaAluno = null;
-        
         String sql = "SELECT idprocessos, idaluno_fk FROM processos;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -112,9 +108,12 @@ public class ProcessosDAO {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                AlunoDAO dao = new AlunoDAO();
+                Aluno aluno = new Aluno();
+                Aluno buscaAluno = null;
                 Processos processos = new Processos();
                 processos.setIdProcessos(rs.getLong("idprocessos"));
-                
+
                 aluno.setIdAluno(rs.getLong("idaluno_fk"));
                 buscaAluno = dao.selectID(aluno);
                 processos.setAluno(buscaAluno);

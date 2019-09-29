@@ -15,6 +15,10 @@
 
 <body>
     <h1>CRUD TURMA</h1>
+    <ul>
+        <li><a href="${pageContext.request.contextPath}/funcionario/cadastrar-turma.jsp">INSERT</a></li>
+        <li><a href="${pageContext.request.contextPath}/funcionario/listar-turma.jsp">SELECT</a></li>
+    </ul>
 </body>
 
 </html>
