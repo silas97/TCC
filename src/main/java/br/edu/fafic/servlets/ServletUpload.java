@@ -5,9 +5,14 @@
  */
 package br.edu.fafic.servlets;
 
+import br.edu.fafic.dao.DocumentoDAO;
+import br.edu.fafic.model.Documento;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.Init;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,33 +29,59 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * @author Silas
  */
 @WebServlet("/upload")
+
 public class ServletUpload extends HttpServlet {
 
     private static final long serialVersionUID = 1;
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String path = request.getServletContext().getRealPath("img") + File.separator;
+    private File arquivo = new File("C:\\Users\\Luciano\\Desktop\\FAFIC\\uploads");
+    private final DocumentoDAO documentoDAO = new DocumentoDAO();
 
-        File files = new File(path);
-        response.setContentType("image/jpge");
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
     }
+    
+    
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+//        String tipoArquivo = request.getParameter("tipo");
+
+        if (!arquivo.exists()) {
+            arquivo = new File("C:\\Users\\Luciano\\Desktop\\FAFIC\\uploads");
+        }
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
                 List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+                String value = "";
                 for (FileItem item : multiparts) {
+                    System.out.println("Field Name do arquivo: " + item.getFieldName());
+                    System.out.println("Nome do arquivo: " + item.getName());
                     if (!item.isFormField()) {
-                        item.write(new File(request.getServletContext().getRealPath("img") + File.separator + "uploadfile"));
+//                        item.write(new File(request.getServletContext().getRealPath("img") + File.separator + "uploadfile"));
+                        item.write(new File(arquivo + File.separator + System.currentTimeMillis() + ".pdf"));
+                    }
+
+                    if (item.isFormField()) {  
+                        value = (String) item.getFieldName();
+                        if (value.equalsIgnoreCase("tipo")) {
+                            value = (String) item.getString();
+                        }
                     }
                 }
-                request.setAttribute("message", "Arquivo carregado com sucesso!");
-            } catch (Exception e) {
+                    documentoDAO.insert(new Documento(arquivo + File.separator + System.currentTimeMillis() + ".pdf", value.toUpperCase()));
+
+                    request.setAttribute("message", "Arquivo carregado com sucesso!");
+                }catch (Exception e) {
                 request.setAttribute("message", "Upload de arquivo falhou!" + e);
             }
-        } else {
+            }else {
             request.setAttribute("message", "Só lida com arquivos!");
         }
-        request.getRequestDispatcher("upload.jsp").forward(request, response);
+
+            request.getRequestDispatcher("upload.jsp").forward(request, response);
+        }
+
     }
-}

@@ -33,10 +33,11 @@ public class LoginDAO {
 
     public Login autentication(Login user) {
         Login login = null;
-        Usuario usuario = null;
         String sql = "SELECT * FROM login WHERE email = ? and senha = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        System.out.println("Email:" +user.getEmail());
+        System.out.println("Senha:" +user.getSenha());
         try {
             stmt = con.prepareStatement(sql);
             stmt.setString(1, user.getEmail());
@@ -44,19 +45,19 @@ public class LoginDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 login = new Login();
-                usuario = new Usuario();
                 login.setIdLogin(rs.getLong("idLogin"));
                 login.setEmail(rs.getString("email"));
                 login.setSenha(rs.getString("senha"));
-                usuario.setIdUsuario(rs.getLong("idUsuario_pk"));
-                login.setUsuario(usuario);
+                login.setUsuario(getUsuarioById(rs.getLong("idusuario_fk")));
             }
+       
         } catch (SQLException ex) {
             Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
+        System.out.println("Login: " +login.toString());
         return login;
     }
 
@@ -123,5 +124,37 @@ public class LoginDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    
+    public Usuario getUsuarioById(Long id){
+        Usuario usuario = null;
+        String sql = "SELECT * FROM usuario WHERE idusuario = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                usuario = new Usuario();
+                usuario.setIdUsuario(rs.getLong("idusuario"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setCpf(rs.getString("cpf"));
+                usuario.setCep(rs.getString("cep"));
+                usuario.setEndereco(rs.getString("endereco"));
+                usuario.setBairro(rs.getString("bairro"));
+                usuario.setCidade(rs.getString("cidade"));
+                usuario.setEstado(rs.getString("estado"));
+                usuario.setPerfil(rs.getString("perfil"));
+            }
+       
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+       
+        return usuario;
     }
 }

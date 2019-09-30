@@ -8,19 +8,25 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
-</head>
+    <head>
+        <title>JSP Page</title>
+        <link href="resources/css/login.css" rel="stylesheet"/>
+    </head>
 
-<body>
-    <h1>Ola Mundo JSP!</h1>
-    <form name="login" method="post" action="login">
-        <h5>Email</h5><input type="email" name="email" placeholder="Email" required="" /><br>
-        <h5>Senha</h5><input type="password" name="senha" placeholder="Senha" required="" /><br>
-        <input type="hidden" value="insert" name="param" />
-        <input type="submit" value="Cadastrar" class="primary" />
-    </form>
+    <body>
+        <div class="wrapper">
+            <div id="formContent"><br/><br/> 
+                    <img src="resources/images/fafic.png" alt="Fafic" width=150 height=50>
+                    <h3>Sistema de Gerenciamento de Processos Internos</h3>
+                 <form name="login" method="post" action="${pageContext.request.contextPath}/login">
+                    <input type="email" name="email" placeholder="Email" required="" /><br><br/>
+                    <input type="password" name="senha" placeholder="Senha" required=""/><br><br>
+                    <input type="hidden" value="autenticacao" name="param" />
+                    <input type="submit" value="Acessar"  />
+                 </form>
+            </div>
+        </div>
+    <br/>
     <a href="upload.jsp"> upload </a>
 </body>
 
