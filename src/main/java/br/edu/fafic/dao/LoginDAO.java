@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -125,6 +127,7 @@ public class LoginDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
+
     
     public Usuario getUsuarioById(Long id){
         Usuario usuario = null;
@@ -156,5 +159,60 @@ public class LoginDAO {
         }
        
         return usuario;
+    }
+    
+    public Login selectID(Login login) {
+        String sql = "SELECT email, senha, idusuario_fk FROM login WHERE idlogin = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        UsuarioDAO dao = new UsuarioDAO();
+        Usuario usuario = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, login.getIdLogin());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                login.setEmail(rs.getString("email"));
+                login.setSenha(rs.getString("senha"));
+                login.getUsuario().setIdUsuario(rs.getLong("idusuario_fk"));
+                usuario = dao.selectID(login.getUsuario());
+                login.setUsuario(usuario);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return login;
+    }
+
+    public List<Login> selectAll() {
+        UsuarioDAO dao = new UsuarioDAO();
+        Usuario usuario = null;
+        String sql = "SELECT idlogin, email, senha, idusuario_fk FROM login;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Login> logins = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Login login = new Login();
+                login.setIdLogin(rs.getLong("idLogin"));
+                login.setEmail(rs.getString("email"));
+                login.setSenha(rs.getString("senha"));
+                login.getUsuario().setIdUsuario(rs.getLong("idusuario_fk"));
+                usuario = dao.selectID(login.getUsuario());
+                login.setUsuario(usuario);
+                logins.add(login);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return logins;
+
     }
 }

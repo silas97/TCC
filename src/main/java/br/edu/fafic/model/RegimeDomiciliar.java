@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class RegimeDomiciliar {
 
-    private Integer idRegimeDomiciliar;
+    private Long idRegimeDomiciliar;
     private Date dataInicio;
     private Date dataFim;
     private Date dataCadastro;
@@ -63,11 +63,11 @@ public class RegimeDomiciliar {
         this.dataInicio = dataInicio;
     }
 
-    public Integer getIdRegimeDomiciliar() {
+    public Long getIdRegimeDomiciliar() {
         return idRegimeDomiciliar;
     }
 
-    public void setIdRegimeDomiciliar(Integer idRegimeDomiciliar) {
+    public void setIdRegimeDomiciliar(Long idRegimeDomiciliar) {
         this.idRegimeDomiciliar = idRegimeDomiciliar;
     }
 }

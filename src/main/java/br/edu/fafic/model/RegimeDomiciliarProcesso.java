@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class RegimeDomiciliarProcesso {
 
-    private Integer idRegimeDomiciliarProcesso;
+    private Long idRegimeDomiciliarProcesso;
     private Date dataProcesso;
     private Date dataEncerramento;
     private String status;
@@ -15,7 +15,7 @@ public class RegimeDomiciliarProcesso {
     public RegimeDomiciliarProcesso() {
     }
 
-    public Integer getIdRegimeDomiciliarProcesso() {
+    public Long getIdRegimeDomiciliarProcesso() {
         return idRegimeDomiciliarProcesso;
     }
 
@@ -67,7 +67,7 @@ public class RegimeDomiciliarProcesso {
         this.dataProcesso = dataProcesso;
     }
 
-    public void setIdRegimeDomiciliarProcesso(Integer idRegimeDomiciliarProcesso) {
+    public void setIdRegimeDomiciliarProcesso(Long idRegimeDomiciliarProcesso) {
         this.idRegimeDomiciliarProcesso = idRegimeDomiciliarProcesso;
     }
 }

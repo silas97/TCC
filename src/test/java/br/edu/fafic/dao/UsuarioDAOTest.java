@@ -42,6 +42,7 @@ public class UsuarioDAOTest {
         assertEquals(result, expResult);
     }
 
+    @Ignore
     @Test
     public void testUpdate() {
         System.out.println("update");
@@ -80,6 +81,27 @@ public class UsuarioDAOTest {
         boolean result = dao.delete(usuario);
 
         assertEquals(expResult, result);
+    }
+
+
+    @Test
+    public void testSelect() {
+        Usuario usuario = new Usuario();
+        UsuarioDAO dao = new UsuarioDAO();
+
+        Long id = Long.parseLong("25");
+        usuario.setIdUsuario(id);
+
+        boolean expResult = true;
+        Usuario result = dao.selectID(usuario);
+        boolean resultado;
+        if (result.getIdUsuario() == 25) {
+            resultado = true;
+        } else {
+            resultado = false;
+        }
+
+        assertEquals(expResult, resultado);
     }
 
 }

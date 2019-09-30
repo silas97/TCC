@@ -1,10 +1,15 @@
 package br.edu.fafic.dao;
 
 import br.edu.fafic.connection.ConnectionFactory;
+import br.edu.fafic.model.Curso;
 import br.edu.fafic.model.Turma;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,4 +76,65 @@ public class TurmaDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
+
+    public Turma selectID(Turma turma) {
+        String sql = "SELECT periodo, sigla, idcurso_fk FROM turma WHERE idturma = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, turma.getIdTurma());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                CursoDAO dao = new CursoDAO();
+                Curso curso = new Curso();
+                Curso buscarCurso = null;
+                turma.setPeriodo(rs.getString("periodo"));
+                turma.setSigla(rs.getString("sigla"));
+
+                curso.setIdCurso(rs.getLong("idcurso_fk"));
+                buscarCurso = dao.selectID(curso);
+                turma.setCurso(buscarCurso);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TurmaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return turma;
+    }
+
+    public List<Turma> selectAll() {
+
+        String sql = "SELECT idturma, periodo, sigla, idcurso_fk FROM turma;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Turma> turmas = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                CursoDAO dao = new CursoDAO();
+                Curso curso = new Curso();
+                Curso buscarCurso = null;
+                Turma turma = new Turma();
+                turma.setIdTurma(rs.getLong("idturma"));
+                turma.setPeriodo(rs.getString("periodo"));
+                turma.setSigla(rs.getString("sigla"));
+
+                curso.setIdCurso(rs.getLong("idcurso_fk"));
+                buscarCurso = dao.selectID(curso);
+                turma.setCurso(buscarCurso);
+
+                turmas.add(turma);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TurmaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return turmas;
+    }
+
 }

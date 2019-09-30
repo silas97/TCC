@@ -2,9 +2,14 @@ package br.edu.fafic.dao;
 
 import br.edu.fafic.connection.ConnectionFactory;
 import br.edu.fafic.model.Master;
+import br.edu.fafic.model.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,5 +71,62 @@ public class MasterDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+
+    public Master selectID(Master master) {
+
+        String sql = "SELECT idusuario_fk FROM master WHERE idmaster = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, master.getIdMaster());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                UsuarioDAO dao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                Usuario buscaUsuario = null;
+                usuario.setIdUsuario(rs.getLong("idusuario_fk"));
+                buscaUsuario = dao.selectID(usuario);
+                master.setUsuario(buscaUsuario);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return master;
+    }
+
+    public List<Master> selectAll() {
+
+        String sql = "SELECT idmaster, idusuario_fk FROM master;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Master> masters = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                UsuarioDAO dao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                Usuario buscaUsuario = null;
+                Master master = new Master();
+                master.setIdMaster(rs.getLong("idmaster"));
+
+                usuario.setIdUsuario(rs.getLong("idusuario_fk"));
+                buscaUsuario = dao.selectID(usuario);
+                master.setUsuario(buscaUsuario);
+
+                masters.add(master);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MasterDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return masters;
     }
 }

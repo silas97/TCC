@@ -1,9 +1,29 @@
 {
     "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
         "**/.classpath": true,
         "**/.project": true,
         "**/.settings": true,
-        "**/.factorypath": true
+        "**/.factorypath": true,
+        "target/classes": true,
+        "target/endorsed": true,
+        "target/generated-sources": true,
+        "target/generated-test-sources": true,
+        "target/maven-archiver": true,
+        "target/maven-status": true,
+        "target/surefire-reports": true,
+        "target/test-classes": true,
+        ".gitignore": true,
+        "nb-configuration.xml": true,
+        ".vscode": true,
+        "nbproject": true,
+        "pom.xml": false
     },
+    "explorerExclude.backup": null,
+    "maven.view": "flat",
     "java.configuration.updateBuildConfiguration": "interactive"
 }

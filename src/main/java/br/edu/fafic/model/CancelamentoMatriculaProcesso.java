@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CancelamentoMatriculaProcesso {
 
-    private Integer idCancelamentoMatriculaProcesso;
+    private Long idCancelamentoMatriculaProcesso;
     private Date dataProcesso;
     private Date dataEncerramento;
     private String status;
@@ -15,7 +15,7 @@ public class CancelamentoMatriculaProcesso {
     public CancelamentoMatriculaProcesso() {
     }
 
-    public Integer getIdCancelamentoMatriculaProcesso() {
+    public Long getIdCancelamentoMatriculaProcesso() {
         return idCancelamentoMatriculaProcesso;
     }
 
@@ -67,7 +67,7 @@ public class CancelamentoMatriculaProcesso {
         this.dataProcesso = dataProcesso;
     }
 
-    public void setIdCancelamentoMatriculaProcesso(Integer idCancelamentoMatriculaProcesso) {
+    public void setIdCancelamentoMatriculaProcesso(Long idCancelamentoMatriculaProcesso) {
         this.idCancelamentoMatriculaProcesso = idCancelamentoMatriculaProcesso;
     }
 

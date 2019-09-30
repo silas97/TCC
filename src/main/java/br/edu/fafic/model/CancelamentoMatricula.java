@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CancelamentoMatricula {
 
-    private Integer idCancelamentoMatricula;
+    private Long idCancelamentoMatricula;
     private String justificativa;
     private Date dataCadastro;
 
@@ -27,11 +27,11 @@ public class CancelamentoMatricula {
         this.justificativa = justificativa;
     }
 
-    public Integer getIdCancelamentoMatricula() {
+    public Long getIdCancelamentoMatricula() {
         return idCancelamentoMatricula;
     }
 
-    public void setIdCancelamentoMatricula(Integer idCancelamentoMatricula) {
+    public void setIdCancelamentoMatricula(Long idCancelamentoMatricula) {
         this.idCancelamentoMatricula = idCancelamentoMatricula;
     }
 }

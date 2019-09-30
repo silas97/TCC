@@ -27,7 +27,5 @@
             </div>
         </div>
     <br/>
-    <a href="upload.jsp"> upload </a>
-</body>
 
 </html>

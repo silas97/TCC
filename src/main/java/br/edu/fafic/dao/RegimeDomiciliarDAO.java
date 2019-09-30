@@ -1,11 +1,16 @@
 package br.edu.fafic.dao;
 
 import br.edu.fafic.connection.ConnectionFactory;
+import br.edu.fafic.model.Disciplina;
 import br.edu.fafic.model.RegimeDomiciliar;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -77,5 +82,73 @@ public class RegimeDomiciliarDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+
+    public RegimeDomiciliar selectID(RegimeDomiciliar regimeDomiciliar) {
+
+        String sql = "SELECT datainicio, datafim, datacadastro, situacao, tipo, iddisciplina_fk FROM regimedomiciliar WHERE idregimedomiciliar = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, regimeDomiciliar.getIdRegimeDomiciliar());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                DisciplinaDAO dao = new DisciplinaDAO();
+                Disciplina disciplina = new Disciplina();
+                Disciplina buscaDisciplina = null;
+                regimeDomiciliar.setDataInicio(rs.getDate("datainicio"));
+                regimeDomiciliar.setDataFim(rs.getDate("datafim"));
+                regimeDomiciliar.setDataCadastro(rs.getDate("datacadastro"));
+                regimeDomiciliar.setSituacao(rs.getString("situacao"));
+                regimeDomiciliar.setTipo(rs.getString("tipo"));
+
+                disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
+                buscaDisciplina = dao.selectID(disciplina);
+                regimeDomiciliar.setDisciplina(buscaDisciplina);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegimeDomiciliarDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return regimeDomiciliar;
+    }
+
+    public List<RegimeDomiciliar> selectAll() {
+
+        String sql = "SELECT idregimedomiciliar, datainicio, datafim, datacadastro, situacao, tipo, iddisciplina_fk FROM regimedomiciliar;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<RegimeDomiciliar> regimeDomiciliars = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                DisciplinaDAO dao = new DisciplinaDAO();
+                Disciplina disciplina = new Disciplina();
+                Disciplina buscaDisciplina = null;
+                RegimeDomiciliar regimeDomiciliar = new RegimeDomiciliar();
+                regimeDomiciliar.setIdRegimeDomiciliar(rs.getLong("idregimeDomiciliar"));
+                regimeDomiciliar.setDataInicio(rs.getDate("datainicio"));
+                regimeDomiciliar.setDataFim(rs.getDate("datafim"));
+                regimeDomiciliar.setDataCadastro(rs.getDate("datacadastro"));
+                regimeDomiciliar.setSituacao(rs.getString("situacao"));
+                regimeDomiciliar.setTipo(rs.getString("tipo"));
+
+                disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
+                buscaDisciplina = dao.selectID(disciplina);
+                regimeDomiciliar.setDisciplina(buscaDisciplina);
+
+                regimeDomiciliars.add(regimeDomiciliar);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegimeDomiciliarDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return regimeDomiciliars;
     }
 }

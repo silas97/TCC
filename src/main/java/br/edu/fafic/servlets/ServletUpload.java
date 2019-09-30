@@ -34,31 +34,29 @@ public class ServletUpload extends HttpServlet {
 
     private static final long serialVersionUID = 1;
 
-    private File arquivo = new File("C:\\Users\\Luciano\\Desktop\\FAFIC\\uploads");
+    private File arquivo = new File("C:\\Users\\uploads");
     private final DocumentoDAO documentoDAO = new DocumentoDAO();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
+        String path = request.getServletContext().getRealPath("img") + File.separator;
     }
     
     
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-//        String tipoArquivo = request.getParameter("tipo");
+   String tipoArquivo = request.getParameter("tipo");
 
         if (!arquivo.exists()) {
-            arquivo = new File("C:\\Users\\Luciano\\Desktop\\FAFIC\\uploads");
+            arquivo = new File("C:\\Users\\uploads");
         }
+
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
                 List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
                 String value = "";
                 for (FileItem item : multiparts) {
-                    System.out.println("Field Name do arquivo: " + item.getFieldName());
-                    System.out.println("Nome do arquivo: " + item.getName());
                     if (!item.isFormField()) {
 //                        item.write(new File(request.getServletContext().getRealPath("img") + File.separator + "uploadfile"));
                         item.write(new File(arquivo + File.separator + System.currentTimeMillis() + ".pdf"));
@@ -69,6 +67,9 @@ public class ServletUpload extends HttpServlet {
                         if (value.equalsIgnoreCase("tipo")) {
                             value = (String) item.getString();
                         }
+
+                        item.write(new File(arquivo + File.separator + System.currentTimeMillis()));
+
                     }
                 }
                     documentoDAO.insert(new Documento(arquivo + File.separator + System.currentTimeMillis() + ".pdf", value.toUpperCase()));
