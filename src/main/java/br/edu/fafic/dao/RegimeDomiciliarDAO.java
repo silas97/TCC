@@ -26,7 +26,7 @@ public class RegimeDomiciliarDAO {
     }
 
     public boolean insert(RegimeDomiciliar regimeDomiciliar) {
-        String sql = "INSERT INTO regimedomiciliar(datainicio, datafim, datacadastro, situacao, tipo, iddiscipina_fk) VALUES (?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO regimedomiciliar(datainicio, datafim, datacadastro, situacao, tipo, iddisciplina_fk) VALUES (?, ?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -47,7 +47,7 @@ public class RegimeDomiciliarDAO {
     }
 
     public boolean update(RegimeDomiciliar regimeDomiciliar) {
-        String sql = "UPDATE regimedomiciliar SET datainicio=?, datafim=?, datacadastro=?, situacao=?, tipo=?, iddiscipina_fk=? WHERE idregimedomiciliar=?;";
+        String sql = "UPDATE regimedomiciliar SET datainicio=?, datafim=?, datacadastro=?, situacao=?, tipo=?, iddisciplina_fk=? WHERE idregimedomiciliar=?;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
