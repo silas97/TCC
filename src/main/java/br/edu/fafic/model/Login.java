@@ -9,7 +9,8 @@ public class Login {
 
     public Login() {
     }
-
+    
+    
     public Long getIdLogin() {
         return idLogin;
     }
@@ -19,6 +20,9 @@ public class Login {
     }
 
     public Usuario getUsuario() {
+      if(usuario == null)  {
+          usuario = new Usuario();
+      }
         return usuario;
     }
 
@@ -41,5 +45,12 @@ public class Login {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "Login{" + "idLogin=" + idLogin + ", email=" + email + ", senha=" + senha + ", usuario=" + usuario.toString() + '}';
+    }
+    
+    
 
 }
