@@ -27,8 +27,6 @@ public class Usuario {
     public Usuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
-    
-    
 
     public String getPerfil() {
         return perfil;
@@ -104,9 +102,9 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" + "idUsuario=" + idUsuario + ", nome=" + nome + ", cpf=" + cpf + ", cep=" + cep + ", endereco=" + endereco + ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado + ", perfil=" + perfil + '}';
+        return "Usuario{" + "idUsuario=" + idUsuario + ", nome=" + nome + ", cpf=" + cpf + ", cep=" + cep
+                + ", endereco=" + endereco + ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado
+                + ", perfil=" + perfil + '}';
     }
-    
-    
 
 }

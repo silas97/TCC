@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.edu.fafic.dao.CursoDAO;
 import br.edu.fafic.dao.DisciplinaCursadaDAO;
 import br.edu.fafic.model.DisciplinaCursada;
 
