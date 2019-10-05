@@ -85,8 +85,30 @@ public class ServletRegimeDomiciliar extends HttpServlet {
         } else if (param.equalsIgnoreCase("update")) {
             Long id = Long.valueOf(req.getParameter("id"));
             sRegimeDomiciliar = new RegimeDomiciliar();
-            sRegimeDomiciliar.setTipo(tipo);
+            String dataInicio = req.getParameter("dataInicio");
+            String dataFim = req.getParameter("dataFim");
+
+            Date dataInicioConvertida = null;
+            Date dataFimConvertida = null;
+            try {
+                dataInicioConvertida = sdf.parse(dataInicio);
+                dataFimConvertida = sdf.parse(dataFim);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            java.sql.Date data1 = new java.sql.Date(dataInicioConvertida.getTime());
+            java.sql.Date data2 = new java.sql.Date(dataFimConvertida.getTime());
+            Long idDisciplina = Long.parseLong(req.getParameter("idDisciplina_FK"));
+            System.out.println(dataInicio);
+            sRegimeDomiciliar = new RegimeDomiciliar();
             sRegimeDomiciliar.setIdRegimeDomiciliar(id);
+            sRegimeDomiciliar.setDataInicio(data1);
+            sRegimeDomiciliar.setDataFim(data2);
+            sRegimeDomiciliar.setTipo(tipo);
+            disciplina.setIdDisciplina(idDisciplina);
+            buscarDisciplina = daoDisciplina.selectID(disciplina);
+            sRegimeDomiciliar.setDisciplina(buscarDisciplina);
             dao.update(sRegimeDomiciliar);
             resp.sendRedirect("aluno/listar-regime-domiciliar.jsp");
         } else if (param.equals("apagar")) {
