@@ -18,6 +18,7 @@
     <ul>
         <li><a href="${pageContext.request.contextPath}/aluno/cancelamento-matricula.jsp">CANCELAMENTO MATRICULA</a></li>
         <li><a href="${pageContext.request.contextPath}/aluno/regime-domiciliar.jsp">REGIME DOMICILIAR</a></li>
+        <li><a href="${pageContext.request.contextPath}/aluno/disciplina-cursada.jsp">DISCIPLINA CURSADA</a></li>
     </ul>
 </body>
 

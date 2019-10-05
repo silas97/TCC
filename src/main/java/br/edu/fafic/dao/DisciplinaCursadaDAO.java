@@ -105,7 +105,7 @@ public class DisciplinaCursadaDAO {
     }
 
     public List<DisciplinaCursada> selectAll() {
-        String sql = "SELECT iddisciplinaCursada, nome, cpf, cep, endereco, bairro, cidade, estado, perfil FROM disciplinaCursada;";
+        String sql = "SELECT iddisciplinacursada, instituicaoorigem, curso, disciplina, creditos, horascursadas FROM disciplinacursada;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<DisciplinaCursada> disciplinaCursadas = new ArrayList<>();
