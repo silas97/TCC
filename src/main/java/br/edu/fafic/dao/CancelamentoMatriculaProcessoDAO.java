@@ -124,12 +124,6 @@ public class CancelamentoMatriculaProcessoDAO {
     }
 
     public List<CancelamentoMatriculaProcesso> selectAll() {
-        CancelamentoMatriculaDAO cancelamentoMatriculaDao = new CancelamentoMatriculaDAO();
-        CancelamentoMatricula cancelamentoMatricula = new CancelamentoMatricula();
-        CancelamentoMatricula buscaCancelamentoMatricula = null;
-        ProcessosDAO processoDao = new ProcessosDAO();
-        Processos processos = new Processos();
-        Processos buscaProcessos = null;
 
         String sql = "SELECT idcancelamentomatriculaprocesso, dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, idcancelamentomatricula_fk FROM cancelamentomatricula_processo;";
         PreparedStatement stmt = null;
@@ -139,6 +133,12 @@ public class CancelamentoMatriculaProcessoDAO {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                CancelamentoMatriculaDAO cancelamentoMatriculaDao = new CancelamentoMatriculaDAO();
+                CancelamentoMatricula cancelamentoMatricula = new CancelamentoMatricula();
+                CancelamentoMatricula buscaCancelamentoMatricula = null;
+                ProcessosDAO processoDao = new ProcessosDAO();
+                Processos processos = new Processos();
+                Processos buscaProcessos = null;
                 CancelamentoMatriculaProcesso cancelamentoMatriculaProcesso = new CancelamentoMatriculaProcesso();
                 cancelamentoMatriculaProcesso
                         .setIdCancelamentoMatriculaProcesso(rs.getLong("idcancelamentoMatriculaProcesso"));

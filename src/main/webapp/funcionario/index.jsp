@@ -21,6 +21,7 @@
         <li><a href="${pageContext.request.contextPath}/funcionario/turma.jsp">TURMA</a></li>
         <li><a href="${pageContext.request.contextPath}/funcionario/aluno.jsp">ALUNO</a></li>
         <li><a href="${pageContext.request.contextPath}/funcionario/processos.jsp">PROCESSOS</a></li>
+        <li><a href="${pageContext.request.contextPath}/funcionario/cancelamento-matricula-processo.jsp">CANCELAMENTO MATRICULA PROCESSO</a></li>
     </ul>
 </body>
 
