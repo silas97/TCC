@@ -24,7 +24,7 @@
         <input type="date" name="dataFim" required="" />
         <h5>Tipo</h5>
         <input type="radio" name="tipo" value="atestado" checked>Atestado<br>
-        <input type="radio" name="tipo" value="gestante" checked>Gestante<br>
+        <input type="radio" name="tipo" value="gestante">Gestante<br>
         <h5>Disciplina</h5>
         <select name="idDisciplina_FK">
             <c:forEach var="disciplina" items="${dao.selectAll()}">

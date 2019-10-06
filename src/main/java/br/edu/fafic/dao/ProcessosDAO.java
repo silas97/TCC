@@ -25,11 +25,12 @@ public class ProcessosDAO {
     }
 
     public boolean insert(Processos processos) {
-        String sql = "INSERT INTO processos(idaluno_fk) VALUES (?);";
+        String sql = "INSERT INTO processos(idaluno_fk, tipo) VALUES (?, ?);";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, processos.getAluno().getIdAluno());
+            stmt.setString(2, processos.getTipo());
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -41,12 +42,13 @@ public class ProcessosDAO {
     }
 
     public boolean update(Processos processos) {
-        String sql = "UPDATE processos SET idaluno_fk=? WHERE idprocessos=?;";
+        String sql = "UPDATE processos SET idaluno_fk=?, tipo=? WHERE idprocessos=?;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, processos.getAluno().getIdAluno());
-            stmt.setLong(2, processos.getIdProcessos());
+            stmt.setString(2, processos.getTipo());
+            stmt.setLong(3, processos.getIdProcessos());
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -75,7 +77,7 @@ public class ProcessosDAO {
 
     public Processos selectID(Processos processos) {
 
-        String sql = "SELECT idaluno_fk FROM processos WHERE idprocessos = ?;";
+        String sql = "SELECT idaluno_fk, tipo FROM processos WHERE idprocessos = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
@@ -87,6 +89,7 @@ public class ProcessosDAO {
                 AlunoDAO dao = new AlunoDAO();
                 Aluno aluno = new Aluno();
                 Aluno buscaAluno = null;
+                processos.setTipo(rs.getString("tipo"));
                 aluno.setIdAluno(rs.getLong("idaluno_fk"));
                 buscaAluno = dao.selectID(aluno);
                 processos.setAluno(buscaAluno);
@@ -100,7 +103,7 @@ public class ProcessosDAO {
     }
 
     public List<Processos> selectAll() {
-        String sql = "SELECT idprocessos, idaluno_fk FROM processos;";
+        String sql = "SELECT idprocessos, idaluno_fk, tipo FROM processos;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Processos> listaProcessos = new ArrayList<>();
@@ -113,6 +116,7 @@ public class ProcessosDAO {
                 Aluno buscaAluno = null;
                 Processos processos = new Processos();
                 processos.setIdProcessos(rs.getLong("idprocessos"));
+                processos.setTipo(rs.getString("tipo"));
 
                 aluno.setIdAluno(rs.getLong("idaluno_fk"));
                 buscaAluno = dao.selectID(aluno);

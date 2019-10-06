@@ -20,6 +20,7 @@
         <li><a href="${pageContext.request.contextPath}/funcionario/disciplina.jsp">DISCIPLINA</a></li>
         <li><a href="${pageContext.request.contextPath}/funcionario/turma.jsp">TURMA</a></li>
         <li><a href="${pageContext.request.contextPath}/funcionario/aluno.jsp">ALUNO</a></li>
+        <li><a href="${pageContext.request.contextPath}/funcionario/processos.jsp">PROCESSOS</a></li>
     </ul>
 </body>
 

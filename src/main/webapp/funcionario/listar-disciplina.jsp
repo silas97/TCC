@@ -16,7 +16,7 @@
     </head>
 
     <body>
-        <h1>LISTAR CURSOS</h1>
+        <h1>LISTAR DISCIPLINA</h1>
         <table border="1">
             <tr>
                 <td>Id</td>
