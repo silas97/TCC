@@ -26,7 +26,7 @@ public class DispensaDisciplinaProcessoDAO {
     }
 
     public boolean insert(DispensaDisciplinaProcesso dispensaDisciplinaProcesso) {
-        String sql = "INSERT INTO dispensadisciplina_processo(dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, iddispensadiscipina_fk) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO dispensadisciplina_processo(dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, iddispensadisciplina_fk) VALUES (?, ?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -47,7 +47,7 @@ public class DispensaDisciplinaProcessoDAO {
     }
 
     public boolean update(DispensaDisciplinaProcesso dispensaDisciplinaProcesso) {
-        String sql = "UPDATE dispensadisciplina_processo SET dataprocesso=?, dataencerramento=?, status=?, visibilidade=?, idprocessos_fk=?, iddispensadiscipina_fk=? WHERE iddispensadisciplinaprocesso=?;";
+        String sql = "UPDATE dispensadisciplina_processo SET dataprocesso=?, dataencerramento=?, status=?, visibilidade=?, idprocessos_fk=?, iddispensadisciplina_fk=? WHERE iddispensadisciplinaprocesso=?;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -57,7 +57,7 @@ public class DispensaDisciplinaProcessoDAO {
             stmt.setString(4, dispensaDisciplinaProcesso.getVisibilidade());
             stmt.setLong(5, dispensaDisciplinaProcesso.getProcessos().getIdProcessos());
             stmt.setLong(6, dispensaDisciplinaProcesso.getDispensaDisciplina().getIdDispensaDisciplina());
-            stmt.setLong(6, dispensaDisciplinaProcesso.getIdDispensaDisciplinaProcesso());
+            stmt.setLong(7, dispensaDisciplinaProcesso.getIdDispensaDisciplinaProcesso());
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -69,7 +69,7 @@ public class DispensaDisciplinaProcessoDAO {
     }
 
     public boolean delete(DispensaDisciplinaProcesso dispensaDisciplinaProcesso) {
-        String sql = "DELETE FROM dispensadisciplina_processo WHERE iddispensadisciplinaprocesso=?;";
+        String sql = "DELETE FROM dispensadisciplina_processo WHERE iddispensadisciplinaprocesso = ?;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -86,7 +86,7 @@ public class DispensaDisciplinaProcessoDAO {
 
     public DispensaDisciplinaProcesso selectID(DispensaDisciplinaProcesso dispensaDisciplinaProcesso) {
 
-        String sql = "SELECT dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, iddispensadisciplina_fk FROM dispensadisciplina_processo WHERE iddispensadisciplinaprocesso = ?;";
+        String sql = "SELECT dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, iddispensadisciplina_fk FROM dispensadisciplina_processo WHERE iddispensadiscipina_fk = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
