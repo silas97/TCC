@@ -36,7 +36,7 @@ public class RegimeDomiciliarProcessoDAO {
             stmt.setString(3, regimeDomiciliarProcesso.getStatus());
             stmt.setString(4, regimeDomiciliarProcesso.getVisibilidade());
             stmt.setLong(5, regimeDomiciliarProcesso.getProcessos().getIdProcessos());
-            stmt.setLong(6, regimeDomiciliarProcesso.getRegimedomiciliar().getIdRegimeDomiciliar());
+            stmt.setLong(6, regimeDomiciliarProcesso.getRegimeDomiciliar().getIdRegimeDomiciliar());
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -57,7 +57,7 @@ public class RegimeDomiciliarProcessoDAO {
             stmt.setString(3, regimeDomiciliarProcesso.getStatus());
             stmt.setString(4, regimeDomiciliarProcesso.getVisibilidade());
             stmt.setLong(5, regimeDomiciliarProcesso.getProcessos().getIdProcessos());
-            stmt.setLong(6, regimeDomiciliarProcesso.getRegimedomiciliar().getIdRegimeDomiciliar());
+            stmt.setLong(6, regimeDomiciliarProcesso.getRegimeDomiciliar().getIdRegimeDomiciliar());
             stmt.setLong(7, regimeDomiciliarProcesso.getIdRegimeDomiciliarProcesso());
             stmt.executeUpdate();
             return true;
@@ -114,7 +114,7 @@ public class RegimeDomiciliarProcessoDAO {
 
                 regimeDomiciliar.setIdRegimeDomiciliar(rs.getLong("idregimedomiciliar_fk"));
                 regimeDomiciliar = daoCourse.selectID(regimeDomiciliar);
-                regimeDomiciliarProcesso.setRegimedomiciliar(buscaRegimeDomiciliar);
+                regimeDomiciliarProcesso.setRegimeDomiciliar(buscaRegimeDomiciliar);
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegimeDomiciliarProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,7 +141,9 @@ public class RegimeDomiciliarProcessoDAO {
                 RegimeDomiciliarDAO daoCourse = new RegimeDomiciliarDAO();
                 RegimeDomiciliar regimeDomiciliar = new RegimeDomiciliar();
                 RegimeDomiciliar buscaRegimeDomiciliar = null;
+
                 RegimeDomiciliarProcesso regimeDomiciliarProcesso = new RegimeDomiciliarProcesso();
+
                 regimeDomiciliarProcesso.setIdRegimeDomiciliarProcesso(rs.getLong("idregimeDomiciliarProcesso"));
                 regimeDomiciliarProcesso.setDataProcesso(rs.getDate("dataprocesso"));
                 regimeDomiciliarProcesso.setDataEncerramento(rs.getDate("dataencerramento"));
@@ -153,8 +155,8 @@ public class RegimeDomiciliarProcessoDAO {
                 regimeDomiciliarProcesso.setProcessos(buscaProcessos);
 
                 regimeDomiciliar.setIdRegimeDomiciliar(rs.getLong("idregimedomiciliar_fk"));
-                regimeDomiciliar = daoCourse.selectID(regimeDomiciliar);
-                regimeDomiciliarProcesso.setRegimedomiciliar(buscaRegimeDomiciliar);
+                buscaRegimeDomiciliar = daoCourse.selectID(regimeDomiciliar);
+                regimeDomiciliarProcesso.setRegimeDomiciliar(buscaRegimeDomiciliar);
 
                 regimeDomiciliarProcessos.add(regimeDomiciliarProcesso);
             }
