@@ -83,7 +83,7 @@ public class UsuarioDAOTest {
         assertEquals(expResult, result);
     }
 
-
+    @Ignore
     @Test
     public void testSelect() {
         Usuario usuario = new Usuario();
