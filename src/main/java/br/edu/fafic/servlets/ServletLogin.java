@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 public class ServletLogin extends HttpServlet {
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LoginDAO dao = new LoginDAO();
         String email = req.getParameter("email");
         String senha = req.getParameter("senha");
@@ -69,6 +69,11 @@ public class ServletLogin extends HttpServlet {
                 }
             }
             
+        }else if(param.equals("logout")){
+            req.getSession().removeAttribute("usuario");
+            req.getSession().invalidate();
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+           
         }
     }
 }
