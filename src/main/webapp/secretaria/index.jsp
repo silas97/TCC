@@ -27,14 +27,14 @@
                     <h4>Seja Bem-Vindo(a), ${usuario.nome}</h4>
                 </li>
                 <li>
-                    <a href="#">Documentos</a>
+                    <h4><a href="#">Documentos</a></h4>
                 </li>
                 <li>
-                    <a href="#">Processos</a>
+                    <h4><a href="#">Processos</a></h4>
                 </li>
                
                 <li>
-                    <a href="#">Sair</a>
+                    <h4><a href="#">Sair</a></h4>
                 </li>
             </ul>
         </div>
