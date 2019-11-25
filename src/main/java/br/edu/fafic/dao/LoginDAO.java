@@ -41,9 +41,20 @@ public class LoginDAO {
         System.out.println("Email:" +user.getEmail());
         System.out.println("Senha:" +user.getSenha());
         try {
+            String senha = user.getSenha();
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte messageDigest[] = md.digest(senha.getBytes("UTF-8"));
+
+            StringBuilder sb = new StringBuilder();
+
+            for (byte var : messageDigest) {
+                sb.append(String.format("%02X", 0xFF & var));
+            }
+
+            String senhaHex = sb.toString();
             stmt = con.prepareStatement(sql);
             stmt.setString(1, user.getEmail());
-            stmt.setString(2, user.getSenha());
+            stmt.setString(2, senhaHex);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 login = new Login();
@@ -53,7 +64,7 @@ public class LoginDAO {
                 login.setUsuario(getUsuarioById(rs.getLong("idusuario_fk")));
             }
        
-        } catch (SQLException ex) {
+        } catch (SQLException | NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
@@ -64,6 +75,7 @@ public class LoginDAO {
     }
 
     public boolean insert(Login login) {
+        System.out.println("ID do usuário: "+login.getUsuario().getIdUsuario());
         String sql = "INSERT INTO login(email, senha, idusuario_fk) VALUES (?, ?, ?);";
         PreparedStatement stmt = null;
         try {

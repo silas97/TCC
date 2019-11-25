@@ -10,17 +10,8 @@ public class RegimeDomiciliar {
     private Date dataCadastro;
     private String situacao;
     private String tipo;
-    private Disciplina disciplina;
 
     public RegimeDomiciliar() {
-    }
-
-    public Disciplina getDisciplina() {
-        return disciplina;
-    }
-
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
     }
 
     public String getTipo() {

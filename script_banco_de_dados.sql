@@ -64,26 +64,26 @@ CREATE TABLE aluno(
     FOREIGN KEY(idUsuario_FK) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE processos(--Adicionado o campo tipo.
+CREATE TABLE processos(
     idProcessos SERIAL,
-    tipo VARCHAR(100) NOT NULL, -- Adicionar na documentação.
+    tipo VARCHAR(100) NOT NULL,
     idAluno_FK INTEGER NOT NULL,
     PRIMARY KEY(idProcessos),
     FOREIGN KEY(idAluno_FK) REFERENCES aluno(idAluno)
 );
 
-CREATE TABLE arquivo_upload_download(
+CREATE TABLE arquivo_upload_download(--Corrigir implementação
     idArquivo SERIAL,
     caminho VARCHAR(45) NOT NULL,
     dataArquivoEnviado DATE NOT NULL,
     dataArquivoRecebido DATE NOT NULL,
     idAluno_FK INTEGER NOT NULL,
     idMaster_FK INTEGER NOT NULL,
-    idProcessos_FK INTEGER NOT NULL, --Adicionado dia 11.11.2019
+    idProcessos_FK INTEGER NOT NULL, --implementar na classe arquivo
     status VARCHAR(10),
     PRIMARY KEY(idArquivo),
     FOREIGN KEY(idAluno_FK) REFERENCES aluno(idAluno),
-    FOREIGN KEY(idProcessos_FK) REFERENCES processos(idProcessos), --Adicionado dia 11.11.2019
+    FOREIGN KEY(idProcessos_FK) REFERENCES processos(idProcessos),
     FOREIGN KEY(idMaster_FK) REFERENCES master(idMaster)
 );
 
@@ -94,7 +94,7 @@ CREATE TABLE cancelamentoMatricula(
     PRIMARY KEY(idCancelamentoMatricula)
 );
 
-CREATE TABLE regimeDomiciliar(
+CREATE TABLE regimeDomiciliar(--Corrigir implementação (retirar o campo disciplina)
     idRegimeDomiciliar SERIAL,
     dataInicio DATE NOT NULL,
     dataFim DATE NOT NULL,
@@ -104,14 +104,14 @@ CREATE TABLE regimeDomiciliar(
     PRIMARY KEY(idRegimeDomiciliar)
 );
 
-CREATE TABLE dispensaDisciplina( --Alterado dia 11.11.2019
+CREATE TABLE dispensaDisciplina( --Alterado dia 11.11.2019 (corrigir implementação)
     idDispensaDisciplina SERIAL,
     idAluno_FK INTEGER NOT NULL,
     PRIMARY KEY(idDispensaDisciplina),
     FOREIGN KEY(idAluno_FK) REFERENCES aluno(idAluno)
 );
 
-CREATE TABLE disciplinaCursada(
+CREATE TABLE disciplinaCursada(--corrigir implementação
     idDisciplinaCursada SERIAL,
     instituicaoOrigem VARCHAR(45) NOT NULL,
     curso VARCHAR(45) NOT NULL,

@@ -11,6 +11,7 @@ public class Arquivo {
     private Aluno aluno;
     private Master master;
     private String status;
+    private Processos processos;
 
     public Arquivo() {
     }
@@ -70,4 +71,13 @@ public class Arquivo {
     public void setIdArquivo(Integer idArquivo) {
         this.idArquivo = idArquivo;
     }
+
+    public Processos getProcessos() {
+        return this.processos;
+    }
+
+    public void setProcessos(Processos processos) {
+        this.processos = processos;
+    }
+
 }

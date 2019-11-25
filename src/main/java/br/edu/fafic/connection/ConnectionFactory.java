@@ -18,10 +18,10 @@ import java.sql.SQLException;
 public class ConnectionFactory {
 
     private static final String DRIVER = "org.postgresql.Driver";
-    private static final String URL = "jdbc:postgresql://localhost:5432/TCC";
+    private static final String URL = "jdbc:postgresql://localhost:5432/TCC2";
     private static final String USER = "postgres";
-//    private static final String PASS = "postgres";
-    private static final String PASS = "123456";
+    private static final String PASS = "postgres";
+    /* private static final String PASS = "123456"; */
 
     public static Connection getConnection() {
         try {

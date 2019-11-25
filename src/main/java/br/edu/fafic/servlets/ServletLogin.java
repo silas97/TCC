@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.edu.fafic.servlets;
 
 import javax.servlet.ServletException;
@@ -18,10 +13,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Silas
- */
 @WebServlet("/login")
 public class ServletLogin extends HttpServlet {
 
@@ -32,48 +23,48 @@ public class ServletLogin extends HttpServlet {
         String senha = req.getParameter("senha");
         String param = req.getParameter("param");
         Login login = new Login();
-        System.out.println("Parametro: " +param);
+        System.out.println("Parametro: " + param);
 
         if (param.equals("insert")) {
 
-
             Usuario user = new Usuario();
 
-            Long num = Long.valueOf(1);
+            String usuario = req.getParameter("idUsuario_FK");
+
+            Long num = Long.valueOf(usuario);
             user.setIdUsuario(num);
 
             login.setEmail(email);
             login.setSenha(senha);
             login.setUsuario(user);
 
-           
             dao.insert(login);
 
         } else if (param.equals("update")) {
 
         } else if (param.equals("delete")) {
 
-        }else if(param.equals("autenticacao")){
+        } else if (param.equals("autenticacao")) {
             login.setEmail(email);
             login.setSenha(senha);
             Login l = dao.autentication(login);
-            if(l!=null){
+            if (l != null) {
                 req.getSession().setAttribute("usuario", l.getUsuario());
-                
-                String path = l.getUsuario().getPerfil().toLowerCase()+"/index.jsp";
-                
+
+                String path = l.getUsuario().getPerfil().toLowerCase() + "/index.jsp";
+
                 try {
                     resp.sendRedirect(path);
                 } catch (IOException ex) {
                     Logger.getLogger(ServletLogin.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
-        }else if(param.equals("logout")){
+
+        } else if (param.equals("logout")) {
             req.getSession().removeAttribute("usuario");
             req.getSession().invalidate();
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
-           
+
         }
     }
 }

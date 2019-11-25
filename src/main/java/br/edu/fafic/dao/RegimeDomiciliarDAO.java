@@ -1,7 +1,6 @@
 package br.edu.fafic.dao;
 
 import br.edu.fafic.connection.ConnectionFactory;
-import br.edu.fafic.model.Disciplina;
 import br.edu.fafic.model.RegimeDomiciliar;
 
 import java.sql.Connection;
@@ -26,7 +25,7 @@ public class RegimeDomiciliarDAO {
     }
 
     public boolean insert(RegimeDomiciliar regimeDomiciliar) {
-        String sql = "INSERT INTO regimedomiciliar(datainicio, datafim, datacadastro, situacao, tipo, iddisciplina_fk) VALUES (?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO regimedomiciliar(datainicio, datafim, datacadastro, situacao, tipo) VALUES (?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -35,7 +34,6 @@ public class RegimeDomiciliarDAO {
             stmt.setDate(3, (Date) regimeDomiciliar.getDataCadastro());
             stmt.setString(4, regimeDomiciliar.getSituacao());
             stmt.setString(5, regimeDomiciliar.getTipo());
-            stmt.setLong(6, regimeDomiciliar.getDisciplina().getIdDisciplina());
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -47,7 +45,7 @@ public class RegimeDomiciliarDAO {
     }
 
     public boolean update(RegimeDomiciliar regimeDomiciliar) {
-        String sql = "UPDATE regimedomiciliar SET datainicio=?, datafim=?, datacadastro=?, situacao=?, tipo=?, iddisciplina_fk=? WHERE idregimedomiciliar=?;";
+        String sql = "UPDATE regimedomiciliar SET datainicio=?, datafim=?, datacadastro=?, situacao=?, tipo=? WHERE idregimedomiciliar=?;";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -56,8 +54,7 @@ public class RegimeDomiciliarDAO {
             stmt.setDate(3, (Date) regimeDomiciliar.getDataCadastro());
             stmt.setString(4, regimeDomiciliar.getSituacao());
             stmt.setString(5, regimeDomiciliar.getTipo());
-            stmt.setLong(6, regimeDomiciliar.getDisciplina().getIdDisciplina());
-            stmt.setLong(7, regimeDomiciliar.getIdRegimeDomiciliar());
+            stmt.setLong(6, regimeDomiciliar.getIdRegimeDomiciliar());
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -86,7 +83,7 @@ public class RegimeDomiciliarDAO {
 
     public RegimeDomiciliar selectID(RegimeDomiciliar regimeDomiciliar) {
 
-        String sql = "SELECT datainicio, datafim, datacadastro, situacao, tipo, iddisciplina_fk FROM regimedomiciliar WHERE idregimedomiciliar = ?;";
+        String sql = "SELECT datainicio, datafim, datacadastro, situacao, tipo FROM regimedomiciliar WHERE idregimedomiciliar = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
@@ -95,18 +92,11 @@ public class RegimeDomiciliarDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
-                DisciplinaDAO dao = new DisciplinaDAO();
-                Disciplina disciplina = new Disciplina();
-                Disciplina buscaDisciplina = null;
                 regimeDomiciliar.setDataInicio(rs.getDate("datainicio"));
                 regimeDomiciliar.setDataFim(rs.getDate("datafim"));
                 regimeDomiciliar.setDataCadastro(rs.getDate("datacadastro"));
                 regimeDomiciliar.setSituacao(rs.getString("situacao"));
                 regimeDomiciliar.setTipo(rs.getString("tipo"));
-
-                disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
-                buscaDisciplina = dao.selectID(disciplina);
-                regimeDomiciliar.setDisciplina(buscaDisciplina);
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegimeDomiciliarDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,7 +108,7 @@ public class RegimeDomiciliarDAO {
 
     public List<RegimeDomiciliar> selectAll() {
 
-        String sql = "SELECT idregimedomiciliar, datainicio, datafim, datacadastro, situacao, tipo, iddisciplina_fk FROM regimedomiciliar;";
+        String sql = "SELECT idregimedomiciliar, datainicio, datafim, datacadastro, situacao, tipo FROM regimedomiciliar;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<RegimeDomiciliar> regimeDomiciliars = new ArrayList<>();
@@ -126,9 +116,6 @@ public class RegimeDomiciliarDAO {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                DisciplinaDAO dao = new DisciplinaDAO();
-                Disciplina disciplina = new Disciplina();
-                Disciplina buscaDisciplina = null;
                 RegimeDomiciliar regimeDomiciliar = new RegimeDomiciliar();
                 regimeDomiciliar.setIdRegimeDomiciliar(rs.getLong("idregimeDomiciliar"));
                 regimeDomiciliar.setDataInicio(rs.getDate("datainicio"));
@@ -136,10 +123,6 @@ public class RegimeDomiciliarDAO {
                 regimeDomiciliar.setDataCadastro(rs.getDate("datacadastro"));
                 regimeDomiciliar.setSituacao(rs.getString("situacao"));
                 regimeDomiciliar.setTipo(rs.getString("tipo"));
-
-                disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
-                buscaDisciplina = dao.selectID(disciplina);
-                regimeDomiciliar.setDisciplina(buscaDisciplina);
 
                 regimeDomiciliars.add(regimeDomiciliar);
 

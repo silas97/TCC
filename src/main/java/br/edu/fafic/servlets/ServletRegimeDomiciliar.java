@@ -66,7 +66,6 @@ public class ServletRegimeDomiciliar extends HttpServlet {
             sRegimeDomiciliar.setTipo(tipo);
             disciplina.setIdDisciplina(idDisciplina);
             buscarDisciplina = daoDisciplina.selectID(disciplina);
-            sRegimeDomiciliar.setDisciplina(buscarDisciplina);
 
             if (dao.insert(sRegimeDomiciliar)) {
                 req.setAttribute("message", "RegimeDomiciliar salvo com sucesso!");
@@ -108,7 +107,7 @@ public class ServletRegimeDomiciliar extends HttpServlet {
             sRegimeDomiciliar.setTipo(tipo);
             disciplina.setIdDisciplina(idDisciplina);
             buscarDisciplina = daoDisciplina.selectID(disciplina);
-            sRegimeDomiciliar.setDisciplina(buscarDisciplina);
+
             dao.update(sRegimeDomiciliar);
             resp.sendRedirect("aluno/listar-regime-domiciliar.jsp");
         } else if (param.equals("apagar")) {

@@ -4,26 +4,8 @@ public class DispensaDisciplina {
 
     private Long idDispensaDisciplina;
     private Aluno aluno;
-    private DisciplinaCursada disciplinaCursada;
-    private Disciplina disciplina;
 
     public DispensaDisciplina() {
-    }
-
-    public Disciplina getDisciplina() {
-        return disciplina;
-    }
-
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
-    }
-
-    public DisciplinaCursada getDisciplinaCursada() {
-        return disciplinaCursada;
-    }
-
-    public void setDisciplinaCursada(DisciplinaCursada disciplinaCursada) {
-        this.disciplinaCursada = disciplinaCursada;
     }
 
     public Aluno getAluno() {

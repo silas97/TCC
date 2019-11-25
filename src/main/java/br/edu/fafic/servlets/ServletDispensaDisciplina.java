@@ -60,11 +60,9 @@ public class ServletDispensaDisciplina extends HttpServlet {
 
             disciplinaCursada.setIdDisciplinaCursada(idDisciplinaCursada);
             buscarDisciplinaCursada = daoDisciplinaCursada.selectID(disciplinaCursada);
-            sDispensaDisciplina.setDisciplinaCursada(buscarDisciplinaCursada);
 
             disciplina.setIdDisciplina(idDisciplina);
             buscarDisciplina = daoDisciplina.selectID(disciplina);
-            sDispensaDisciplina.setDisciplina(buscarDisciplina);
 
             if (dao.insert(sDispensaDisciplina)) {
                 req.setAttribute("message", "DispensaDisciplina salvo com sucesso!");
@@ -95,11 +93,9 @@ public class ServletDispensaDisciplina extends HttpServlet {
 
             disciplinaCursada.setIdDisciplinaCursada(idDisciplinaCursada);
             buscarDisciplinaCursada = daoDisciplinaCursada.selectID(disciplinaCursada);
-            sDispensaDisciplina.setDisciplinaCursada(buscarDisciplinaCursada);
 
             disciplina.setIdDisciplina(idDisciplina);
             buscarDisciplina = daoDisciplina.selectID(disciplina);
-            sDispensaDisciplina.setDisciplina(buscarDisciplina);
             dao.update(sDispensaDisciplina);
             resp.sendRedirect("aluno/listar-dispensa-disciplina.jsp");
         } else if (param.equals("apagar")) {
