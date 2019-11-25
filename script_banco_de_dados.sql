@@ -193,4 +193,4 @@ CREATE TABLE dispensaVinculo(--Nova tabela criada entre Regime_Domiciliar e Disc
     FOREIGN KEY(idDisciplinaAtual_FK) REFERENCES disciplinaAtual(idDisciplinaAtual) -- Falta implementar
 );
 
---Atualizado 11.11.2019
+--Atualizado 11.11.2019.
