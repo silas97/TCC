@@ -3,7 +3,7 @@ package br.edu.fafic.model;
 import java.util.Date;
 
 public class Arquivo {
-    
+
     private Integer idArquivo;
     private String caminho;
     private Date dataArquivoEnviado;

@@ -2,7 +2,7 @@ package br.edu.fafic.model;
 
 import java.util.Date;
 
-public class DispensaDisciplinaProcesso{
+public class DispensaDisciplinaProcesso {
 
     private Long idDispensaDisciplinaProcesso;
     private Date dataProcesso;

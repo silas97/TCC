@@ -1,7 +1,7 @@
 package br.edu.fafic.model;
 
 public class DispensaDisciplina {
-    
+
     private Long idDispensaDisciplina;
     private Aluno aluno;
     private DisciplinaCursada disciplinaCursada;

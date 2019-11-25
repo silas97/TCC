@@ -1,7 +1,7 @@
 package br.edu.fafic.model;
 
 public class Login {
-    
+
     private Long idLogin;
     private String email;
     private String senha;
@@ -9,8 +9,7 @@ public class Login {
 
     public Login() {
     }
-    
-    
+
     public Long getIdLogin() {
         return idLogin;
     }
@@ -20,9 +19,9 @@ public class Login {
     }
 
     public Usuario getUsuario() {
-      if(usuario == null)  {
-          usuario = new Usuario();
-      }
+        if (usuario == null) {
+            usuario = new Usuario();
+        }
         return usuario;
     }
 
@@ -50,7 +49,5 @@ public class Login {
     public String toString() {
         return "Login{" + "idLogin=" + idLogin + ", email=" + email + ", senha=" + senha + ", usuario=" + usuario.toString() + '}';
     }
-    
-    
 
 }

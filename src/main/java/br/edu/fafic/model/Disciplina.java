@@ -1,6 +1,7 @@
 package br.edu.fafic.model;
 
 public class Disciplina {
+
     private Long idDisciplina;
     private String nome;
     private String creditos;
