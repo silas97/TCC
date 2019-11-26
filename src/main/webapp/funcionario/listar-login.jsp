@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <h1>LISTAR TURMAS</h1>
+    <h1>LISTAR LOGINS</h1>
     <table border="1">
         <tr>
             <td>Id</td>
@@ -25,7 +25,7 @@
                 <td>${login.idLogin}</td>
                 <td>${login.email}</td>
                 <td>${login.senha}</td>
-                <td>${login.getUsuario().getidUsuario()}</td>
+                <td>${login.getUsuario().getIdUsuario()}</td>
                 <form name="login" method="post" action="${pageContext.request.contextPath}/login">
                     <input type="hidden" value="${login.idLogin}" name="id" />
                     <td><input type="submit" value="alterar" name="param"></td>
