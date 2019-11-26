@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - JavaMail",
+            "request": "launch",
+            "mainClass": "br.edu.fafic.connection.JavaMail",
+            "projectName": "TCC"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Main",
             "request": "launch",
             "mainClass": "br.edu.fafic.model.Main",

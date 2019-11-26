@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import br.edu.fafic.connection.ConnectionFactory;
+import br.edu.fafic.connection.JavaMail;
 import br.edu.fafic.model.Login;
 import br.edu.fafic.model.Usuario;
 
@@ -38,8 +39,8 @@ public class LoginDAO {
         String sql = "SELECT * FROM login WHERE email = ? and senha = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        System.out.println("Email:" +user.getEmail());
-        System.out.println("Senha:" +user.getSenha());
+        System.out.println("Email:" + user.getEmail());
+        System.out.println("Senha:" + user.getSenha());
         try {
             String senha = user.getSenha();
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -63,19 +64,19 @@ public class LoginDAO {
                 login.setSenha(rs.getString("senha"));
                 login.setUsuario(getUsuarioById(rs.getLong("idusuario_fk")));
             }
-       
+
         } catch (SQLException | NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        System.out.println("Login: " +login.toString());
+        System.out.println("Login: " + login.toString());
         return login;
     }
 
     public boolean insert(Login login) {
-        System.out.println("ID do usuário: "+login.getUsuario().getIdUsuario());
+        System.out.println("ID do usuário: " + login.getUsuario().getIdUsuario());
         String sql = "INSERT INTO login(email, senha, idusuario_fk) VALUES (?, ?, ?);";
         PreparedStatement stmt = null;
         try {
@@ -96,6 +97,9 @@ public class LoginDAO {
             stmt.setString(2, senhaHex);
             stmt.setLong(3, login.getUsuario().getIdUsuario());
             stmt.executeUpdate();
+            JavaMail javaMail = new JavaMail();
+            javaMail.enviarMSG(login.getEmail(), "Seja Bem Vindo!", "Sua conta no sistema foi criado com sucesso!"
+                    + "\nEmail: " + login.getEmail() + "\nSenha: " + login.getSenha());
             return true;
         } catch (SQLException | NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,8 +144,7 @@ public class LoginDAO {
         }
     }
 
-    
-    public Usuario getUsuarioById(Long id){
+    public Usuario getUsuarioById(Long id) {
         Usuario usuario = null;
         String sql = "SELECT * FROM usuario WHERE idusuario = ?;";
         PreparedStatement stmt = null;
@@ -162,17 +165,17 @@ public class LoginDAO {
                 usuario.setEstado(rs.getString("estado"));
                 usuario.setPerfil(rs.getString("perfil"));
             }
-       
+
         } catch (SQLException ex) {
             Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-       
+
         return usuario;
     }
-    
+
     public Login selectID(Login login) {
         String sql = "SELECT email, senha, idusuario_fk FROM login WHERE idlogin = ?;";
         PreparedStatement stmt = null;
