@@ -180,19 +180,22 @@ public class LoginDAO {
         String sql = "SELECT email, senha, idusuario_fk FROM login WHERE idlogin = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = null;
+
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, login.getIdLogin());
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
+                UsuarioDAO dao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                Usuario buscarUsuario = null;
                 login.setEmail(rs.getString("email"));
                 login.setSenha(rs.getString("senha"));
-                login.getUsuario().setIdUsuario(rs.getLong("idusuario_fk"));
-                usuario = dao.selectID(login.getUsuario());
-                login.setUsuario(usuario);
+                
+                usuario.setIdUsuario(rs.getLong("idusuario_fk"));
+                buscarUsuario = dao.selectID(usuario);
+                login.setUsuario(buscarUsuario);
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -203,8 +206,6 @@ public class LoginDAO {
     }
 
     public List<Login> selectAll() {
-        UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = null;
         String sql = "SELECT idlogin, email, senha, idusuario_fk FROM login;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -214,12 +215,18 @@ public class LoginDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 Login login = new Login();
+                UsuarioDAO dao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                Usuario buscarUsuario = null;
                 login.setIdLogin(rs.getLong("idLogin"));
                 login.setEmail(rs.getString("email"));
                 login.setSenha(rs.getString("senha"));
-                login.getUsuario().setIdUsuario(rs.getLong("idusuario_fk"));
-                usuario = dao.selectID(login.getUsuario());
-                login.setUsuario(usuario);
+                
+                usuario.setIdUsuario(rs.getLong("idusuario_fk"));
+                buscarUsuario = dao.selectID(usuario);
+
+                login.setUsuario(buscarUsuario);
+
                 logins.add(login);
             }
         } catch (SQLException ex) {
