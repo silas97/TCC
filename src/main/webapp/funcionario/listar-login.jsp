@@ -25,7 +25,7 @@
                 <td>${login.idLogin}</td>
                 <td>${login.email}</td>
                 <td>${login.senha}</td>
-                <td>${login.getUsuario().getIdLogin()}</td>
+                <td>${login.getUsuario().getidUsuario()}</td>
                 <form name="login" method="post" action="${pageContext.request.contextPath}/login">
                     <input type="hidden" value="${login.idLogin}" name="id" />
                     <td><input type="submit" value="alterar" name="param"></td>
