@@ -6,7 +6,6 @@
 package br.edu.fafic.dao;
 
 import br.edu.fafic.connection.ConnectionFactory;
-import br.edu.fafic.model.Curso;
 import br.edu.fafic.model.Documento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,7 +48,7 @@ public class DocumentoDAO {
 
     public List<Documento> listaDocumentos() {
         con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;;
+        PreparedStatement stmt = null;
         List<Documento> documentos = new ArrayList();
         try {
             String sql = "select * from documento";

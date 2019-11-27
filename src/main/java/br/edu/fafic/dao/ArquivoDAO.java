@@ -23,6 +23,7 @@ public class ArquivoDAO {
         String sql = "INSERT INTO arquivo_upload_download(caminho, dataarquivoenviado, dataarquivorecebido, idaluno_fk, idmaster_fk, status) VALUES (?, ?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(ArquivoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -36,6 +37,7 @@ public class ArquivoDAO {
         String sql = "UPDATE arquivo_upload_download SET caminho=?, dataarquivoenviado=?, dataarquivorecebido=?, idaluno_fk=?, idmaster_fk=?, status=? WHERE idarquivo=?;";
         PreparedStatement stmt = null;
         try {
+            stmt = con.prepareStatement(sql);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(ArquivoDAO.class.getName()).log(Level.SEVERE, null, ex);

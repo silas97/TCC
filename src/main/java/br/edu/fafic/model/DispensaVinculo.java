@@ -5,6 +5,7 @@ public class DispensaVinculo {
     private DispensaDisciplina dispensaDisciplina;
     private DisciplinaAtual disciplinaAtual;
     private DisciplinaCursada disciplinaCursada;
+    private String status;
 
     public DispensaVinculo() {
     }
@@ -39,6 +40,14 @@ public class DispensaVinculo {
 
     public void setDisciplinaCursada(DisciplinaCursada disciplinaCursada) {
         this.disciplinaCursada = disciplinaCursada;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }
