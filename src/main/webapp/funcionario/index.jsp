@@ -10,23 +10,95 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="../resources/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="../resources/js/bootstrap.min.js"></script>
+    <script src="../resources/jquery/jquery.min.js"></script>
+    <script src="../resources/jquery/drop_down_menu.js"></script>
+    <link href="../resources/css/menu_side_bar.css" rel="stylesheet" />
     <title>index</title>
 </head>
 
 <body>
-    <h1>INDEX FUNCIONÁRIO</h1>
-    <ul>
-        <li><a href="${pageContext.request.contextPath}/funcionario/curso.jsp">CURSO</a></li>
-        <li><a href="${pageContext.request.contextPath}/funcionario/disciplina.jsp">DISCIPLINA</a></li>
-        <li><a href="${pageContext.request.contextPath}/funcionario/turma.jsp">TURMA</a></li>
-        <li><a href="${pageContext.request.contextPath}/funcionario/usuario.jsp">USUARIO</a></li>
-        <li><a href="${pageContext.request.contextPath}/funcionario/aluno.jsp">ALUNO</a></li>
-        <li><a href="${pageContext.request.contextPath}/funcionario/login.jsp">LOGIN</a></li>
-        <li><a href="${pageContext.request.contextPath}/funcionario/processos.jsp">PROCESSOS</a></li>
-        <li><a href="${pageContext.request.contextPath}/funcionario/cancelamento-matricula-processo.jsp">CANCELAMENTO MATRICULA PROCESSO</a></li>
-        <li><a href="${pageContext.request.contextPath}/funcionario/regime-domiciliar-processo.jsp">REGIME DOMICILIAR PROCESSO</a></li>
-        <li><a href="${pageContext.request.contextPath}/funcionario/dispensa-disciplina-processo.jsp">DISPENSA DISCIPLINA PROCESSO</a></li>
-    </ul>
+
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="nav navbar-nav">
+                <div style="text-align: center">
+                    <div style="border-radius: 15px 15px 15px 15px">
+                        <h4>Sistema de Gerenciamento de Processos Internos</h4>
+                    </div>
+                </div>
+                <br>
+                <div style="text-align: center;">
+                    <li class="menu-item dropdown">
+                        <h4 style="margin-left: 14px;">Seja Bem-Vindo(a), ${usuario.nome}</h4>
+                    </li>
+
+
+                    <br><br>
+                    <div style="text-align: center; color: #ffffff">
+                        <h2>Menu</h2>
+                    </div>
+                    <br>
+                    <li class="sidebar-brand"><a href="${pageContext.request.contextPath}/funcionario/curso.jsp">
+                            <h4>Curso</h4>
+                        </a></li>
+                    <br>
+                    <li class="sidebar-brand"><a href="${pageContext.request.contextPath}/funcionario/disciplina.jsp">
+                            <h4>Disciplina</h4>
+                        </a></li>
+                    <br>
+                    <li class="sidebar-brand"><a href="${pageContext.request.contextPath}/funcionario/turma.jsp">
+                            <h4>Turma</h4>
+                        </a></li>
+                    <br>
+                    <li class="sidebar-brand"><a href="${pageContext.request.contextPath}/funcionario/usuario.jsp">
+                            <h4>Usuários</h4>
+                        </a></li>
+                    <br>
+                    <li class="sidebar-brand"><a href="${pageContext.request.contextPath}/funcionario/processos.jsp">
+                            <h4>Processos</h4>
+                        </a></li>
+                    <br>
+                    <li class="sidebar-brand"><a href="${pageContext.request.contextPath}/login?param=logout">
+                            <h4>Sair</h4>
+                        </a></li>
+                </div>
+            </ul>
+
+
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+                            <h5>Ocultar Menu</h5>
+                        </a><br><br />
+                        <p>Acesse as funcionalidades do sistema no menu ao lado</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 </body>
 
 </html>

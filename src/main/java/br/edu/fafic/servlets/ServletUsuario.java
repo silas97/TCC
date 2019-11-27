@@ -53,7 +53,7 @@ public class ServletUsuario extends HttpServlet {
             } else {
                 req.setAttribute("message", "Erro ao salvar!");
             }
-            req.getRequestDispatcher("cadastrar.jsp").forward(req, resp);
+            req.getRequestDispatcher("funcionario/cadastrar-aluno.jsp").forward(req, resp);
 
         } else if (param.equals("alterar")) {
             Long id = Long.valueOf(req.getParameter("id"));
@@ -61,7 +61,7 @@ public class ServletUsuario extends HttpServlet {
             usuario.setIdUsuario(id);
             user = dao.selectID(usuario);
             req.getSession().setAttribute("user", user);
-            req.getRequestDispatcher("/alterar.jsp").forward(req, resp);
+            req.getRequestDispatcher("funcionario/alterar-usuario.jsp").forward(req, resp);
         } else if (param.equalsIgnoreCase("update")) {
             Long id = Long.valueOf(req.getParameter("id"));
             user = new Usuario();
@@ -75,13 +75,13 @@ public class ServletUsuario extends HttpServlet {
             user.setPerfil(perfil);
             user.setIdUsuario(id);
             dao.update(user);
-            resp.sendRedirect("listar.jsp");
+            resp.sendRedirect("funcionario/listar-usuario.jsp");
         } else if (param.equals("apagar")) {
             Long id = Long.valueOf(req.getParameter("id"));
             user = new Usuario();
             user.setIdUsuario(id);
             dao.delete(user);
-            resp.sendRedirect("listar.jsp");
+            resp.sendRedirect("funcionario/listar-usuario.jsp");
         }
     }
 }

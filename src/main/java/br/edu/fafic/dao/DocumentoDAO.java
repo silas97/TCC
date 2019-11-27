@@ -49,7 +49,7 @@ public class DocumentoDAO {
     public List<Documento> listaDocumentos() {
         con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-        List<Documento> documentos = new ArrayList();
+        List<Documento> documentos = new ArrayList<>();
         try {
             String sql = "select * from documento";
             PreparedStatement ps = con.prepareStatement(sql);
