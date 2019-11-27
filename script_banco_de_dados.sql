@@ -199,6 +199,7 @@ SCRIPT PARA ACESSO AO SISTEMA:
 INSERT INTO public.usuario(idusuario, nome, cpf, cep, endereco, bairro, cidade, estado, perfil) VALUES ('1', 'Master', '-', '-', '-', '-', '-', '-', 'Funcionario');
 INSERT INTO public.login(idlogin, email, senha, idusuario_fk) VALUES ('1', 'admin@admin.com', '8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918', '1');
 
+ACESSO MASTER!
 EMAIL: admin@admin.com
 SENHA: admin
 
