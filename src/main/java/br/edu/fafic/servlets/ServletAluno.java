@@ -40,30 +40,56 @@ public class ServletAluno extends HttpServlet {
         Curso curso = new Curso();
         Curso buscarCurso;
 
-        String matricula = req.getParameter("matricula");
+        
 
         String param = req.getParameter("param");
 
         if (param.equals("cadastrar")) {
+
+            //parametros do usuario
+            String nome = req.getParameter("nome");
+            String cpf = req.getParameter("cpf");
+            String cep = req.getParameter("cep");
+            String endereco = req.getParameter("rua");
+            String numero = req.getParameter("numero");
+            String complemento = req.getParameter("complemento");
+            String bairro = req.getParameter("bairro");
+            String cidade = req.getParameter("cidade");
+            String estado = req.getParameter("estado");
+            String perfil = "Aluno";
+            
+            //parametros do aluno
+            String matricula = req.getParameter("matricula");
+            
+
             Long idCurso = Long.parseLong(req.getParameter("idCurso_FK"));
-            Long idUsuario = Long.parseLong(req.getParameter("idUsuario_FK"));
+            StringBuilder builderEndereco = new StringBuilder();
+            builderEndereco.append(endereco)
+                           .append(", Nº ")
+                           .append(numero)
+                           .append(" Complemento - ")
+                           .append(complemento);
+            
+            
+            usuario = new Usuario(nome, cpf, cep, builderEndereco.toString() , bairro, cidade, estado, perfil);
+            Long idUsuario = daoUsuario.insert(usuario);
             sAluno = new Aluno();
             sAluno.setMatricula(matricula);
-
-            usuario.setIdUsuario(idUsuario);
-            buscarUsuario = daoUsuario.selectID(usuario);
-            sAluno.setUsuario(buscarUsuario);
-
             curso.setIdCurso(idCurso);
             buscarCurso = daoCurso.selectID(curso);
             sAluno.setCurso(buscarCurso);
+            sAluno.setUsuario(daoUsuario.selectID(idUsuario));
 
             if (dao.insert(sAluno)) {
                 req.setAttribute("message", "Aluno salvo com sucesso!");
+                req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
             } else {
                 req.setAttribute("message", "Erro ao salvar!");
+                req.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
             }
-            req.getRequestDispatcher("/funcionario/cadastrar-aluno.jsp").forward(req, resp);
+
+            req.getRequestDispatcher(
+                    "/funcionario/cadastrar-aluno.jsp").forward(req, resp);
 
         } else if (param.equals("alterar")) {
             Long id = Long.valueOf(req.getParameter("id"));
@@ -73,6 +99,7 @@ public class ServletAluno extends HttpServlet {
             req.getSession().setAttribute("sAluno", sAluno);
             req.getRequestDispatcher("funcionario/alterar-aluno.jsp").forward(req, resp);
         } else if (param.equalsIgnoreCase("update")) {
+            String matricula = req.getParameter("matricula");
             Long id = Long.valueOf(req.getParameter("id"));
             sAluno = new Aluno();
             Long idCurso = Long.parseLong(req.getParameter("idCurso_FK"));
@@ -91,6 +118,12 @@ public class ServletAluno extends HttpServlet {
             dao.update(sAluno);
             resp.sendRedirect("funcionario/listar-aluno.jsp");
         } else if (param.equals("apagar")) {
+            Long id = Long.valueOf(req.getParameter("id"));
+            sAluno = new Aluno();
+            sAluno.setIdAluno(id);
+            dao.delete(sAluno);
+            resp.sendRedirect("funcionario/listar-aluno.jsp");
+        } else if (param.equals("matricula")) {
             Long id = Long.valueOf(req.getParameter("id"));
             sAluno = new Aluno();
             sAluno.setIdAluno(id);

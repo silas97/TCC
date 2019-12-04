@@ -26,6 +26,7 @@ public class AlunoDAO {
     }
 
     public boolean insert(Aluno aluno) {
+        con = ConnectionFactory.getConnection();
         String sql = "INSERT INTO aluno(matricula, idcurso_fk, idusuario_fk) VALUES (?, ?, ?);";
         PreparedStatement stmt = null;
         try {
@@ -144,5 +145,38 @@ public class AlunoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return alunos;
+    }
+    
+    public Aluno getAlunoByMatricula(String matricula){
+        Aluno aluno = new Aluno();
+        String sql = "select * from aluno where matricula = ?";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, matricula);
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                UsuarioDAO usuarioDao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                Usuario buscaUsuario = null;
+                CursoDAO cursoDao = new CursoDAO();
+                Curso curso = new Curso();
+                Curso buscaCurso = null;
+                aluno.setMatricula(rs.getString("matricula"));
+                usuario.setIdUsuario(rs.getLong("idusuario_fk"));
+                buscaUsuario = usuarioDao.selectID(usuario);
+                aluno.setUsuario(buscaUsuario);
+                curso.setIdCurso(rs.getLong("idcurso_fk"));
+                buscaCurso = cursoDao.selectID(curso);
+                aluno.setCurso(buscaCurso);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return aluno;
     }
 }

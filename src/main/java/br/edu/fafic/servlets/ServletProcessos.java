@@ -34,8 +34,16 @@ public class ServletProcessos extends HttpServlet {
         AlunoDAO alunoDao = new AlunoDAO();
         Aluno aluno = new Aluno();
         Aluno buscaAluno;
-        
+        String matricula = req.getParameter("matricula_aluno");
         String param = req.getParameter("param");
+        
+        if(param.equals("consultar_aluno")){
+           Aluno a =  alunoDao.getAlunoByMatricula(matricula);
+           req.setAttribute("aluno", a);
+           req.setAttribute("matricula", matricula);
+           req.getRequestDispatcher("funcionario/cadastrar-processos.jsp").forward(req, resp);
+        }
+        
         if (param.equals("cadastrar")) {
             Long idAluno_FK = Long.valueOf(req.getParameter("idAluno_FK"));
             String tipo = req.getParameter("tipo");
@@ -46,7 +54,7 @@ public class ServletProcessos extends HttpServlet {
             buscarProcessos.setAluno(buscaAluno);
 
             if (dao.insert(buscarProcessos)) {
-                req.setAttribute("message", "Processos salva com sucesso!");
+                req.setAttribute("message", "Processo salvo com sucesso!");
             } else {
                 req.setAttribute("message", "Erro ao salvar!");
             }

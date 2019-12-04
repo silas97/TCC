@@ -37,7 +37,7 @@ public class UsuarioDAOTest {
         usuario.setPerfil("perfil");
 
         boolean expResult = true;
-        boolean result = dao.insert(usuario);
+        boolean result = dao.insertUsuario(usuario);
 
         assertEquals(result, expResult);
     }

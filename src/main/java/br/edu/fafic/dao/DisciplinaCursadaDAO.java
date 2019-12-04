@@ -25,7 +25,7 @@ public class DisciplinaCursadaDAO {
     }
 
     public boolean insert(DisciplinaCursada disciplinaCursada) {
-        String sql = "INSERT INTO disciplinacursada(instituicaoorigem, curso, disciplina, creditos, horascursadas, iddispensadisciplina_fk) VALUES (?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO disciplinacursada(instituicaoorigem, curso, disciplina, creditos, horascursadas) VALUES (?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
@@ -34,7 +34,7 @@ public class DisciplinaCursadaDAO {
             stmt.setString(3, disciplinaCursada.getDisciplina());
             stmt.setString(4, disciplinaCursada.getCreditos());
             stmt.setString(5, disciplinaCursada.getHorasCursadas());
-            stmt.setLong(6, disciplinaCursada.getDispensaDisciplina().getIdDispensaDisciplina());
+//            stmt.setLong(6, disciplinaCursada.getDispensaDisciplina().getIdDispensaDisciplina());
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -55,7 +55,7 @@ public class DisciplinaCursadaDAO {
             stmt.setString(3, disciplinaCursada.getDisciplina());
             stmt.setString(4, disciplinaCursada.getCreditos());
             stmt.setString(5, disciplinaCursada.getHorasCursadas());
-            stmt.setLong(6, disciplinaCursada.getDispensaDisciplina().getIdDispensaDisciplina());
+//            stmt.setLong(6, disciplinaCursada.getDispensaDisciplina().getIdDispensaDisciplina());
             stmt.setLong(7, disciplinaCursada.getIdDisciplinaCursada());
             stmt.executeUpdate();
             return true;
@@ -105,7 +105,7 @@ public class DisciplinaCursadaDAO {
                 
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("dispensadisciplina_fk"));
                 buscarDispensaDisciplina = dao.selectID(dispensaDisciplina);
-                disciplinaCursada.setDispensaDisciplina(buscarDispensaDisciplina);
+//                disciplinaCursada.setDispensaDisciplina(buscarDispensaDisciplina);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DisciplinaCursadaDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,7 +139,7 @@ public class DisciplinaCursadaDAO {
                 
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("dispensadisciplina_fk"));
                 buscarDispensaDisciplina = dao.selectID(dispensaDisciplina);
-                disciplinaCursada.setDispensaDisciplina(buscarDispensaDisciplina);
+//                disciplinaCursada.setDispensaDisciplina(buscarDispensaDisciplina);
 
                 disciplinaCursadas.add(disciplinaCursada);
             }

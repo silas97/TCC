@@ -20,7 +20,7 @@ public class UsuarioDAO {
         con = ConnectionFactory.getConnection();
     }
 
-    public boolean insert(Usuario usuario) {
+    public Long insert(Usuario usuario) {
         String sql = "INSERT INTO usuario(nome, cpf, cep, endereco, bairro, cidade, estado, perfil) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         try {
@@ -34,13 +34,39 @@ public class UsuarioDAO {
             stmt.setString(7, usuario.getEstado());
             stmt.setString(8, usuario.getPerfil());
             stmt.executeUpdate();
-            return true;
+                        
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+           
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
+            return selectMaxID().getIdUsuario();
+    }
+    
+    public boolean insertUsuario(Usuario usuario) {
+        String sql = "INSERT INTO usuario(nome, cpf, cep, endereco, bairro, cidade, estado, perfil) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getCpf());
+            stmt.setString(3, usuario.getCep());
+            stmt.setString(4, usuario.getEndereco());
+            stmt.setString(5, usuario.getBairro());
+            stmt.setString(6, usuario.getCidade());
+            stmt.setString(7, usuario.getEstado());
+            stmt.setString(8, usuario.getPerfil());
+            stmt.executeUpdate();
+            
+           return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+           return false;
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+            
     }
 
     public boolean update(Usuario usuario) {
@@ -101,6 +127,56 @@ public class UsuarioDAO {
                 usuario.setCidade(rs.getString("cidade"));
                 usuario.setEstado(rs.getString("estado"));
                 usuario.setPerfil(rs.getString("perfil"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return usuario;
+    }
+    
+    public Usuario selectID(Long idUsuario) {
+        con = ConnectionFactory.getConnection();
+        Usuario usuario = new Usuario();
+        String sql = "SELECT * FROM usuario WHERE idusuario = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, idUsuario);
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                usuario.setIdUsuario(rs.getLong("idusuario"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setCpf(rs.getString("cpf"));
+                usuario.setCep(rs.getString("cep"));
+                usuario.setEndereco(rs.getString("endereco"));
+                usuario.setBairro(rs.getString("bairro"));
+                usuario.setCidade(rs.getString("cidade"));
+                usuario.setEstado(rs.getString("estado"));
+                usuario.setPerfil(rs.getString("perfil"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return usuario;
+    }
+    public Usuario selectMaxID() {
+        con = ConnectionFactory.getConnection();
+        Usuario usuario = new Usuario();
+        String sql = "SELECT max(idusuario) as id FROM usuario;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                usuario.setIdUsuario(rs.getLong("id"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);

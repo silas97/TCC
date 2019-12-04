@@ -24,6 +24,19 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(String nome, String cpf, String cep, String endereco, String bairro, String cidade, String estado, String perfil) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.cep = cep;
+        this.endereco = endereco;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.perfil = perfil;
+    }
+    
+    
+
     public Usuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }

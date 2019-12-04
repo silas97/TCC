@@ -44,8 +44,10 @@ public class ServletDisciplinaCursada extends HttpServlet {
 
             if (dao.insert(disciplinaCursada)) {
                 req.setAttribute("message", "DisciplinaCursada salvo com sucesso!");
+                 req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
             } else {
                 req.setAttribute("message", "Erro ao salvar!");
+                 req.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
             }
             req.getRequestDispatcher("/aluno/cadastrar-disciplina-cursada.jsp").forward(req, resp);
 

@@ -35,9 +35,12 @@ public class ServletCurso extends HttpServlet {
             course.setNome(nome);
 
             if (dao.insert(course)) {
-                req.setAttribute("message", "Curso salvo com sucesso!");
+                req.setAttribute("message", "Curso cadastrado com sucesso!");
+                req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
             } else {
                 req.setAttribute("message", "Erro ao salvar!");
+                req.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
+                
             }
             req.getRequestDispatcher("/funcionario/cadastrar-curso.jsp").forward(req, resp);
 

@@ -48,7 +48,7 @@ public class ServletUsuario extends HttpServlet {
             user.setEstado(estado);
             user.setPerfil(perfil);
 
-            if (dao.insert(user)) {
+            if (dao.insertUsuario(user)) {
                 req.setAttribute("message", "Usuário salvo com sucesso!");
             } else {
                 req.setAttribute("message", "Erro ao salvar!");

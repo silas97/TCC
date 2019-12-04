@@ -23,6 +23,15 @@ import br.edu.fafic.model.Disciplina;
  */
 @WebServlet("/disciplina")
 public class ServletDisciplina extends HttpServlet {
+    
+    private String param;
+
+    @Override
+    public void init() throws ServletException {
+        param = null;
+    }
+    
+    
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,7 +42,8 @@ public class ServletDisciplina extends HttpServlet {
 
         DisciplinaDAO dao = new DisciplinaDAO();
         Disciplina discipline;
-        String param = req.getParameter("param");
+        param = req.getParameter("param");
+        System.out.println("Parametro: " +param);
         if (param.equals("cadastrar")) {
             Long idCurso_FK = Long.valueOf(req.getParameter("idCurso_FK"));
             discipline = new Disciplina();
@@ -48,8 +58,10 @@ public class ServletDisciplina extends HttpServlet {
 
             if (dao.insert(discipline)) {
                 req.setAttribute("message", "Disciplina salva com sucesso!");
+                req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
             } else {
                 req.setAttribute("message", "Erro ao salvar!");
+                req.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
             }
             req.getRequestDispatcher("funcionario/cadastrar-disciplina.jsp").forward(req, resp);
 
@@ -58,7 +70,7 @@ public class ServletDisciplina extends HttpServlet {
             Disciplina disciplina = new Disciplina();
             disciplina.setIdDisciplina(id);
             discipline = dao.selectID(disciplina);
-            req.getSession().setAttribute("discipline", discipline);
+            req.setAttribute("discipline", discipline);
             req.getRequestDispatcher("funcionario/alterar-disciplina.jsp").forward(req, resp);
         } else if (param.equalsIgnoreCase("update")) {
             Long id = Long.valueOf(req.getParameter("id"));
@@ -75,7 +87,9 @@ public class ServletDisciplina extends HttpServlet {
             Curso buscaCurso =  cursoDao.selectID(curso);
             discipline.setCurso(buscaCurso);
             dao.update(discipline);
-            resp.sendRedirect("funcionario/listar-disciplina.jsp");
+            req.setAttribute("message", "Disciplina atualizada com sucesso!");
+            req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
+            req.getRequestDispatcher("funcionario/alterar-disciplina.jsp").forward(req, resp);
         } else if (param.equals("apagar")) {
             Long id = Long.valueOf(req.getParameter("id"));
             discipline = new Disciplina();

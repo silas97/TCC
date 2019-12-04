@@ -8,7 +8,7 @@ public class DisciplinaCursada {
     private String disciplina;
     private String creditos;
     private String horasCursadas;
-    private DispensaDisciplina dispensaDisciplina;
+//    private DispensaDisciplina dispensaDisciplina;
 
     public DisciplinaCursada() {
     }
@@ -62,12 +62,12 @@ public class DisciplinaCursada {
     }
 
 
-    public DispensaDisciplina getDispensaDisciplina() {
-        return this.dispensaDisciplina;
-    }
-
-    public void setDispensaDisciplina(DispensaDisciplina dispensaDisciplina) {
-        this.dispensaDisciplina = dispensaDisciplina;
-    }
+//    public DispensaDisciplina getDispensaDisciplina() {
+//        return this.dispensaDisciplina;
+//    }
+//
+//    public void setDispensaDisciplina(DispensaDisciplina dispensaDisciplina) {
+//        this.dispensaDisciplina = dispensaDisciplina;
+//    }
 
 }

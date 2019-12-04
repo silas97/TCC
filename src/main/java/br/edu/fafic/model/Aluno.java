@@ -42,4 +42,10 @@ public class Aluno {
         this.usuario = usuario;
     }
 
+    @Override
+    public String toString() {
+        return "Aluno{" + "idAluno=" + idAluno + ", matricula=" + matricula + ", curso=" + curso + ", usuario=" + usuario + '}';
+    }
+
+    
 }
