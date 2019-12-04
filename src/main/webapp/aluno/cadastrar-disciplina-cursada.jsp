@@ -68,6 +68,7 @@
                         </div>
                         <label>${message}</label>
                         <div class="p-t-15">
+                                <input type="hidden" value="cadastrar" name="param" />
                             <button class="btn btn--blue btn--radius-2" type="submit">Cadastrar</button>
                         </div>
 

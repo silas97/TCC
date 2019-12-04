@@ -14,12 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.edu.fafic.dao.AlunoDAO;
-import br.edu.fafic.dao.DisciplinaCursadaDAO;
-import br.edu.fafic.dao.DisciplinaDAO;
+
 import br.edu.fafic.dao.DispensaDisciplinaDAO;
 import br.edu.fafic.model.Aluno;
-import br.edu.fafic.model.Disciplina;
-import br.edu.fafic.model.DisciplinaCursada;
+
 import br.edu.fafic.model.DispensaDisciplina;
 
 /**
@@ -38,31 +36,16 @@ public class ServletDispensaDisciplina extends HttpServlet {
         Aluno aluno = new Aluno();
         Aluno buscarAluno;
 
-        DisciplinaCursadaDAO daoDisciplinaCursada = new DisciplinaCursadaDAO();
-        DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
-        DisciplinaCursada buscarDisciplinaCursada;
-
-        DisciplinaDAO daoDisciplina = new DisciplinaDAO();
-        Disciplina disciplina = new Disciplina();
-        Disciplina buscarDisciplina;
-
         String param = req.getParameter("param");
 
         if (param.equals("cadastrar")) {
             Long idAluno = Long.parseLong(req.getParameter("idAluno_FK"));
-            Long idDisciplinaCursada = Long.parseLong(req.getParameter("idDisciplinaCursada_FK"));
-            Long idDisciplina = Long.parseLong(req.getParameter("idDisciplina_FK"));
             sDispensaDisciplina = new DispensaDisciplina();
 
             aluno.setIdAluno(idAluno);
             buscarAluno = daoAluno.selectID(aluno);
             sDispensaDisciplina.setAluno(buscarAluno);
 
-            disciplinaCursada.setIdDisciplinaCursada(idDisciplinaCursada);
-            buscarDisciplinaCursada = daoDisciplinaCursada.selectID(disciplinaCursada);
-
-            disciplina.setIdDisciplina(idDisciplina);
-            buscarDisciplina = daoDisciplina.selectID(disciplina);
 
             if (dao.insert(sDispensaDisciplina)) {
                 req.setAttribute("message", "DispensaDisciplina salvo com sucesso!");
@@ -82,8 +65,7 @@ public class ServletDispensaDisciplina extends HttpServlet {
             Long id = Long.valueOf(req.getParameter("id"));
             sDispensaDisciplina = new DispensaDisciplina();
             Long idAluno = Long.parseLong(req.getParameter("idAluno_FK"));
-            Long idDisciplinaCursada = Long.parseLong(req.getParameter("idDisciplinaCursada_FK"));
-            Long idDisciplina = Long.parseLong(req.getParameter("idDisciplina_FK"));
+
             sDispensaDisciplina = new DispensaDisciplina();
             sDispensaDisciplina.setIdDispensaDisciplina(id);
 
@@ -91,11 +73,6 @@ public class ServletDispensaDisciplina extends HttpServlet {
             buscarAluno = daoAluno.selectID(aluno);
             sDispensaDisciplina.setAluno(buscarAluno);
 
-            disciplinaCursada.setIdDisciplinaCursada(idDisciplinaCursada);
-            buscarDisciplinaCursada = daoDisciplinaCursada.selectID(disciplinaCursada);
-
-            disciplina.setIdDisciplina(idDisciplina);
-            buscarDisciplina = daoDisciplina.selectID(disciplina);
             dao.update(sDispensaDisciplina);
             resp.sendRedirect("aluno/listar-dispensa-disciplina.jsp");
         } else if (param.equals("apagar")) {

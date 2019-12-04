@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.edu.fafic.dao.DisciplinaCursadaDAO;
 import br.edu.fafic.model.DisciplinaCursada;
+import br.edu.fafic.model.DispensaDisciplina;
 
 /**
  *
@@ -29,18 +30,25 @@ public class ServletDisciplinaCursada extends HttpServlet {
         String curso = req.getParameter("curso");
         String disciplina = req.getParameter("disciplina");
         String creditos = req.getParameter("creditos");
-        String horasCursadas = req.getParameter("horasCursadas");
+        String horasCursadas = req.getParameter("horas");
+        /* Long idDispensaDisciplina = Long.parseLong(req.getParameter("iddispensadisciplina_fk")); */
         
         DisciplinaCursadaDAO dao = new DisciplinaCursadaDAO();
         DisciplinaCursada disciplinaCursada;
         String param = req.getParameter("param");
         if (param.equals("cadastrar")) {
+            DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
+            Long idDispensaDisciplina_FK = Long.valueOf("1");
             disciplinaCursada = new DisciplinaCursada();
             disciplinaCursada.setInstituicaoOrigem(instituicaoOrigem);
             disciplinaCursada.setCurso(curso);
             disciplinaCursada.setDisciplina(disciplina);
             disciplinaCursada.setCreditos(creditos);
             disciplinaCursada.setHorasCursadas(horasCursadas);
+
+            dispensaDisciplina.setIdDispensaDisciplina(idDispensaDisciplina_FK);
+
+            disciplinaCursada.setDispensaDisciplina(dispensaDisciplina);
 
             if (dao.insert(disciplinaCursada)) {
                 req.setAttribute("message", "DisciplinaCursada salvo com sucesso!");
@@ -59,12 +67,16 @@ public class ServletDisciplinaCursada extends HttpServlet {
             req.getRequestDispatcher("aluno/alterar-disciplina-cursada.jsp").forward(req, resp);
         } else if (param.equalsIgnoreCase("update")) {
             Long id = Long.valueOf(req.getParameter("id"));
+            Long idDispensaDisciplina_FK = Long.valueOf("1");
             disciplinaCursada = new DisciplinaCursada();
             disciplinaCursada.setInstituicaoOrigem(instituicaoOrigem);
             disciplinaCursada.setCurso(curso);
             disciplinaCursada.setDisciplina(disciplina);
             disciplinaCursada.setCreditos(creditos);
             disciplinaCursada.setHorasCursadas(horasCursadas);
+            DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
+            dispensaDisciplina.setIdDispensaDisciplina(idDispensaDisciplina_FK);
+            disciplinaCursada.setDispensaDisciplina(dispensaDisciplina);
             disciplinaCursada.setIdDisciplinaCursada(id);
             dao.update(disciplinaCursada);
             resp.sendRedirect("aluno/listar-disciplina-cursada.jsp");

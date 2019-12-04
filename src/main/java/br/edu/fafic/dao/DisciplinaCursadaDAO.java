@@ -84,7 +84,7 @@ public class DisciplinaCursadaDAO {
     }
 
     public DisciplinaCursada selectID(DisciplinaCursada disciplinaCursada) {
-        String sql = "SELECT instituicaoorigem, curso, disciplina, creditos, horascursadas, dispensadisciplina_fk FROM disciplinacursada WHERE iddisciplinacursada = ?;";
+        String sql = "SELECT instituicaoorigem, curso, disciplina, creditos, horascursadas, iddispensadisciplina_fk FROM disciplinacursada WHERE iddisciplinacursada = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
@@ -103,7 +103,7 @@ public class DisciplinaCursadaDAO {
                 disciplinaCursada.setCreditos(rs.getString("creditos"));
                 disciplinaCursada.setHorasCursadas(rs.getString("horascursadas"));
                 
-                dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("dispensadisciplina_fk"));
+                dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscarDispensaDisciplina = dao.selectID(dispensaDisciplina);
                 disciplinaCursada.setDispensaDisciplina(buscarDispensaDisciplina);
             }
@@ -116,7 +116,7 @@ public class DisciplinaCursadaDAO {
     }
 
     public List<DisciplinaCursada> selectAll() {
-        String sql = "SELECT iddisciplinacursada, instituicaoorigem, curso, disciplina, creditos, horascursadas, dispensadisciplina_fk FROM disciplinacursada;";
+        String sql = "SELECT iddisciplinacursada, instituicaoorigem, curso, disciplina, creditos, horascursadas, iddispensadisciplina_fk FROM disciplinacursada;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<DisciplinaCursada> disciplinaCursadas = new ArrayList<>();
@@ -137,7 +137,7 @@ public class DisciplinaCursadaDAO {
                 disciplinaCursada.setCreditos(rs.getString("creditos"));
                 disciplinaCursada.setHorasCursadas(rs.getString("horascursadas"));
                 
-                dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("dispensadisciplina_fk"));
+                dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscarDispensaDisciplina = dao.selectID(dispensaDisciplina);
                 disciplinaCursada.setDispensaDisciplina(buscarDispensaDisciplina);
 
