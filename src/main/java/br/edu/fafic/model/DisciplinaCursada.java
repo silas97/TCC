@@ -1,5 +1,7 @@
 package br.edu.fafic.model;
 
+import java.util.List;
+
 public class DisciplinaCursada {
 
     private Long idDisciplinaCursada;
@@ -8,9 +10,18 @@ public class DisciplinaCursada {
     private String disciplina;
     private String creditos;
     private String horasCursadas;
+    private List<DisciplinaCursada> disciplinaCursadas;
     private DispensaDisciplina dispensaDisciplina;
 
     public DisciplinaCursada() {
+    }
+
+    public List<DisciplinaCursada> getDisciplinaCursadas() {
+        return disciplinaCursadas;
+    }
+
+    public void setDisciplinaCursadas(List<DisciplinaCursada> disciplinaCursadas) {
+        this.disciplinaCursadas = disciplinaCursadas;
     }
 
     public Long getIdDisciplinaCursada() {

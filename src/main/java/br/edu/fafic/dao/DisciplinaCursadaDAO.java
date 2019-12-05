@@ -96,13 +96,13 @@ public class DisciplinaCursadaDAO {
                 DispensaDisciplinaDAO dao = new DispensaDisciplinaDAO();
                 DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
                 DispensaDisciplina buscarDispensaDisciplina = null;
-                
+
                 disciplinaCursada.setInstituicaoOrigem(rs.getString("instituicaoorigem"));
                 disciplinaCursada.setCurso(rs.getString("curso"));
                 disciplinaCursada.setDisciplina(rs.getString("disciplina"));
                 disciplinaCursada.setCreditos(rs.getString("creditos"));
                 disciplinaCursada.setHorasCursadas(rs.getString("horascursadas"));
-                
+
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscarDispensaDisciplina = dao.selectID(dispensaDisciplina);
                 disciplinaCursada.setDispensaDisciplina(buscarDispensaDisciplina);
@@ -136,7 +136,45 @@ public class DisciplinaCursadaDAO {
                 disciplinaCursada.setDisciplina(rs.getString("disciplina"));
                 disciplinaCursada.setCreditos(rs.getString("creditos"));
                 disciplinaCursada.setHorasCursadas(rs.getString("horascursadas"));
-                
+
+                dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
+                buscarDispensaDisciplina = dao.selectID(dispensaDisciplina);
+                disciplinaCursada.setDispensaDisciplina(buscarDispensaDisciplina);
+
+                disciplinaCursadas.add(disciplinaCursada);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaCursadaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return disciplinaCursadas;
+    }
+
+    public List<DisciplinaCursada> listarDisciplinaCursadas(Long idUsuario) {
+        String sql = "SELECT dc.iddisciplinacursada, dc.instituicaoorigem, dc.curso, dc.disciplina, dc.creditos, dc.horascursadas, dc.iddispensadisciplina_fk FROM disciplinacursada as dc INNER JOIN dispensadisciplina dd ON dc.iddispensadisciplina_fk = dd.iddispensadisciplina INNER JOIN aluno a ON a.idaluno = dd.idaluno_fk INNER JOIN usuario u ON u.idusuario = a.idusuario_fk WHERE u.idusuario = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<DisciplinaCursada> disciplinaCursadas = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, idUsuario);
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
+
+                DispensaDisciplinaDAO dao = new DispensaDisciplinaDAO();
+                DispensaDisciplina dispensaDisciplina = new DispensaDisciplina();
+                DispensaDisciplina buscarDispensaDisciplina = null;
+
+                disciplinaCursada.setIdDisciplinaCursada(rs.getLong("iddisciplinaCursada"));
+                disciplinaCursada.setInstituicaoOrigem(rs.getString("instituicaoorigem"));
+                disciplinaCursada.setCurso(rs.getString("curso"));
+                disciplinaCursada.setDisciplina(rs.getString("disciplina"));
+                disciplinaCursada.setCreditos(rs.getString("creditos"));
+                disciplinaCursada.setHorasCursadas(rs.getString("horascursadas"));
+
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscarDispensaDisciplina = dao.selectID(dispensaDisciplina);
                 disciplinaCursada.setDispensaDisciplina(buscarDispensaDisciplina);
