@@ -181,6 +181,35 @@ public class DisciplinaCursadaDAO {
         }
         return disciplinaCursada;
     }
+    
+    public DisciplinaCursada selectDisciplinaByID(Long id) {
+        con = ConnectionFactory.getConnection();
+        DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
+        String sql = "SELECT * FROM disciplinacursada WHERE iddisciplinacursada = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, id);
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                
+                disciplinaCursada.setIdDisciplinaCursada(rs.getLong("iddisciplinacursada"));
+                disciplinaCursada.setInstituicaoOrigem(rs.getString("instituicaoorigem"));
+                disciplinaCursada.setCurso(rs.getString("curso"));
+                disciplinaCursada.setDisciplina(rs.getString("disciplina"));
+                disciplinaCursada.setCreditos(rs.getString("creditos"));
+                disciplinaCursada.setHorasCursadas(rs.getString("horascursadas"));
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaCursadaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return disciplinaCursada;
+    }
 
     public List<DisciplinaCursada> selectAll() {
         String sql = "SELECT iddisciplinacursada, instituicaoorigem, curso, disciplina, creditos, horascursadas FROM disciplinacursada;";

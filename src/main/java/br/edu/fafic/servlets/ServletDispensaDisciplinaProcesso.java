@@ -53,7 +53,7 @@ public class ServletDispensaDisciplinaProcesso extends HttpServlet {
 
             dispensaDisciplina.setIdDispensaDisciplina(idDispensaDisciplina);
             buscarDispensaDisciplina = daoDispensaDisciplina.selectID(dispensaDisciplina);
-            sDispensaDisciplinaProcesso.setDispensaDisciplina(buscarDispensaDisciplina);
+//            sDispensaDisciplinaProcesso.setDispensaDisciplina(buscarDispensaDisciplina);
 
             if (dao.insert(sDispensaDisciplinaProcesso)) {
                 req.setAttribute("message", "DispensaDisciplinaProcesso salvo com sucesso!");
@@ -83,7 +83,7 @@ public class ServletDispensaDisciplinaProcesso extends HttpServlet {
 
             dispensaDisciplina.setIdDispensaDisciplina(idDispensaDisciplina);
             buscarDispensaDisciplina = daoDispensaDisciplina.selectID(dispensaDisciplina);
-            sDispensaDisciplinaProcesso.setDispensaDisciplina(buscarDispensaDisciplina);
+//            sDispensaDisciplinaProcesso.setDispensaDisciplina(buscarDispensaDisciplina);
             dao.update(sDispensaDisciplinaProcesso);
             resp.sendRedirect("funcionario/listar-dispensa-disciplina-processo.jsp");
         } else if (param.equals("apagar")) {

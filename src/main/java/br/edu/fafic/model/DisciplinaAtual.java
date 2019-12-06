@@ -3,8 +3,9 @@ package br.edu.fafic.model;
 public class DisciplinaAtual {
 
     private Long idDisciplinaAtual;
-    private DispensaDisciplina dispensaDisciplina;
-    private Disciplina disciplina;
+    private DisciplinaCursada disciplinaCursada;
+    private Disciplina disciplinaOfertada;
+    private Processos processo;
 
     public DisciplinaAtual() {
     }
@@ -17,20 +18,30 @@ public class DisciplinaAtual {
         this.idDisciplinaAtual = idDisciplinaAtual;
     }
 
-    public DispensaDisciplina getDispensaDisciplina() {
-        return this.dispensaDisciplina;
+    public DisciplinaCursada getDisciplinaCursada() {
+        return disciplinaCursada;
     }
 
-    public void setDispensaDisciplina(DispensaDisciplina dispensaDisciplina) {
-        this.dispensaDisciplina = dispensaDisciplina;
+    public void setDisciplinaCursada(DisciplinaCursada disciplinaCursada) {
+        this.disciplinaCursada = disciplinaCursada;
+    }
+        
+    public Disciplina getDisciplinaOfertada() {
+        return this.disciplinaOfertada;
     }
 
-    public Disciplina getDisciplina() {
-        return this.disciplina;
+    public void setDisciplinaOfertada(Disciplina disciplinaOfertada) {
+        this.disciplinaOfertada = disciplinaOfertada;
     }
 
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
+    public Processos getProcesso() {
+        return processo;
     }
+
+    public void setProcesso(Processos processo) {
+        this.processo = processo;
+    }
+    
+    
 
 }

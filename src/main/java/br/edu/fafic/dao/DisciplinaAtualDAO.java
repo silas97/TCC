@@ -26,13 +26,16 @@ public class DisciplinaAtualDAO {
     }
 
     public boolean insert(DisciplinaAtual disciplinaAtual) {
-        String sql = "INSERT INTO disciplinaatual(iddispensadisciplina_fk, iddisciplina_fk) VALUES (?, ?);";
+        con = ConnectionFactory.getConnection();
+        String sql = "INSERT INTO disciplinas_processo(id_processo, id_disciplina, id_disciplina_cursada) VALUES (?, ?, ?);";
         PreparedStatement stmt = null;
+        System.out.println("Id do Processo: " +disciplinaAtual.getProcesso().getIdProcessos());
         try {
             stmt = con.prepareStatement(sql);
-            stmt.setLong(1, disciplinaAtual.getDispensaDisciplina().getIdDispensaDisciplina());
-            stmt.setLong(2, disciplinaAtual.getDisciplina().getIdDisciplina());
-            stmt.executeUpdate();
+            stmt.setLong(1, disciplinaAtual.getProcesso().getIdProcessos());
+            stmt.setLong(2, disciplinaAtual.getDisciplinaOfertada().getIdDisciplina());
+            stmt.setLong(3, disciplinaAtual.getDisciplinaCursada().getIdDisciplinaCursada());
+            stmt.execute();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DisciplinaAtualDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,11 +49,11 @@ public class DisciplinaAtualDAO {
         String sql = "UPDATE disciplinaatual SET iddispensadisciplina_fk=?, iddisciplina_fk=? WHERE iddisciplinaatual=?;";
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.setLong(1, disciplinaAtual.getDispensaDisciplina().getIdDispensaDisciplina());
-            stmt.setLong(2, disciplinaAtual.getDisciplina().getIdDisciplina());
-            stmt.setLong(3, disciplinaAtual.getIdDisciplinaAtual());
-            stmt.executeUpdate();
+//            stmt = con.prepareStatement(sql);
+//            stmt.setLong(1, disciplinaAtual.getDispensaDisciplina().getIdDispensaDisciplina());
+//            stmt.setLong(2, disciplinaAtual.getDisciplinaOfertada().getIdDisciplina());
+//            stmt.setLong(3, disciplinaAtual.getIdDisciplinaAtual());
+//            stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DisciplinaAtualDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,6 +80,7 @@ public class DisciplinaAtualDAO {
     }
 
     public DisciplinaAtual selectID(DisciplinaAtual disciplinaAtual) {
+        con = ConnectionFactory.getConnection();
         String sql = "SELECT iddispensadisciplina_fk, iddisciplina_fk FROM disciplinaatual WHERE iddisciplinaatual = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -92,7 +96,7 @@ public class DisciplinaAtualDAO {
 
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscarDispensaDisciplina = dispensaDisciplinaDAO.selectID(dispensaDisciplina);
-                disciplinaAtual.setDispensaDisciplina(buscarDispensaDisciplina);
+//                disciplinaAtual.setDispensaDisciplina(buscarDispensaDisciplina);
 
                 DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
                 Disciplina disciplina = new Disciplina();
@@ -100,7 +104,7 @@ public class DisciplinaAtualDAO {
 
                 disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
                 buscarDisciplina = disciplinaDAO.selectID(disciplina);
-                disciplinaAtual.setDisciplina(buscarDisciplina);
+//                disciplinaAtual.setDisciplinaOfertada(buscarDisciplina);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DisciplinaAtualDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,6 +112,31 @@ public class DisciplinaAtualDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return disciplinaAtual;
+    }
+    
+    public DisciplinaAtual selectDisciplinaByPocessoId(Long idProcesso) {
+        con = ConnectionFactory.getConnection();
+        DisciplinaAtual atual = new DisciplinaAtual();
+        String sql = "SELECT * FROM disciplinas_processo WHERE id_processo = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, idProcesso);
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+               atual.setIdDisciplinaAtual(rs.getLong("id"));
+               atual.setProcesso(new ProcessosDAO().selectProcessoById(rs.getLong("id_processo")));
+//               atual.setDisciplinaOfertada(new DisciplinaDAO().selectDisciplinaByID(rs.getLong("id_disciplina")));
+//               atual.setDisciplinaCursada(new DisciplinaCursadaDAO().selectDisciplinaByID(rs.getLong("id_disciplina_cursada")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaAtualDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return atual;
     }
 
     public List<DisciplinaAtual> selectAll() {
@@ -129,7 +158,7 @@ public class DisciplinaAtualDAO {
 
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscarDispensaDisciplina = dispensaDisciplinaDAO.selectID(dispensaDisciplina);
-                disciplinaAtual.setDispensaDisciplina(buscarDispensaDisciplina);
+//                disciplinaAtual.setDispensaDisciplina(buscarDispensaDisciplina);
 
                 DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
                 Disciplina disciplina = new Disciplina();
@@ -137,7 +166,7 @@ public class DisciplinaAtualDAO {
 
                 disciplina.setIdDisciplina(rs.getLong("iddisciplina_fk"));
                 buscarDisciplina = disciplinaDAO.selectID(disciplina);
-                disciplinaAtual.setDisciplina(buscarDisciplina);
+//                disciplinaAtual.setDisciplinaOfertada(buscarDisciplina);
 
                 disciplinas.add(disciplinaAtual);
             }

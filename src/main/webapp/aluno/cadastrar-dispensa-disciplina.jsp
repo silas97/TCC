@@ -98,7 +98,7 @@
             </div>                        
 
 
-            <form class="text-white border border-white rounded p-3" name="aluno" method="post" action="${pageContext.request.contextPath}/disciplinaCursada">
+            <form class="text-white border border-white rounded p-3" name="aluno" method="post" action="${pageContext.request.contextPath}/dispensaDisciplina">
                 <c:if test="${param != null}">
                     <div class="${classe}" role="alert">
                         <strong>${message}</strong> 
@@ -131,25 +131,8 @@
 
                 </div>
                 
-                 <div class="card mt-3 mb-2">
-                    <h5 class="card-header text-info">Envio de Arquivos</h5>
-                    <div class="card-body">
-                        <p class="card-text ml-3 text-danger">Após cadastrar a(s) disciplina(s) selecione o(s) arquivo(s) da(s) disciplina(s) cursada(s) e realize o upload</p>
-                        <div class="form-group col-md-4">
-                            <label for="customFile">Enviar Arquivo</label>
-                            <div class="custom-file">
-                                <input type="file" name="arquivo" class="custom-file-input" id="customFile">
-                                <label class="custom-file-label" data-browse="Selecionar"  for="customFile">Nenhum arquivo selecionado</label>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div> 
-
-
-
-                <button type="submit" class="btn btn-light">Cadastrar</button>
+                
+                <button type="submit" class="btn btn-light">Continuar</button>
                 <input type="hidden" name="param" value="cadastrar"/>
 
 

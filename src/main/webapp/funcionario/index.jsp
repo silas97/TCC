@@ -83,7 +83,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownProcesso">
                                         <a class="dropdown-item"  href="${pageContext.request.contextPath}/funcionario/cadastrar-processos.jsp?matricula_aluno=null">Cadastrar</a>
-                                        <a class="dropdown-item" href="#">Listar Processo</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/funcionario/listar-processos.jsp">Listar Processo</a>
                                     </div>
                                 </li>
                             </div>

@@ -80,6 +80,7 @@ public class DisciplinaDAO {
     }
 
     public Disciplina selectID(Disciplina disciplina) {
+       
         String sql = "SELECT nome, creditos, cargahoraria, idcurso_fk FROM disciplina WHERE iddisciplina = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -96,6 +97,37 @@ public class DisciplinaDAO {
                 disciplina.setCreditos(rs.getString("creditos"));
                 disciplina.setCargaHoraria(rs.getString("cargahoraria"));
 
+                curso.setIdCurso(rs.getLong("idcurso_fk"));
+                buscarCurso = dao.selectID(curso);
+                disciplina.setCurso(buscarCurso);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return disciplina;
+    }
+    
+    public Disciplina selectDisciplinaByID(Long id) {
+        con = ConnectionFactory.getConnection();
+        Disciplina disciplina = new Disciplina();
+        String sql = "SELECT iddisciplina, nome, creditos, cargahoraria, idcurso_fk FROM disciplina WHERE iddisciplina = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, id);
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                CursoDAO dao = new CursoDAO();
+                Curso curso = new Curso();
+                Curso buscarCurso = null;
+                disciplina.setIdDisciplina(rs.getLong("iddisciplina"));
+                disciplina.setNome(rs.getString("nome"));
+                disciplina.setCreditos(rs.getString("creditos"));
+                disciplina.setCargaHoraria(rs.getString("cargahoraria"));
                 curso.setIdCurso(rs.getLong("idcurso_fk"));
                 buscarCurso = dao.selectID(curso);
                 disciplina.setCurso(buscarCurso);

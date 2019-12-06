@@ -100,8 +100,7 @@ public class ServletAluno extends HttpServlet {
                 req.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
             }
 
-            req.getRequestDispatcher(
-                    "/funcionario/cadastrar-aluno.jsp").forward(req, resp);
+            req.getRequestDispatcher("/funcionario/cadastrar-aluno.jsp").forward(req, resp);
 
         } else if (param.equals("alterar")) {
             Long id = Long.valueOf(req.getParameter("id"));

@@ -14,14 +14,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.edu.fafic.dao.AlunoDAO;
+import br.edu.fafic.dao.DisciplinaAtualDAO;
 import br.edu.fafic.dao.DisciplinaCursadaDAO;
 import br.edu.fafic.dao.DisciplinaDAO;
 import br.edu.fafic.dao.DispensaDisciplinaDAO;
+import br.edu.fafic.dao.DispensaDisciplinaProcessoDAO;
+import br.edu.fafic.dao.ProcessosDAO;
 import br.edu.fafic.model.Aluno;
 import br.edu.fafic.model.Disciplina;
+import br.edu.fafic.model.DisciplinaAtual;
 import br.edu.fafic.model.DisciplinaCursada;
 import br.edu.fafic.model.DispensaDisciplina;
+import br.edu.fafic.model.DispensaDisciplinaProcesso;
+import br.edu.fafic.model.Processos;
 import br.edu.fafic.model.Usuario;
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,6 +47,8 @@ public class ServletDispensaDisciplina extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DispensaDisciplinaDAO dao = new DispensaDisciplinaDAO();
         DispensaDisciplina sDispensaDisciplina;
+        ProcessosDAO processoDao = new ProcessosDAO();
+        DisciplinaAtualDAO discicplinaAtualDao = new DisciplinaAtualDAO();
 
         AlunoDAO daoAluno = new AlunoDAO();
         Aluno aluno = new Aluno();
@@ -57,28 +72,51 @@ public class ServletDispensaDisciplina extends HttpServlet {
             req.getRequestDispatcher("/aluno/cadastrar-dispensa-disciplina.jsp").forward(req, resp);
         }
 
+  try{
         if (param.equals("cadastrar")) {
-            Long idAluno = Long.parseLong(req.getParameter("idAluno_FK"));
-            Long idDisciplinaCursada = Long.parseLong(req.getParameter("idDisciplinaCursada_FK"));
-            Long idDisciplina = Long.parseLong(req.getParameter("idDisciplina_FK"));
-            sDispensaDisciplina = new DispensaDisciplina();
-
-            aluno.setIdAluno(idAluno);
-            buscarAluno = daoAluno.selectID(aluno);
-            sDispensaDisciplina.setAluno(buscarAluno);
-
-            disciplinaCursada.setIdDisciplinaCursada(idDisciplinaCursada);
-            buscarDisciplinaCursada = daoDisciplinaCursada.selectID(disciplinaCursada);
-
-            disciplina.setIdDisciplina(idDisciplina);
-            buscarDisciplina = daoDisciplina.selectID(disciplina);
-
-            if (dao.insert(sDispensaDisciplina)) {
-                req.setAttribute("message", "DispensaDisciplina salvo com sucesso!");
-            } else {
+            
+            String [] disciplinasCursadas = req.getParameterValues("disciplina_cursada");
+            String [] disciplinasOfertadas = req.getParameterValues("disciplina_ofertada");
+                  
+            
+            try {
+                Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
+                Aluno a = daoDisciplinaCursada.getIdAlunoFromUsuario(usuario);
+                
+                
+                Processos processo = new Processos();
+                processo.setAluno(a);
+                processo.setTipo("Dispensa de Disciplina");
+                Long idProcesso = processoDao.inserirProcesso(processo);
+                Processos processoRecuperado = processoDao.selectProcessoById(idProcesso);
+                
+                DispensaDisciplinaProcesso ddp = new DispensaDisciplinaProcesso();
+                ddp.setProcessos(processoRecuperado);
+                ddp.setDataProcesso(new Date());
+                ddp.setStatus("Aberto");
+                
+                new DispensaDisciplinaProcessoDAO().insert(ddp);
+                
+                for(int i =0 ; i < disciplinasCursadas.length; i++){
+                    DisciplinaAtual dAtual = new DisciplinaAtual();
+                    dAtual.setDisciplinaCursada(daoDisciplinaCursada.selectDisciplinaByID(Long.valueOf(disciplinasCursadas[i])));
+                    dAtual.setDisciplinaOfertada(daoDisciplina.selectDisciplinaByID(Long.valueOf(disciplinasOfertadas[i])));
+                    dAtual.setProcesso(processoRecuperado);
+                    discicplinaAtualDao.insert(dAtual);
+                    
+                }
+         
+              
+                req.setAttribute("message", "Dispensa de Disciplinas salvo com sucesso!");
+                req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
+                req.getSession().setAttribute("id_processo", idProcesso);
+                req.getRequestDispatcher("/aluno/upload.jsp").forward(req, resp);
+            } catch (Exception ex) {
+                Logger.getLogger(ServletDispensaDisciplina.class.getName()).log(Level.SEVERE, null, ex);
                 req.setAttribute("message", "Erro ao salvar!");
+                req.setAttribute("classe", "alert alert-danger alert-dismissible fade show");
+                req.getRequestDispatcher("/aluno/cadastrar-dispensa-disciplina.jsp").forward(req, resp);
             }
-            req.getRequestDispatcher("/aluno/cadastrar-dispensa-disciplina.jsp").forward(req, resp);
 
         } else if (param.equals("alterar")) {
             Long id = Long.valueOf(req.getParameter("id"));
@@ -114,5 +152,10 @@ public class ServletDispensaDisciplina extends HttpServlet {
             dao.delete(sDispensaDisciplina);
             resp.sendRedirect("aluno/listar-dispensa-disciplina.jsp");
         }
+    }catch(NullPointerException ex) {
+    
+        
     }
-}
+    
+ }
+} 

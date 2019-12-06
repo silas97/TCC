@@ -26,16 +26,35 @@ public class DispensaDisciplinaProcessoDAO {
     }
 
     public boolean insert(DispensaDisciplinaProcesso dispensaDisciplinaProcesso) {
-        String sql = "INSERT INTO dispensadisciplina_processo(dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, iddispensadisciplina_fk) VALUES (?, ?, ?, ?, ?, ?);";
+        con = ConnectionFactory.getConnection();
+        String sql = "INSERT INTO dispensadisciplina_processo(dataprocesso, dataencerramento, status, visibilidade, idprocessos_fk, path_arquivo) VALUES (?, ?, ?, ?, ?,?);";
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(sql);
-            stmt.setDate(1, (Date) dispensaDisciplinaProcesso.getDataProcesso());
-            stmt.setDate(2, (Date) dispensaDisciplinaProcesso.getDataEncerramento());
+            stmt.setDate(1, new java.sql.Date(dispensaDisciplinaProcesso.getDataProcesso().getTime()));
+            stmt.setDate(2,  new java.sql.Date(dispensaDisciplinaProcesso.getDataProcesso().getTime()));
             stmt.setString(3, dispensaDisciplinaProcesso.getStatus());
             stmt.setString(4, dispensaDisciplinaProcesso.getVisibilidade());
             stmt.setLong(5, dispensaDisciplinaProcesso.getProcessos().getIdProcessos());
-            stmt.setLong(6, dispensaDisciplinaProcesso.getDispensaDisciplina().getIdDispensaDisciplina());
+            stmt.setString(6, dispensaDisciplinaProcesso.getPahtDocumento());
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DispensaDisciplinaProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+
+    public boolean updateDispensaPathArquivo(DispensaDisciplinaProcesso dispensaDisciplinaProcesso) {
+        con = ConnectionFactory.getConnection();
+        String sql = "UPDATE dispensadisciplina_processo SET path_arquivo=? WHERE idprocessos_fk=?;";
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, dispensaDisciplinaProcesso.getPahtDocumento());
+            stmt.setLong(2, dispensaDisciplinaProcesso.getProcessos().getIdProcessos());
             stmt.executeUpdate();
             return true;
         } catch (Exception ex) {
@@ -56,7 +75,7 @@ public class DispensaDisciplinaProcessoDAO {
             stmt.setString(3, dispensaDisciplinaProcesso.getStatus());
             stmt.setString(4, dispensaDisciplinaProcesso.getVisibilidade());
             stmt.setLong(5, dispensaDisciplinaProcesso.getProcessos().getIdProcessos());
-            stmt.setLong(6, dispensaDisciplinaProcesso.getDispensaDisciplina().getIdDispensaDisciplina());
+//            stmt.setLong(6, dispensaDisciplinaProcesso.getDispensaDisciplina().getIdDispensaDisciplina());
             stmt.setLong(7, dispensaDisciplinaProcesso.getIdDispensaDisciplinaProcesso());
             stmt.executeUpdate();
             return true;
@@ -113,7 +132,7 @@ public class DispensaDisciplinaProcessoDAO {
 
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscaDispensaDisciplina = dispensaDisciplinaDao.selectID(dispensaDisciplina);
-                dispensaDisciplinaProcesso.setDispensaDisciplina(buscaDispensaDisciplina);
+//                dispensaDisciplinaProcesso.setDispensaDisciplina(buscaDispensaDisciplina);
 
             }
         } catch (SQLException ex) {
@@ -122,6 +141,46 @@ public class DispensaDisciplinaProcessoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return dispensaDisciplinaProcesso;
+    }
+    
+    public DispensaDisciplinaProcesso selectByIdProcesso(Long idProcesso) {
+        ProcessosDAO processosDao = new ProcessosDAO();
+        con = ConnectionFactory.getConnection();
+        DispensaDisciplinaProcesso ddp = new DispensaDisciplinaProcesso();
+        String sql = "SELECT * FROM dispensadisciplina_processo WHERE idprocessos_fk = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, idProcesso);
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                Processos p = new Processos();
+                ddp.setIdDispensaDisciplinaProcesso(rs.getLong("iddispensadisciplinaprocesso"));
+                ddp.setDataProcesso(rs.getDate("dataprocesso"));
+                ddp.setDataEncerramento(rs.getDate("dataencerramento"));
+                ddp.setStatus(rs.getString("status"));
+                ddp.setVisibilidade(rs.getString("visibilidade"));
+                p.setIdProcessos(rs.getLong("idprocessos_fk"));
+                ddp.setProcessos(processosDao.selectID(p));
+                ddp.setPahtDocumento(rs.getString("path_arquivo"));
+
+//                processos.setIdProcessos(rs.getLong("idprocessos_fk"));
+//                buscaProcessos = processosDao.selectID(processos);
+//                dispensaDisciplinaProcesso.setProcessos(buscaProcessos);
+//
+//                dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
+//                buscaDispensaDisciplina = dispensaDisciplinaDao.selectID(dispensaDisciplina);
+//                dispensaDisciplinaProcesso.setDispensaDisciplina(buscaDispensaDisciplina);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DispensaDisciplinaProcessoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return ddp;
     }
 
     public List<DispensaDisciplinaProcesso> selectAll() {
@@ -154,7 +213,7 @@ public class DispensaDisciplinaProcessoDAO {
 
                 dispensaDisciplina.setIdDispensaDisciplina(rs.getLong("iddispensadisciplina_fk"));
                 buscaDispensaDisciplina = dispensaDisciplinaDao.selectID(dispensaDisciplina);
-                dispensaDisciplinaProcesso.setDispensaDisciplina(buscaDispensaDisciplina);
+//                dispensaDisciplinaProcesso.setDispensaDisciplina(buscaDispensaDisciplina);
                 dispensaDisciplinaProcessos.add(dispensaDisciplinaProcesso);
             }
         } catch (SQLException ex) {
