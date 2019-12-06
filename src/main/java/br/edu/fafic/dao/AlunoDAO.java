@@ -179,4 +179,25 @@ public class AlunoDAO {
         }
         return aluno;
     }
+    
+    public Aluno getIdAlunoFromUsuario(Usuario usuario){
+        Aluno aluno = new Aluno();
+        String sql = "select * from aluno a where a.idusuario_fk = ?";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, usuario.getIdUsuario());
+            stmt.executeQuery();
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                aluno.setIdAluno(rs.getLong(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return aluno;
+    }
 }

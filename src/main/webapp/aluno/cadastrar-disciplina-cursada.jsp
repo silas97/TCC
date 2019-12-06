@@ -40,8 +40,8 @@
                                         Dispensa de Disciplinas
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownDisciplina">
-                                        <a class="dropdown-item" href="#">Cadastrar</a>
-                                        <a class="dropdown-item" href="#">Listar Processos</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/aluno/cadastrar-disciplina-cursada.jsp">Cadastrar Disciplinas Cursadas</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/aluno/listar-disciplina-cursada.jsp">Listar Processos</a>
                                     </div>
                                 </li>
                             </div>

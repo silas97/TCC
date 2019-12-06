@@ -15,9 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.edu.fafic.dao.AlunoDAO;
 import br.edu.fafic.dao.CursoDAO;
+import br.edu.fafic.dao.LoginDAO;
+;
 import br.edu.fafic.dao.UsuarioDAO;
 import br.edu.fafic.model.Aluno;
 import br.edu.fafic.model.Curso;
+import br.edu.fafic.model.Login;
 import br.edu.fafic.model.Usuario;
 
 /**
@@ -39,6 +42,8 @@ public class ServletAluno extends HttpServlet {
         CursoDAO daoCurso = new CursoDAO();
         Curso curso = new Curso();
         Curso buscarCurso;
+        
+        LoginDAO loginDao = new LoginDAO();
 
         
 
@@ -56,6 +61,7 @@ public class ServletAluno extends HttpServlet {
             String bairro = req.getParameter("bairro");
             String cidade = req.getParameter("cidade");
             String estado = req.getParameter("estado");
+//            String email = req.getParameter("email");
             String perfil = "Aluno";
             
             //parametros do aluno
@@ -72,13 +78,19 @@ public class ServletAluno extends HttpServlet {
             
             
             usuario = new Usuario(nome, cpf, cep, builderEndereco.toString() , bairro, cidade, estado, perfil);
+            
             Long idUsuario = daoUsuario.insert(usuario);
+            Usuario u = daoUsuario.selectID(idUsuario);
             sAluno = new Aluno();
             sAluno.setMatricula(matricula);
             curso.setIdCurso(idCurso);
             buscarCurso = daoCurso.selectID(curso);
             sAluno.setCurso(buscarCurso);
-            sAluno.setUsuario(daoUsuario.selectID(idUsuario));
+            sAluno.setUsuario(u);
+            Login login = new Login(sAluno.getUsuario().getNome().toLowerCase(), "123", u);
+            System.out.println("Login: " +login.toString());
+            loginDao.insert(login);
+            
 
             if (dao.insert(sAluno)) {
                 req.setAttribute("message", "Aluno salvo com sucesso!");

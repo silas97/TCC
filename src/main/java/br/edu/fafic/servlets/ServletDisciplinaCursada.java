@@ -5,6 +5,7 @@
  */
 package br.edu.fafic.servlets;
 
+import br.edu.fafic.dao.AlunoDAO;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.edu.fafic.dao.DisciplinaCursadaDAO;
+import br.edu.fafic.model.Aluno;
 import br.edu.fafic.model.DisciplinaCursada;
+import br.edu.fafic.model.Usuario;
 
 /**
  *
@@ -30,26 +33,44 @@ public class ServletDisciplinaCursada extends HttpServlet {
         String disciplina = req.getParameter("disciplina");
         String creditos = req.getParameter("creditos");
         String horasCursadas = req.getParameter("horasCursadas");
-        
+
         DisciplinaCursadaDAO dao = new DisciplinaCursadaDAO();
         DisciplinaCursada disciplinaCursada;
         String param = req.getParameter("param");
-        if (param.equals("cadastrar")) {
-            disciplinaCursada = new DisciplinaCursada();
-            disciplinaCursada.setInstituicaoOrigem(instituicaoOrigem);
-            disciplinaCursada.setCurso(curso);
-            disciplinaCursada.setDisciplina(disciplina);
-            disciplinaCursada.setCreditos(creditos);
-            disciplinaCursada.setHorasCursadas(horasCursadas);
+        Usuario u = (Usuario) req.getSession().getAttribute("usuario");
+        AlunoDAO alunoDao = new AlunoDAO();
+        Aluno al = alunoDao.getIdAlunoFromUsuario(u);
+               
+        if(param == null){
+             req.setAttribute("disciplinasCursadas",dao.selectDisciplinasCursadasDoAluno(al));
+             req.getRequestDispatcher("/aluno/listar-disciplina-cursada.jsp").forward(req, resp);
+        }
 
-            if (dao.insert(disciplinaCursada)) {
+        if (param.equals("cadastrar")) {
+            try {
+                disciplinaCursada = new DisciplinaCursada();
+                disciplinaCursada.setInstituicaoOrigem(instituicaoOrigem);
+                disciplinaCursada.setCurso(curso);
+                disciplinaCursada.setDisciplina(disciplina);
+                disciplinaCursada.setCreditos(creditos);
+                disciplinaCursada.setHorasCursadas(horasCursadas);
+                Long idDisciplinaCursada = dao.insertById(disciplinaCursada);
+                Aluno a = alunoDao.getIdAlunoFromUsuario(u);
+                dao.insertDisciplinaCursadaAluno(idDisciplinaCursada, a.getIdAluno());
                 req.setAttribute("message", "DisciplinaCursada salvo com sucesso!");
-                 req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
-            } else {
+                req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
+                
+            } catch (Exception ex) {
+                
                 req.setAttribute("message", "Erro ao salvar!");
-                 req.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
+                req.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
+                
+            }finally{
+                 req.getRequestDispatcher("/aluno/cadastrar-disciplina-cursada.jsp").forward(req, resp);
             }
-            req.getRequestDispatcher("/aluno/cadastrar-disciplina-cursada.jsp").forward(req, resp);
+
+           
+           
 
         } else if (param.equals("alterar")) {
             Long id = Long.valueOf(req.getParameter("id"));

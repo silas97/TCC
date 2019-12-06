@@ -1,6 +1,7 @@
 package br.edu.fafic.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class DispensaDisciplinaProcesso {
 
@@ -9,21 +10,18 @@ public class DispensaDisciplinaProcesso {
     private Date dataEncerramento;
     private String status;
     private String visibilidade;
+    private String pahtDocumento;
     private Processos processos;
-    private DispensaDisciplina dispensaDisciplina;
+    private DisciplinaCursadaAluno disciplinasCursadas;
+    private List<Disciplina> disciplinasOfertadas;
+    
+    
 
     public Long getIdDispensaDisciplinaProcesso() {
         return idDispensaDisciplinaProcesso;
     }
 
-    public DispensaDisciplina getDispensaDisciplina() {
-        return dispensaDisciplina;
-    }
-
-    public void setDispensaDisciplina(DispensaDisciplina dispensaDisciplina) {
-        this.dispensaDisciplina = dispensaDisciplina;
-    }
-
+   
     public String getVisibilidade() {
         return visibilidade;
     }
@@ -67,4 +65,32 @@ public class DispensaDisciplinaProcesso {
     public void setIdDispensaDisciplinaProcesso(Long idDispensaDisciplinaProcesso) {
         this.idDispensaDisciplinaProcesso = idDispensaDisciplinaProcesso;
     }
+
+    public DisciplinaCursadaAluno getDisciplinasCursadas() {
+        return disciplinasCursadas;
+    }
+
+    public void setDisciplinasCursadas(DisciplinaCursadaAluno disciplinasCursadas) {
+        this.disciplinasCursadas = disciplinasCursadas;
+    }
+
+    public List<Disciplina> getDisciplinasOfertadas() {
+        return disciplinasOfertadas;
+    }
+
+    public void setDisciplinasOfertadas(List<Disciplina> disciplinasOfertadas) {
+        this.disciplinasOfertadas = disciplinasOfertadas;
+    }
+
+    public String getPahtDocumento() {
+        return pahtDocumento;
+    }
+
+    public void setPahtDocumento(String pahtDocumento) {
+        this.pahtDocumento = pahtDocumento;
+    }
+    
+    
+    
+    
 }

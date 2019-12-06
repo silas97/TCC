@@ -49,7 +49,7 @@
                         <div class="text-center" >
                             <img src="resources/images/fafic.png" style="width: 150px;"/>
                         </div>    
-                        <div class="wrap-input100 validate-input" data-validate = "O login é obrigatório">
+                        <div class="wrap-input100" data-validate = "O login é obrigatório">
                             <input class="input100" type="text" name="email" placeholder="Login">
                             <span class="focus-input100" data-placeholder="&#xe82a;"></span>
                         </div>

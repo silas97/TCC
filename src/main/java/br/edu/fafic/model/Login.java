@@ -10,6 +10,14 @@ public class Login {
     public Login() {
     }
 
+    public Login(String email, String senha, Usuario usuario) {
+        this.email = email;
+        this.senha = senha;
+        this.usuario = usuario;
+    }
+    
+    
+
     public Long getIdLogin() {
         return idLogin;
     }

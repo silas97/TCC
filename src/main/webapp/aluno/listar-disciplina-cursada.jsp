@@ -32,7 +32,6 @@
                             <table class="table">
                                 <thead class="thead-light"  >
                                     <tr class="row100 head">
-                                        <td>Id</td>
                                         <td>Instituição de Origem</td>
                                         <td>Curso</td>
                                         <td>Disciplina</td>
@@ -41,9 +40,8 @@
                                         <td colspan="2">Ação</td>
                                     </tr>
                                 </thead>
-                                <c:forEach var="disciplinaCursada" items="${dao.selectAll()}">
+                                <c:forEach var="disciplinaCursada" items="${disciplinasCursadas}">
                                     <tr class="row100 body">
-                                        <td>${disciplinaCursada.idDisciplinaCursada}</td>
                                         <td>${disciplinaCursada.instituicaoOrigem}</td>
                                         <td>${disciplinaCursada.curso}</td>
                                         <td>${disciplinaCursada.disciplina}</td>

@@ -21,6 +21,7 @@ import br.edu.fafic.model.Aluno;
 import br.edu.fafic.model.Disciplina;
 import br.edu.fafic.model.DisciplinaCursada;
 import br.edu.fafic.model.DispensaDisciplina;
+import br.edu.fafic.model.Usuario;
 
 /**
  *
@@ -47,6 +48,14 @@ public class ServletDispensaDisciplina extends HttpServlet {
         Disciplina buscarDisciplina;
 
         String param = req.getParameter("param");
+        
+
+        if (param == null) {
+            Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
+            Aluno a = daoDisciplinaCursada.getIdAlunoFromUsuario(usuario);
+            req.setAttribute("disciplinasCursadasDoAluno", daoDisciplinaCursada.selectDisciplinasCursadasDoAluno(a));
+            req.getRequestDispatcher("/aluno/cadastrar-dispensa-disciplina.jsp").forward(req, resp);
+        }
 
         if (param.equals("cadastrar")) {
             Long idAluno = Long.parseLong(req.getParameter("idAluno_FK"));
