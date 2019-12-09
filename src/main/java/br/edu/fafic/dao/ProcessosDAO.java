@@ -224,7 +224,7 @@ public class ProcessosDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        System.out.println("Path: " +path);
+       
         return path;
     }
 }

@@ -36,7 +36,7 @@
                             </div>  
                             <div class="dropdown">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="#" id="navbarDropdownDisciplina"  data-toggle="dropdown" >
+                                    <a class="nav-link" href="#" id="navbarDropdownDisciplina"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                         Dispensa de Disciplinas
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownDisciplina">
