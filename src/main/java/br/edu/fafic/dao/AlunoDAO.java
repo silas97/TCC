@@ -80,7 +80,7 @@ public class AlunoDAO {
     }
 
     public Aluno selectID(Aluno aluno) {
-
+        con = ConnectionFactory.getConnection();
         String sql = "SELECT matricula, idcurso_fk, idusuario_fk FROM aluno WHERE idaluno = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;

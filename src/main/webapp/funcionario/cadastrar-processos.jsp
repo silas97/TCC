@@ -21,7 +21,7 @@
 
             <div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light mt-2 rounded">
-                    <h5 class="mt-2">SGPI</h5>
+                    <h5 class="mt-2"> <b style="color: #0056b3">SGPI</b></h5>
 
                     <div class="collapse navbar-collapse ml-3" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
@@ -82,14 +82,17 @@
                                     </div>
                                 </li>
                             </div>
-                            <div class="dropdown">
-                                <li class="nav-item active" aria-labelledby="navbarDropdownSair">
-                                    <a class="nav-link" id="navbarDropdownSair" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Seja Bem-Vindo(a), ${usuario.nome}
+                    </div>
+                    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <div class="dropdown ">
+                                <li class="nav-item active " >
+                                    <a class="nav-link border border rounded" href="#" id="navbarDropdownSair" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="${pageContext.request.contextPath}/resources/images/icon.png"/> <b style="color: #0056b3">${usuario.nome}</b>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownSair">
                                         <form>
-                                            <a class="dropdown-item" href="#">Sair</a>
+                                             <a class="dropdown-item" href="${pageContext.request.contextPath}">Sair</a>
                                         </form>
                                     </div>
                                 </li>
@@ -98,6 +101,8 @@
 
 
                     </div>
+
+
                 </nav>
             </div>
 

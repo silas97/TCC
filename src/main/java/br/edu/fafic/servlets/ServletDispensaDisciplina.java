@@ -31,6 +31,7 @@ import br.edu.fafic.model.Usuario;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -49,6 +50,8 @@ public class ServletDispensaDisciplina extends HttpServlet {
         DispensaDisciplina sDispensaDisciplina;
         ProcessosDAO processoDao = new ProcessosDAO();
         DisciplinaAtualDAO discicplinaAtualDao = new DisciplinaAtualDAO();
+        List<Disciplina> disOfertadas = new ArrayList<>();
+        List<DisciplinaCursada> disCursadas = new ArrayList<>();
 
         AlunoDAO daoAluno = new AlunoDAO();
         Aluno aluno = new Aluno();
@@ -73,10 +76,17 @@ public class ServletDispensaDisciplina extends HttpServlet {
         }
 
   try{
-        if (param.equals("cadastrar")) {
+        if (param.equalsIgnoreCase("continuar")) {
             
             String [] disciplinasCursadas = req.getParameterValues("disciplina_cursada");
             String [] disciplinasOfertadas = req.getParameterValues("disciplina_ofertada");
+            
+             for(int i =0 ; i < disciplinasCursadas.length; i++){
+                    disCursadas.add(daoDisciplinaCursada.selectDisciplinaByID(Long.valueOf(disciplinasCursadas[i])));
+             }
+             for(int i =0 ; i < disciplinasOfertadas.length; i++){
+                    disOfertadas.add(daoDisciplina.selectDisciplinaByID(Long.valueOf(disciplinasOfertadas[i])));
+             }
                   
             
             try {
@@ -89,6 +99,8 @@ public class ServletDispensaDisciplina extends HttpServlet {
                 processo.setTipo("Dispensa de Disciplina");
                 Long idProcesso = processoDao.inserirProcesso(processo);
                 Processos processoRecuperado = processoDao.selectProcessoById(idProcesso);
+                
+                req.getSession().setAttribute("id_processo", processoRecuperado.getIdProcessos());
                 
                 DispensaDisciplinaProcesso ddp = new DispensaDisciplinaProcesso();
                 ddp.setProcessos(processoRecuperado);
@@ -106,11 +118,10 @@ public class ServletDispensaDisciplina extends HttpServlet {
                     
                 }
          
-              
-                req.setAttribute("message", "Dispensa de Disciplinas salvo com sucesso!");
-                req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
-                req.getSession().setAttribute("id_processo", idProcesso);
-                req.getRequestDispatcher("/aluno/upload.jsp").forward(req, resp);
+                req.setAttribute("disCursadas", disCursadas);
+                req.setAttribute("disOfertadas", disOfertadas);
+                req.setAttribute("id_processo", idProcesso);
+                req.getRequestDispatcher("aluno/upload.jsp").forward(req, resp);
             } catch (Exception ex) {
                 Logger.getLogger(ServletDispensaDisciplina.class.getName()).log(Level.SEVERE, null, ex);
                 req.setAttribute("message", "Erro ao salvar!");

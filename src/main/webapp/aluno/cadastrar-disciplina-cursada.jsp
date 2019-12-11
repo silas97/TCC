@@ -41,6 +41,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownDisciplina">
                                         <a class="dropdown-item" href="${pageContext.request.contextPath}/aluno/cadastrar-disciplina-cursada.jsp">Cadastrar Disciplinas Cursadas</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/dispensaDisciplina">Solicitar Dispensa de Disciplinas</a>
                                         <a class="dropdown-item" href="${pageContext.request.contextPath}/aluno/listar-disciplina-cursada.jsp">Listar Processos</a>
                                     </div>
                                 </li>

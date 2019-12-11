@@ -3,7 +3,9 @@
     Created on : 02/09/2019, 15:55:44
     Author     : Silas
 --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="dao" class="br.edu.fafic.dao.DispensaDisciplinaProcessoDAO" />
+<jsp:useBean id="daoAluno" class="br.edu.fafic.dao.AlunoDAO" />
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -42,7 +44,7 @@
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownDisciplina">
                                         <a class="dropdown-item" href="${pageContext.request.contextPath}/aluno/cadastrar-disciplina-cursada.jsp">Cadastrar Disciplinas Cursadas</a>
                                         <a class="dropdown-item" href="${pageContext.request.contextPath}/dispensaDisciplina">Solicitar Dispensa de Disciplinas</a>
-                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/aluno">Listar Processos</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/aluno/listar_processos.jsp?param=listar">Listar Processos</a>
                                     </div>
                                 </li>
                             </div>
@@ -79,21 +81,30 @@
                             </div>
                             </nav>
                     </div>
-                    <div class="card  mt-3 ">
+                   <h2 class="mt-3 text-white">Lista de Processos</h2>
+                            
+                            <table class="table table-light table-hover rounded">
+                                <thead class="thead-light rounded">  
+                                    <tr>
 
-                        <!-- Content -->
-                        <div class="card-image" style="height: 400px;">
-                            <div class="card-body mb-5 mt-3" style="text-align: center">
-                                <img src="../resources/images/fafic.png"/>
-                            </div>
+                                        <th>Tipo do Processo</th>
+                                        <th>Data da Solicitação</th>
+                                        <th>Status</th>
+                                        
 
-                        </div>
-                        <div class="card-footer">
-                            <p class="card-text">Olá, ${usuario.nome}. Seja bem vindo ao SGPI, aqui você poderá gerenciar processos como: Dispensa de Disciplina, Regime Especial e Cancelamento de Matrículas </p>
-                        </div>  
-                        <!-- Content -->
-                    </div>
-                    <!-- Card -->        
+                                    </tr>
+                                </thead>
+                                <c:forEach var="processo" items="${processos}">
+                                    <tr>
+                                    <td>${processo.processos.tipo}</td>
+                                    <td>${processo.dataProcesso}</td>
+                                    <td>${processo.status}</td>
+                                </tr>
+                                </c:forEach>      
+                                
+
+
+                            </table>      
 
             </div>                                 
             <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>

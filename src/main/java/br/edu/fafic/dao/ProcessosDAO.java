@@ -227,4 +227,36 @@ public class ProcessosDAO {
        
         return path;
     }
+    
+    public List<Processos> selectAllAlunoProcess(Long idAluno) {
+        String sql = "SELECT * FROM processos where idaluno_fk = ?";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Processos> listaProcessos = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, idAluno);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                AlunoDAO dao = new AlunoDAO();
+                Aluno aluno = new Aluno();
+                Aluno buscaAluno = null;
+                Processos processos = new Processos();
+                processos.setIdProcessos(rs.getLong("idprocessos"));
+                processos.setTipo(rs.getString("tipo"));
+
+                aluno.setIdAluno(rs.getLong("idaluno_fk"));
+                buscaAluno = dao.selectID(aluno);
+                processos.setAluno(buscaAluno);
+
+                listaProcessos.add(processos);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcessosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return listaProcessos;
+    }
 }

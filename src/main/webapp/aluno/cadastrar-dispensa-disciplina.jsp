@@ -69,19 +69,24 @@
                                 </li>
                             </div>
 
-                            <div class="dropdown" style="text-align: right">
-                                <li class="nav-item active" aria-labelledby="navbarDropdownSair">
-                                    <a class="nav-link" id="navbarDropdownSair" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Seja Bem-Vindo(a), ${usuario.nome}
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownSair">
-                                        <form>
-                                            <a class="dropdown-item" href="#">Sair</a>
-                                        </form>
+                            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                                <ul class="navbar-nav">
+                                    <div class="dropdown ">
+                                        <li class="nav-item active " >
+                                            <a class="nav-link border border rounded" href="#" id="navbarDropdownSair" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="${pageContext.request.contextPath}/resources/images/icon.png"/> <b style="color: #0056b3">${usuario.nome}</b>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownSair">
+                                                <form>
+                                                    <a class="dropdown-item" href="${pageContext.request.contextPath}">Sair</a>
+                                                </form>
+                                            </div>
+                                        </li>
                                     </div>
-                                </li>
+                                </ul>
+
+
                             </div>
-                        </ul>
 
 
                     </div>
@@ -95,7 +100,10 @@
 
                 </div>
 
-            </div>                        
+            </div>  
+            <div id="loading" class="spinner-border text-info" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>                                    
 
 
             <form class="text-white border border-white rounded p-3" name="aluno" method="post" action="${pageContext.request.contextPath}/dispensaDisciplina">
@@ -130,16 +138,14 @@
                     </div>
 
                 </div>
-                
-                
-                <button type="submit" class="btn btn-light">Continuar</button>
-                <input type="hidden" name="param" value="cadastrar"/>
+
+
+                <button type="submit" id="continuar" class="btn btn-light">Continuar</button>
+                <input type="hidden" name="param" value="continuar"/>
 
 
             </form>    
-            <form>
-               
-            </form>    
+              
 
         </div>          
         <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
@@ -148,7 +154,7 @@
         <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/resources/jquery/drop_down_menu.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/umd/popper.min.js"></script>
         <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="${pageContext.request.contextPath}/resources/css/menu_side_bar.css" rel="stylesheet" />
 
@@ -157,21 +163,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
         
-
-
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-
-               $('disciplina_cursada').selectpicker();
-               $('disciplina_ofertada').selectpicker();
-
+        <script>
+            $("#continuar").on("loading", "click", function(){
+                    $("#loading").show();
             });
-
         </script>
 
 

@@ -11,18 +11,21 @@
 <html>
 
     <head>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="${pageContext.request.contextPath}/resources/js/bootstrap.css"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/resources/jquery/drop_down_menu.js"></script>
-        <link href="${pageContext.request.contextPath}/resources/css/menu_side_bar.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.2/popper.min.js"></script>
+        <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+        <script src="${pageContext.request.contextPath}/resources/js/bootstrap.css"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+                
         <title>SGPI</title>
+       
+            
     </head>
 
-    <body style="background-color: #0056b3">
+    <body style="background-color: #0056b3;">
 
         <div class="container">
             <div>
@@ -90,22 +93,24 @@
                                     </div>
                                 </li>
                             </div>
-                            <div class="dropdown float-right">
-                                <li class="nav-item active" aria-labelledby="navbarDropdownSair">
-                                    <a class="nav-link" id="navbarDropdownSair" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Seja Bem-Vindo(a), ${usuario.nome}
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownSair">
-                                        <form>
-                                            <a class="dropdown-item" href="#">Sair</a>
-                                        </form>
+                            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                                <ul class="navbar-nav">
+                                    <div class="dropdown ">
+                                        <li class="nav-item active " >
+                                            <a class="nav-link border border rounded" href="#" id="navbarDropdownSair" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="${pageContext.request.contextPath}/resources/images/icon.png"/> <b style="color: #0056b3">${usuario.nome}</b>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownSair">
+                                                <form>
+                                                    <a class="dropdown-item" href="${pageContext.request.contextPath}">Sair</a>
+                                                </form>
+                                            </div>
+                                        </li>
                                     </div>
-                                </li>
+                                </ul>
+
+
                             </div>
-                        </ul>
-
-
-                    </div>
                 </nav>
             </div>
 
@@ -125,6 +130,7 @@
                         <td>${processos.getAluno().getUsuario().getNome()}</td>
                         <td>${processos.tipo}</td>
                         
+                        
                         <td> 
                             <form action="${pageContext.request.contextPath}/openPDF" method="post" target="_blank">
                                 <input type="hidden" name="path" value="${dao.pathAquivoByPidProcesso(processos.idProcessos)}"/>
@@ -133,6 +139,7 @@
                         </td>       
                     <form name="processos" action="${pageContext.request.contextPath}/processos" method="post">
                         <input type="hidden" value="${processos.idProcessos}" name="id" />
+                        <input type="hidden" value="${processos.getAluno().getUsuario().getNome()}" name="nome_aluno" />
                         <td style="text-align: center;" ><button type="submit" class="btn btn-info" value="alterar" name="param">alterar</button></td>
                         <td style="text-align: center;" ><button type="submit" class="btn btn-danger" value="apagar" name="param">excluir</button></td>
                     </form>
@@ -142,14 +149,7 @@
             </table>  
         </div>    
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.js"
-                integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/bootstrap.css"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/jquery/drop_down_menu.js"></script> 
+        
     </body>
 
 </html>

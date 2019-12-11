@@ -80,7 +80,7 @@ public class DisciplinaDAO {
     }
 
     public Disciplina selectID(Disciplina disciplina) {
-       
+
         String sql = "SELECT nome, creditos, cargahoraria, idcurso_fk FROM disciplina WHERE iddisciplina = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -108,7 +108,7 @@ public class DisciplinaDAO {
         }
         return disciplina;
     }
-    
+
     public Disciplina selectDisciplinaByID(Long id) {
         con = ConnectionFactory.getConnection();
         Disciplina disciplina = new Disciplina();
@@ -168,6 +168,43 @@ public class DisciplinaDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
+        return disciplinas;
+    }
+
+    public List<Disciplina> selectDisciplinasByAlunoAndProcesso(Long idProcesso, Long idAluno) {
+        String sql = "select d.* from disciplina d\n"
+                + "join disciplinas_processo dp on dp.id_disciplina=d.iddisciplina\n"
+                + "join processos p on dp.id_processo=p.idprocessos\n"
+                + "where p.idaluno_fk=? and p.idprocessos=? order by d.nome";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Disciplina> disciplinas = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, idProcesso);
+            stmt.setLong(2, idAluno);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                CursoDAO dao = new CursoDAO();
+                Curso curso = new Curso();
+                Curso buscarCurso = null;
+                Disciplina disciplina = new Disciplina();
+                disciplina.setIdDisciplina(rs.getLong("iddisciplina"));
+                disciplina.setNome(rs.getString("nome"));
+                disciplina.setCreditos(rs.getString("creditos"));
+                disciplina.setCargaHoraria(rs.getString("cargahoraria"));
+                curso.setIdCurso(rs.getLong("idcurso_fk"));
+                buscarCurso = dao.selectID(curso);
+                disciplina.setCurso(buscarCurso);
+
+                disciplinas.add(disciplina);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+       
         return disciplinas;
     }
 }

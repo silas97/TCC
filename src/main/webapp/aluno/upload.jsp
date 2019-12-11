@@ -3,8 +3,11 @@
     Created on : 02/09/2019, 15:55:44
     Author     : Silas
 --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="daoDisciplinaCursada" class="br.edu.fafic.dao.DisciplinaCursadaDAO"/>
+<jsp:useBean id="daoDisciplina" class="br.edu.fafic.dao.DisciplinaDAO"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 
@@ -76,7 +79,51 @@
                     </div>
                 </nav>
             </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 class="mt-3 text-white">Disciplinas Ofertadas</h2>
+                    <table class="table table-light table-hover rounded">
+                        <thead class="thead-light rounded">  
+                            <tr>
+                                <th>Disciplina</th>
+                                <th>Carga Horária</th>
+                                <th>Créditos</th>
+                               
+                            </tr>
+                        </thead>
+                        <c:forEach var="disciplina" items="${disOfertadas}">
+                            <tr>
+                                <td>${disciplina.nome}</td>
+                                <td>${disciplina.cargaHoraria}</td>
+                                <td>${disciplina.creditos}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>          
 
+                </div>
+                <div class="col-sm-6">
+                    <h2 class="mt-3 text-white">Disciplinas Cursadas</h2>
+                    <table class="table table-light table-hover rounded">
+                        <thead class="thead-light rounded">  
+                            <tr>
+                                <th>Disciplina</th>
+                                <th>Carga Horária</th>
+                                <th>Créditos</th>
+                               
+                            </tr>
+                        </thead>
+                        <c:forEach var="disciplina" items="${disCursadas}">
+                            <tr>
+                                <td>${disciplina.disciplina}</td>
+                                <td>${disciplina.horasCursadas}</td>
+                                <td>${disciplina.creditos}</td>
+                            </tr>
+                        </c:forEach> 
+                        
+                    </table>          
+
+                </div>
+            </div>                          
 
             <h2 class="mt-3 text-white">Upload de arquivos</h2>
             <div class="card mt-3 mb-2">

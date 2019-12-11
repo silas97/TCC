@@ -55,9 +55,9 @@ public class ServletDisciplinaCursada extends HttpServlet {
                 disciplinaCursada.setCreditos(creditos);
                 disciplinaCursada.setHorasCursadas(horasCursadas);
                 Long idDisciplinaCursada = dao.insertById(disciplinaCursada);
-                Aluno a = alunoDao.getIdAlunoFromUsuario(u);
-                dao.insertDisciplinaCursadaAluno(idDisciplinaCursada, a.getIdAluno());
-                req.setAttribute("message", "DisciplinaCursada salvo com sucesso!");
+//                Aluno a = alunoDao.getIdAlunoFromUsuario(u);
+                dao.insertDisciplinaCursadaAluno(idDisciplinaCursada, al.getIdAluno());
+                req.setAttribute("message", "Operação realizada com sucesso!");
                 req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
                 
             } catch (Exception ex) {

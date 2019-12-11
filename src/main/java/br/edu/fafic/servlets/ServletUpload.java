@@ -5,16 +5,16 @@
  */
 package br.edu.fafic.servlets;
 
+import br.edu.fafic.dao.DisciplinaCursadaDAO;
+import br.edu.fafic.dao.DisciplinaDAO;
 import br.edu.fafic.dao.DispensaDisciplinaProcessoDAO;
 import br.edu.fafic.dao.DocumentoDAO;
+import br.edu.fafic.model.Aluno;
 import br.edu.fafic.model.DispensaDisciplinaProcesso;
-import br.edu.fafic.model.Documento;
+import br.edu.fafic.model.Usuario;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.Init;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +39,8 @@ public class ServletUpload extends HttpServlet {
     private File arquivo = new File("C:\\Users\\uploads");
     private final DocumentoDAO documentoDAO = new DocumentoDAO();
     private DispensaDisciplinaProcessoDAO dispensaDAO = new DispensaDisciplinaProcessoDAO();
+    private DisciplinaCursadaDAO daoDisciplinaCursada = new DisciplinaCursadaDAO();
+    private DisciplinaDAO daoDisciplina = new DisciplinaDAO();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -47,11 +49,16 @@ public class ServletUpload extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String tipoArquivo = request.getParameter("tipo");
-        String idDoProcesso = request.getParameter("id_processo");
-        System.out.println("Id do Processo: " + idDoProcesso);
+        Long idDoProcesso = (Long)request.getSession().getAttribute("id_processo");
+       
+//        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+//        Aluno a = daoDisciplinaCursada.getIdAlunoFromUsuario(usuario);
+       
+
+//        String tipoArquivo = request.getParameter("tipo");
+
         DispensaDisciplinaProcesso ddp = new DispensaDisciplinaProcesso();
-        ddp = dispensaDAO.selectByIdProcesso((Long) request.getSession().getAttribute("id_processo"));
+        ddp = dispensaDAO.selectByIdProcesso(idDoProcesso);
         String path = "";
 
         if (!arquivo.exists()) {
@@ -81,23 +88,31 @@ public class ServletUpload extends HttpServlet {
                 }
 //                    documentoDAO.insert(new Documento(arquivo + File.separator + System.currentTimeMillis() + ".pdf", value.toUpperCase()));
                 ddp.setPahtDocumento(path);
+                String link =  "<a href="+request.getContextPath()+"/aluno/listar-dispensa-disciplina.jsp>Aqui</a>"; 
                 dispensaDAO.updateDispensaPathArquivo(ddp);
-
-                
-                request.setAttribute("message", "Arquivo enviado com sucesso!");
+                request.getSession().removeAttribute("id_processo");
                 request.setAttribute("classe", "alert alert-success alert-dismissible fade show");
+                request.setAttribute("titulo", "Operação realizada com sucesso!");
+                request.setAttribute("message", "Sua solicitação foi realizada com sucesso. Acompanhe seu processo aqui");
+                request.setAttribute("link", link);
+                request.getRequestDispatcher("/aluno/uploadMessage.jsp").forward(request, response);
             } catch (Exception e) {
-                request.setAttribute("message", "Upload de arquivo falhou!" + e);
+                request.getSession().removeAttribute("id_processo");
+                request.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
+                request.setAttribute("titulo", "Operação não realizada!");
+                request.setAttribute("message", "Um erro inesperado ocorreu.");
+                request.getRequestDispatcher("/aluno/uploadMessage.jsp").forward(request, response);
             }
         } else {
-           request.setAttribute("message", "Erro ao salvar!");
-           request.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
+                request.getSession().removeAttribute("id_processo");
+                request.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
+                request.setAttribute("titulo", "Operação não realizada!");
+                request.setAttribute("message", "Erro ao realizar o upload do arquivo.");
+                request.getRequestDispatcher("/aluno/uploadMessage.jsp").forward(request, response);
         }
 
-        request.getRequestDispatcher("/aluno/upload.jsp").forward(request, response);
+        
     }
+    
 
 }
-
-
-

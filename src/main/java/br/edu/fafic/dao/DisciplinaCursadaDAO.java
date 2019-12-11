@@ -181,7 +181,7 @@ public class DisciplinaCursadaDAO {
         }
         return disciplinaCursada;
     }
-    
+
     public DisciplinaCursada selectDisciplinaByID(Long id) {
         con = ConnectionFactory.getConnection();
         DisciplinaCursada disciplinaCursada = new DisciplinaCursada();
@@ -194,7 +194,7 @@ public class DisciplinaCursadaDAO {
             stmt.executeQuery();
             rs = stmt.getResultSet();
             while (rs.next()) {
-                
+
                 disciplinaCursada.setIdDisciplinaCursada(rs.getLong("iddisciplinacursada"));
                 disciplinaCursada.setInstituicaoOrigem(rs.getString("instituicaoorigem"));
                 disciplinaCursada.setCurso(rs.getString("curso"));
@@ -278,8 +278,9 @@ public class DisciplinaCursadaDAO {
         }
         return disciplinaCursadas;
     }
-    
-    public Aluno getIdAlunoFromUsuario(Usuario usuario){
+
+    public Aluno getIdAlunoFromUsuario(Usuario usuario) {
+        con = ConnectionFactory.getConnection();
         Aluno aluno = new Aluno();
         String sql = "select * from aluno a where a.idusuario_fk = ?";
         PreparedStatement stmt = null;
@@ -298,5 +299,37 @@ public class DisciplinaCursadaDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return aluno;
+    }
+
+    public List<DisciplinaCursada> disciplinasCursadasByAlunoAndProcesso(Long idProcesso, Long idAluno) {
+        con = ConnectionFactory.getConnection();
+        String sql = "select d.* from disciplinacursada d\n"
+                + "join disciplinas_processo dca on dca.id_disciplina_cursada=d.iddisciplinacursada\n"
+                + "join processos p on dca.id_processo=p.idprocessos\n"
+                + "where p.idaluno_fk=? and p.idprocessos=? order by d.disciplina";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+         List<DisciplinaCursada> disciplinaCursadas = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setLong(1, idAluno);
+            stmt.setLong(2, idProcesso);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                DisciplinaCursada disciplina = new DisciplinaCursada();
+                disciplina.setIdDisciplinaCursada(rs.getLong("iddisciplinacursada"));
+                disciplina.setDisciplina(rs.getString("disciplina"));
+                disciplina.setCreditos(rs.getString("creditos"));
+                disciplina.setHorasCursadas(rs.getString("horascursadas"));
+                disciplina.setInstituicaoOrigem(rs.getString("instituicaoorigem"));
+                
+                disciplinaCursadas.add(disciplina);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplinaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return disciplinaCursadas;
     }
 }

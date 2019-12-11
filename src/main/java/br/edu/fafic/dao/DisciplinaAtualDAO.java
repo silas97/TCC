@@ -29,7 +29,7 @@ public class DisciplinaAtualDAO {
         con = ConnectionFactory.getConnection();
         String sql = "INSERT INTO disciplinas_processo(id_processo, id_disciplina, id_disciplina_cursada) VALUES (?, ?, ?);";
         PreparedStatement stmt = null;
-        System.out.println("Id do Processo: " +disciplinaAtual.getProcesso().getIdProcessos());
+       
         try {
             stmt = con.prepareStatement(sql);
             stmt.setLong(1, disciplinaAtual.getProcesso().getIdProcessos());

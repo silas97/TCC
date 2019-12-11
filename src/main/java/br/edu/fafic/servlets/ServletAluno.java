@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.edu.fafic.dao.AlunoDAO;
 import br.edu.fafic.dao.CursoDAO;
+import br.edu.fafic.dao.DispensaDisciplinaProcessoDAO;
 import br.edu.fafic.dao.LoginDAO;
 ;
 import br.edu.fafic.dao.UsuarioDAO;
@@ -27,6 +28,8 @@ import br.edu.fafic.model.Usuario;
  *
  * @author Silas
  */
+
+
 @WebServlet("/aluno")
 public class ServletAluno extends HttpServlet {
 
@@ -34,6 +37,7 @@ public class ServletAluno extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AlunoDAO dao = new AlunoDAO();
         Aluno sAluno;
+        DispensaDisciplinaProcessoDAO ddp = new DispensaDisciplinaProcessoDAO();
 
         UsuarioDAO daoUsuario = new UsuarioDAO();
         Usuario usuario = new Usuario();
@@ -42,104 +46,107 @@ public class ServletAluno extends HttpServlet {
         CursoDAO daoCurso = new CursoDAO();
         Curso curso = new Curso();
         Curso buscarCurso;
-        
+
         LoginDAO loginDao = new LoginDAO();
 
-        
-
         String param = req.getParameter("param");
+        try {
+            if (param.equals("cadastrar")) {
 
-        if (param.equals("cadastrar")) {
+                //parametros do usuario
+                String nome = req.getParameter("nome");
+                String cpf = req.getParameter("cpf");
+                String cep = req.getParameter("cep");
+                String endereco = req.getParameter("rua");
+                String numero = req.getParameter("numero");
+                String complemento = req.getParameter("complemento");
+                String bairro = req.getParameter("bairro");
+                String cidade = req.getParameter("cidade");
+                String estado = req.getParameter("estado");
+                String email = req.getParameter("email");
+                String perfil = "Aluno";
 
-            //parametros do usuario
-            String nome = req.getParameter("nome");
-            String cpf = req.getParameter("cpf");
-            String cep = req.getParameter("cep");
-            String endereco = req.getParameter("rua");
-            String numero = req.getParameter("numero");
-            String complemento = req.getParameter("complemento");
-            String bairro = req.getParameter("bairro");
-            String cidade = req.getParameter("cidade");
-            String estado = req.getParameter("estado");
-//            String email = req.getParameter("email");
-            String perfil = "Aluno";
-            
-            //parametros do aluno
-            String matricula = req.getParameter("matricula");
-            
+                //parametros do aluno
+                String matricula = req.getParameter("matricula");
 
-            Long idCurso = Long.parseLong(req.getParameter("idCurso_FK"));
-            StringBuilder builderEndereco = new StringBuilder();
-            builderEndereco.append(endereco)
-                           .append(", Nº ")
-                           .append(numero)
-                           .append(" Complemento - ")
-                           .append(complemento);
-            
-            
-            usuario = new Usuario(nome, cpf, cep, builderEndereco.toString() , bairro, cidade, estado, perfil);
-            
-            Long idUsuario = daoUsuario.insert(usuario);
-            Usuario u = daoUsuario.selectID(idUsuario);
-            sAluno = new Aluno();
-            sAluno.setMatricula(matricula);
-            curso.setIdCurso(idCurso);
-            buscarCurso = daoCurso.selectID(curso);
-            sAluno.setCurso(buscarCurso);
-            sAluno.setUsuario(u);
-            Login login = new Login(sAluno.getUsuario().getNome().toLowerCase(), "123", u);
-            System.out.println("Login: " +login.toString());
-            loginDao.insert(login);
-            
+                Long idCurso = Long.parseLong(req.getParameter("idCurso_FK"));
+                StringBuilder builderEndereco = new StringBuilder();
+                builderEndereco.append(endereco)
+                        .append(", Nº ")
+                        .append(numero)
+                        .append(" Complemento - ")
+                        .append(complemento);
 
-            if (dao.insert(sAluno)) {
-                req.setAttribute("message", "Aluno salvo com sucesso!");
-                req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
-            } else {
-                req.setAttribute("message", "Erro ao salvar!");
-                req.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
+                usuario = new Usuario(nome, cpf, cep, builderEndereco.toString(), bairro, cidade, estado, perfil);
+
+                Long idUsuario = daoUsuario.insert(usuario);
+                Usuario u = daoUsuario.selectID(idUsuario);
+                sAluno = new Aluno();
+                sAluno.setMatricula(matricula);
+                curso.setIdCurso(idCurso);
+                buscarCurso = daoCurso.selectID(curso);
+                sAluno.setCurso(buscarCurso);
+                sAluno.setUsuario(u);
+                Login login = new Login(sAluno.getUsuario().getNome().toLowerCase(), "123", u);
+
+                loginDao.insert(login);
+
+                if (dao.insert(sAluno)) {
+                    req.setAttribute("message", "Operação realizada com sucesso!<br> Um email com as credenciais de acesso foi enviado para " + email);
+                    req.setAttribute("classe", "alert alert-success alert-dismissible fade show");
+                } else {
+                    req.setAttribute("message", "Erro ao salvar!");
+                    req.setAttribute("classe", "alert alert-warning alert-dismissible fade show");
+                }
+
+                req.getRequestDispatcher("/funcionario/cadastrar-aluno.jsp").forward(req, resp);
+
+            } else if (param.equals("alterar")) {
+                Long id = Long.valueOf(req.getParameter("id"));
+                Aluno aluno = new Aluno();
+                aluno.setIdAluno(id);
+                sAluno = dao.selectID(aluno);
+                req.getSession().setAttribute("sAluno", sAluno);
+                req.getRequestDispatcher("funcionario/alterar-aluno.jsp").forward(req, resp);
+            } else if (param.equalsIgnoreCase("update")) {
+                String matricula = req.getParameter("matricula");
+                Long id = Long.valueOf(req.getParameter("id"));
+                sAluno = new Aluno();
+                Long idCurso = Long.parseLong(req.getParameter("idCurso_FK"));
+                Long idUsuario = Long.parseLong(req.getParameter("idUsuario_FK"));
+                sAluno = new Aluno();
+                sAluno.setIdAluno(id);
+                sAluno.setMatricula(matricula);
+
+                usuario.setIdUsuario(idUsuario);
+                buscarUsuario = daoUsuario.selectID(usuario);
+                sAluno.setUsuario(buscarUsuario);
+
+                curso.setIdCurso(idCurso);
+                buscarCurso = daoCurso.selectID(curso);
+                sAluno.setCurso(buscarCurso);
+                dao.update(sAluno);
+                resp.sendRedirect("funcionario/listar-aluno.jsp");
+            } else if (param.equals("apagar")) {
+                Long id = Long.valueOf(req.getParameter("id"));
+                sAluno = new Aluno();
+                sAluno.setIdAluno(id);
+                dao.delete(sAluno);
+                resp.sendRedirect("funcionario/listar-aluno.jsp");
+            } else if (param.equals("matricula")) {
+                Long id = Long.valueOf(req.getParameter("id"));
+                sAluno = new Aluno();
+                sAluno.setIdAluno(id);
+                dao.delete(sAluno);
+                resp.sendRedirect("funcionario/listar-aluno.jsp");
             }
 
-            req.getRequestDispatcher("/funcionario/cadastrar-aluno.jsp").forward(req, resp);
-
-        } else if (param.equals("alterar")) {
-            Long id = Long.valueOf(req.getParameter("id"));
-            Aluno aluno = new Aluno();
-            aluno.setIdAluno(id);
-            sAluno = dao.selectID(aluno);
-            req.getSession().setAttribute("sAluno", sAluno);
-            req.getRequestDispatcher("funcionario/alterar-aluno.jsp").forward(req, resp);
-        } else if (param.equalsIgnoreCase("update")) {
-            String matricula = req.getParameter("matricula");
-            Long id = Long.valueOf(req.getParameter("id"));
-            sAluno = new Aluno();
-            Long idCurso = Long.parseLong(req.getParameter("idCurso_FK"));
-            Long idUsuario = Long.parseLong(req.getParameter("idUsuario_FK"));
-            sAluno = new Aluno();
-            sAluno.setIdAluno(id);
-            sAluno.setMatricula(matricula);
-
-            usuario.setIdUsuario(idUsuario);
-            buscarUsuario = daoUsuario.selectID(usuario);
-            sAluno.setUsuario(buscarUsuario);
-
-            curso.setIdCurso(idCurso);
-            buscarCurso = daoCurso.selectID(curso);
-            sAluno.setCurso(buscarCurso);
-            dao.update(sAluno);
-            resp.sendRedirect("funcionario/listar-aluno.jsp");
-        } else if (param.equals("apagar")) {
-            Long id = Long.valueOf(req.getParameter("id"));
-            sAluno = new Aluno();
-            sAluno.setIdAluno(id);
-            dao.delete(sAluno);
-            resp.sendRedirect("funcionario/listar-aluno.jsp");
-        } else if (param.equals("matricula")) {
-            Long id = Long.valueOf(req.getParameter("id"));
-            sAluno = new Aluno();
-            sAluno.setIdAluno(id);
-            dao.delete(sAluno);
-            resp.sendRedirect("funcionario/listar-aluno.jsp");
+        } catch (NullPointerException ne) {
+            Usuario u = (Usuario) req.getSession().getAttribute("usuario");
+            Aluno a = dao.getIdAlunoFromUsuario(u);
+            System.out.println("List no Servlet" + ddp.selectAllByAlunoId(a.getIdAluno()).size());
+            req.setAttribute("processos", ddp.selectAllByAlunoId(a.getIdAluno()));
+            req.getRequestDispatcher("/aluno/listar_processos.jsp").forward(req, resp);
         }
     }
 }

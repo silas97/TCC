@@ -23,7 +23,7 @@ public class ServletLogin extends HttpServlet {
         String senha = req.getParameter("senha");
         String param = req.getParameter("param");
         Login login = new Login();
-        System.out.println("Parametro: " + param);
+        
 
         if (param.equals("insert")) {
 

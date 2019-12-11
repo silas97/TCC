@@ -11,13 +11,9 @@
 <html>
 
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Cadastro de Curso</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <link href="${pageContext.request.contextPath}/resources/css/menu_side_bar.css" rel="stylesheet" />
 
+        <title>Cadastro de Curso</title>
+        <meta charset="utf-8"/>
     </head>
 
     <body style="background-color: #0056b3">
@@ -35,8 +31,8 @@
                                         Cursos
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownCursos">
-                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/cadastrar-curso.jsp">Cadastrar</a>
-                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/listar-curso.jsp">Listar Cursos</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/funcionario/cadastrar-curso.jsp">Cadastrar</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/funcionario/listar-curso.jsp">Listar Cursos</a>
                                     </div>
                                 </li>
                             </div>  
@@ -46,8 +42,8 @@
                                         Disciplinas
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownDisciplina">
-                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/cadastrar-disciplina.jsp">Cadastrar</a>
-                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/listar-disciplina.jsp">Listar Disciplinas</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/funcionario/cadastrar-disciplina.jsp">Cadastrar</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/funcionario/listar-disciplina.jsp">Listar Disciplinas</a>
                                     </div>
                                 </li>
                             </div>
@@ -106,7 +102,15 @@
             </div>
             <h2 class="mt-3 text-white">Cadastro de Curso</h2>
 
-            <form class="text-white border border-white rounded p-3" name="curso" method="post" action="${pageContext.request.contextPath}/curso">
+            <div id="loading" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <img src="resources/images/spinner.gif" />
+                    </div>
+                </div>
+            </div>  
+
+            <form id="form_curso" class="text-white border border-white rounded p-3" name="form_curso" method="post" action="${pageContext.request.contextPath}/curso">
 
                 <div class="form-row">
                     <div class="form-group col-md-8">
@@ -120,22 +124,31 @@
                         </c:if>
                         <label for="input_nome">Nome</label>
                         <input type="text" required name="nome" class="form-control" id="input_nome" placeholder="Nome">
-                        <input type="hidden" value="cadastrar" name="param" />
+                        <input type="hidden"  value="cadastrar" name="param" />
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-light">Cadastrar</button>
+                <button type="submit"  id="cadastrar" onclick="cadastrar()" class="btn btn-light">Cadastrar</button>
 
 
             </form>  
 
-            <script src="https://code.jquery.com/jquery-3.3.1.js"
-                    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-            crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
-            <script src="${pageContext.request.contextPath}/resources/js/bootstrap.css"></script>
+            <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet"/>
             <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
             <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
             <script src="${pageContext.request.contextPath}/resources/jquery/drop_down_menu.js"></script>
+            <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="${pageContext.request.contextPath}/resources/css/menu_side_bar.css" rel="stylesheet" />
+
+            <script>
+                function cadastrar() {
+                    $("#loading").fadeIn(50000);
+                    $("#loading").fadeOut();
+                }
+               
+
+            </script>    
     </body>
 </html>
