@@ -18,6 +18,11 @@ import br.edu.fafic.dao.ProcessosDAO;
 import br.edu.fafic.model.Aluno;
 import br.edu.fafic.model.DispensaDisciplinaProcesso;
 import br.edu.fafic.model.Processos;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *

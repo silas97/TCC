@@ -88,7 +88,7 @@ public class ServletUpload extends HttpServlet {
                 }
 //                    documentoDAO.insert(new Documento(arquivo + File.separator + System.currentTimeMillis() + ".pdf", value.toUpperCase()));
                 ddp.setPahtDocumento(path);
-                String link =  "<a href="+request.getContextPath()+"/aluno/listar-dispensa-disciplina.jsp>Aqui</a>"; 
+                String link =  "<a href="+request.getContextPath()+"/aluno>Aqui</a>"; 
                 dispensaDAO.updateDispensaPathArquivo(ddp);
                 request.getSession().removeAttribute("id_processo");
                 request.setAttribute("classe", "alert alert-success alert-dismissible fade show");

@@ -4,6 +4,7 @@
     Author     : Silas
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="dao" class="br.edu.fafic.dao.DispensaDisciplinaProcessoDAO" />
 <jsp:useBean id="daoAluno" class="br.edu.fafic.dao.AlunoDAO" />
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -97,7 +98,7 @@
                                 <c:forEach var="processo" items="${processos}">
                                     <tr>
                                     <td>${processo.processos.tipo}</td>
-                                    <td>${processo.dataProcesso}</td>
+                                    <td><fmt:formatDate pattern="dd/MM/YYYY" value="${processo.dataProcesso}"/></td>
                                     <td>${processo.status}</td>
                                 </tr>
                                 </c:forEach>      

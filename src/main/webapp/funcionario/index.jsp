@@ -99,7 +99,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownSair">
                                         <form>
-                                            <a class="dropdown-item" href="./index.jsp">Sair</a>
+                                            <a class="dropdown-item" href="${pageContext.request.contextPath}">Sair</a>
                                         </form>
                                     </div>
                                 </li>

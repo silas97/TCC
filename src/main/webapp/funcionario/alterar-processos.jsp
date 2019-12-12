@@ -4,6 +4,7 @@
     Author     : silas
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="dao" class="br.edu.fafic.dao.ProcessosDAO" />
 <jsp:useBean id="daoDD" class="br.edu.fafic.dao.DispensaDisciplinaProcessoDAO" />
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
@@ -114,7 +115,7 @@
                     
                     <c:choose>
                         <c:when test="${param.param == 'update'}">
-                            <div class="${classe}" role="alert">
+                            <div class="${classe}" role="alert" style="margin-top: 5px;">
                                 <strong>${message}</strong> 
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -138,7 +139,7 @@
 
                                 <tr>
                                     <td>${processo.processos.tipo}</td>
-                                    <td>${processo.dataProcesso}</td>
+                                    <td><fmt:formatDate pattern="dd/MM/YYYY" value="${processo.dataProcesso}"/></td>
 
                                 <form name="processos" action="${pageContext.request.contextPath}/processos" method="post">
                                     <td>

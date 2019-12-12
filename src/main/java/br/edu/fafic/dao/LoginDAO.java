@@ -95,9 +95,9 @@ public class LoginDAO {
             stmt.setString(2, senhaHex);
             stmt.setLong(3, login.getUsuario().getIdUsuario());
             stmt.executeUpdate();
-//            JavaMail javaMail = new JavaMail();
-//            javaMail.enviarMSG(login.getEmail(), "Seja Bem Vindo!", "Sua conta no sistema foi criado com sucesso!"
-//                    + "\nEmail: " + login.getEmail() + "\nSenha: " + login.getSenha());
+            JavaMail javaMail = new JavaMail();
+            javaMail.enviarMSG(login.getEmail(), "Seja Bem Vindo!", "Sua conta no sistema foi criada com sucesso!"
+                    + "\nLogin: " + login.getEmail() + "\nSenha: " + login.getSenha());
             return true;
         } catch (SQLException | NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(LoginDAO.class.getName()).log(Level.SEVERE, null, ex);

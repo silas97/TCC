@@ -35,7 +35,7 @@
                                         Cursos
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownCursos">
-                                       <a class="dropdown-item" href="${pageContext.request.contextPath}/cadastrar-curso.jsp">Cadastrar</a>
+                                        <a class="dropdown-item" href="${pageContext.request.contextPath}/cadastrar-curso.jsp">Cadastrar</a>
                                         <a class="dropdown-item" href="${pageContext.request.contextPath}/listar-curso.jsp">Listar Cursos</a>
                                     </div>
                                 </li>
@@ -87,16 +87,19 @@
                                 </li>
                             </div>
                             <div class="dropdown">
-                                <li class="nav-item active" aria-labelledby="navbarDropdownSair">
-                                    <a class="nav-link" id="navbarDropdownSair" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Seja Bem-Vindo(a), ${usuario.nome}
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownSair">
-                                        <form>
-                                            <a class="dropdown-item" href="#">Sair</a>
-                                        </form>
+                                <ul class="navbar-nav">
+                                    <div class="dropdown ">
+                                        <li class="nav-item active " >
+                                            <a class="nav-link border border rounded" href="#" id="navbarDropdownSair" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="${pageContext.request.contextPath}/resources/images/icon.png"/> <b style="color: #0056b3">${usuario.nome}</b>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdownSair">
+                                                <form>
+                                                    <a class="dropdown-item" href="${pageContext.request.contextPath}">Sair</a>
+                                                </form>
+                                            </div>
+                                        </li>
                                     </div>
-                                </li>
                             </div>
                         </ul>
 
@@ -149,6 +152,6 @@
             <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"></script>
             <script src="${pageContext.request.contextPath}/resources/jquery/drop_down_menu.js"></script>
     </body>
-   
+
 
 </html>

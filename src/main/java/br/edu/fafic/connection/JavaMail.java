@@ -41,8 +41,7 @@ public class JavaMail {
             message.setSubject(assunto);
             message.setText(msg);
             Transport.send(message);
-            System.out.println("Feito!");
-        } catch (MessagingException e) {
+         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }

@@ -4,7 +4,7 @@
     Author     : Silas
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 
@@ -50,7 +50,7 @@
                             <div class="dropdown">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="#" id="navbarDropdownTurma" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Cancelamento de MatrÃ­cula
+                                        Cancelamento de Matrícula
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownTurma">
                                         <a class="dropdown-item" href="#">Cadastrar</a>
@@ -66,7 +66,7 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownSair">
                                         <form>
-                                            <a class="dropdown-item" href="#">Sair</a>
+                                             <a class="dropdown-item" href="${pageContext.request.contextPath}">Sair</a>
                                         </form>
                                     </div>
                                 </li>
@@ -100,8 +100,8 @@
                 </c:if>
                 <div class="form-row">
                     <div class="form-group col-md-8">
-                        <label for="input_nome">InstituiÃ§Ã£o</label>
-                        <input type="text" class="form-control" name="instituicaoOrigem" id="instituicaoOrigem" placeholder="InstituiÃ§Ã£o">
+                        <label for="input_nome">Instituição</label>
+                        <input type="text" class="form-control" name="instituicaoOrigem" id="instituicaoOrigem" placeholder="Instituição">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="curso">Curso</label>
@@ -114,8 +114,8 @@
                         <input type="text" class="form-control" name="disciplina" id="disciplina" placeholder="Disciplina">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="creditos">CrÃ©ditos</label>
-                        <input type="text" class="form-control" name="creditos" id="creditos" placeholder="CrÃ©ditos">
+                        <label for="creditos">Créditos</label>
+                        <input type="text" class="form-control" name="creditos" id="creditos" placeholder="Créditos">
                     </div>
 
                 </div>

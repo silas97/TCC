@@ -87,7 +87,7 @@ public class ServletAluno extends HttpServlet {
                 buscarCurso = daoCurso.selectID(curso);
                 sAluno.setCurso(buscarCurso);
                 sAluno.setUsuario(u);
-                Login login = new Login(sAluno.getUsuario().getNome().toLowerCase(), "123", u);
+                Login login = new Login(email, "123", u);
 
                 loginDao.insert(login);
 
@@ -132,19 +132,22 @@ public class ServletAluno extends HttpServlet {
                 sAluno = new Aluno();
                 sAluno.setIdAluno(id);
                 dao.delete(sAluno);
-                resp.sendRedirect("funcionario/listar-aluno.jsp");
+                req.getRequestDispatcher(req.getContextPath() + "funcionario/listar-aluno.jsp");
             } else if (param.equals("matricula")) {
                 Long id = Long.valueOf(req.getParameter("id"));
                 sAluno = new Aluno();
                 sAluno.setIdAluno(id);
                 dao.delete(sAluno);
                 resp.sendRedirect("funcionario/listar-aluno.jsp");
+            } else if (param.equals("listar")) {
+                Usuario u = (Usuario) req.getSession().getAttribute("usuario");
+                Aluno a = dao.getIdAlunoFromUsuario(u);
+                req.setAttribute("processos", ddp.selectAllByAlunoId(a.getIdAluno()));
+                req.getRequestDispatcher("/aluno/listar_processos.jsp").forward(req, resp);
             }
-
         } catch (NullPointerException ne) {
             Usuario u = (Usuario) req.getSession().getAttribute("usuario");
             Aluno a = dao.getIdAlunoFromUsuario(u);
-            System.out.println("List no Servlet" + ddp.selectAllByAlunoId(a.getIdAluno()).size());
             req.setAttribute("processos", ddp.selectAllByAlunoId(a.getIdAluno()));
             req.getRequestDispatcher("/aluno/listar_processos.jsp").forward(req, resp);
         }
